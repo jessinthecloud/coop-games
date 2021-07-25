@@ -1,3 +1,5 @@
+Rewrite of [Build a Video Game Aggregator](https://laracasts.com/series/build-a-video-game-aggregator)
+
 ## Running in Docker
 
 - Boot Docker and start a container
