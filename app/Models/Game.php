@@ -8,6 +8,17 @@ use \MarcReichel\IGDBLaravel\Models\Game as IgdbGame;
 
 class Game extends IgdbGame
 {
+
+    protected $formatter;
+
+    public function __construct(array $properties = [], $formatter=null)
+    {
+        parent::__construct($properties);
+
+        // TODO: create formatter class to format data for view
+        // $this->formatter = $formatter;
+    }
+
     protected static function querySetup(
         ?array $fields=null,
         ?array $with=null/*,
@@ -47,7 +58,7 @@ class Game extends IgdbGame
         $query,
         ?int $limit=15,
         ?array $order=['first_release_date', 'desc'],
-        ?array $sort=[['total_rating_count', 'desc']]
+        ?array $sort=null
     )
     {
         try {
@@ -65,6 +76,52 @@ class Game extends IgdbGame
         } catch (\Throwable $e) {
             ddd($e);
         }
+    }
+
+// --------------------------------------------------------------------------------
+
+    public static function online(
+        ?array $fields=null,
+        ?array $with=null,
+        ?int $limit=15/*,
+        ?int $cache=null*/
+    )
+    {
+        $query = self::querySetup($fields, $with);
+
+        $query = $query
+            ->where('multiplayer_modes.onlinecoop', '=', true)
+        ;
+
+        return self::queryExecute($query, $limit);
+    }
+
+    public static function offline(
+        ?array $fields=null,
+        ?array $with=null,
+        ?int $limit=15/*,
+        ?int $cache=null*/
+    )
+    {
+        $query = self::querySetup($fields, $with);
+
+        $query = $query->where('multiplayer_modes.offlinecoop', '=', true);
+
+        return self::queryExecute($query, $limit);
+    }
+
+    public static function couch(
+        ?array $fields=null,
+        ?array $with=null,
+        ?int $limit=15/*,
+        ?int $cache=null*/
+    )
+    {
+        $query = self::querySetup($fields, $with);
+
+        $query = $query->where('multiplayer_modes.splitscreen', '=', true);
+
+        return self::queryExecute($query, $limit);
     }
 
     /**
@@ -96,7 +153,7 @@ class Game extends IgdbGame
             ->where('total_rating_count', '>=', 2)
             ;
 
-        return self::queryExecute($query, $limit);
+        return self::queryExecute($query, $limit, ['first_release_date', 'desc'], [['total_rating_count', 'desc']]);
     }
 
     /**
@@ -120,8 +177,7 @@ class Game extends IgdbGame
         $query = self::querySetup($fields, $with)
             ->whereNotNull('total_rating_count');
 
-        return self::queryExecute($query, $limit, ['total_rating_count', 'desc'], null);
-
+        return self::queryExecute($query, $limit, ['total_rating_count', 'desc']);
     }
 
     /**
@@ -162,7 +218,6 @@ class Game extends IgdbGame
         $query = self::querySetup($fields, $with)
             ->whereBetween('first_release_date', $after, now());
 
-        return self::queryExecute($query, $limit, ['first_release_date', 'desc'], null);
-
+        return self::queryExecute($query, $limit, ['first_release_date', 'desc']);
     }
 }

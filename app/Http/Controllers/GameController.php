@@ -18,7 +18,10 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games = Game::trending();
+        $games = Game::couch();
+//        $games = Game::offline();
+//        $games = Game::online();
+//        $games = Game::trending();
 //        $games = Game::popular();
 //        $games = Game::recentReleases();
 
