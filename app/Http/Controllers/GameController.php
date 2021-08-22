@@ -7,6 +7,7 @@ use Illuminate\Support\Carbon;
 use MarcReichel\IGDBLaravel\Exceptions\InvalidParamsException;
 use MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException;
 use MarcReichel\IGDBLaravel\Models\Game;
+use MarcReichel\IGDBLaravel\Models\Platform;
 
 class GameController extends Controller
 {
@@ -19,20 +20,6 @@ class GameController extends Controller
     {
         $before = Carbon::now()->subMonths(2)->timestamp;
         $after = Carbon::now()->addMonths(2)->timestamp;
-        /*
-         "fields name, cover.url, first_release_date, total_rating_count, platforms.abbreviation, rating, slug, multiplayer_modes.*;
-	                    where platforms = (48,49,130,6,167,169)
-	                        & first_release_date < {$after}
-                            & total_rating_count >= 2
-                            & (multiplayer_modes.onlinecoop = true
-                                | multiplayer_modes.offlinecoop = true
-                                | multiplayer_modes.lancoop = true
-                                | multiplayer_modes.splitscreen = true
-                                | multiplayer_modes.splitscreenonline = true
-                                | multiplayer_modes.campaigncoop = true);
-	                    sort total_rating_count desc;
-	                    limit 15;", "text/plain"
-         */
 
         try {
             $games = Game::cache(0)->select(
@@ -47,11 +34,10 @@ class GameController extends Controller
                 ->with(
                     [
                         'cover' => ['url', 'image_id'],
-                        'platforms' => ['abbreviation'],
-                        'multiplayer_modes'
+                        'platforms' => ['id', 'name', 'abbreviation'],
+                        'multiplayer_modes',
                     ]
                 )
-                ->whereIn('platforms', [48, 49, 130, 6, 167, 169])
                 ->where('first_release_date', '<', $after)
                 ->where('total_rating_count', '>=', 2)
                 ->where(
@@ -60,12 +46,20 @@ class GameController extends Controller
                             ->orWhere('multiplayer_modes.offlinecoop', '=', true);
                     }
                 )
-                ->orderBy('total_rating_count', 'desc')
+                /**
+                 * can only have one sort field for IGDB API
+                 *
+                 * Must keep in mind what your main sort field is because the limit will
+                 * mess with proper ordering
+                 */
+                ->orderBy('first_release_date', 'desc')
                 ->limit(15)
-                ->get();
+                ->get()
+                ->sortByDesc('total_rating_count');
         } catch (\Throwable $e) {
             ddd($e);
         }
+
         return view('layouts.app', compact('games'));
     }
 
