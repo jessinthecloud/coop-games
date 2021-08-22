@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'igdb_url' => env('IGDB_URL'),
+
     'asset_url' => env('ASSET_URL', null),
 
     /*
