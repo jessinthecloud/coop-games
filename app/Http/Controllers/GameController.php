@@ -48,33 +48,21 @@ class GameController extends Controller
                     [
                         'cover' => ['url', 'image_id'],
                         'platforms' => ['abbreviation'],
-                        'multiplayer_modes' => function($query){
-                            $query->where('onlinecoop', true)
-                                ->orWhere('offlinecoop', true)
-                                ->orWhere('lancoop', true)
-                                ->orWhere('splitscreen', true)
-                                ->orWhere('splitscreenonline', true)
-                                ->orWhere('campaigncoop', true);
-                        },
+                        'multiplayer_modes'
                     ]
                 )
                 ->whereIn('platforms', [48, 49, 130, 6, 167, 169])
                 ->where('first_release_date', '<', $after)
                 ->where('total_rating_count', '>=', 2)
-                /*->where(
+                ->where(
                     function ($query) {
-                        return $query->where('onlinecoop', true)
-                            ->orWhere('offlinecoop', true)
-                            ->orWhere('lancoop', true)
-                            ->orWhere('splitscreen', true)
-                            ->orWhere('splitscreenonline', true)
-                            ->orWhere('campaigncoop', true);
+                        $query->where('multiplayer_modes.onlinecoop', '=', true)
+                            ->orWhere('multiplayer_modes.offlinecoop', '=', true);
                     }
-                )*/
+                )
                 ->orderBy('total_rating_count', 'desc')
                 ->limit(15)
                 ->get();
-            ddd($games);
         } catch (\Throwable $e) {
             ddd($e);
         }
