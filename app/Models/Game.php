@@ -4,7 +4,8 @@
 namespace App\Models;
 
 use Illuminate\Support\Carbon;
-use \MarcReichel\IGDBLaravel\Models\Game as IgdbGame;
+use MarcReichel\IGDBLaravel\Models\Game as IgdbGame;
+use Throwable;
 
 class Game extends IgdbGame
 {
@@ -20,27 +21,51 @@ class Game extends IgdbGame
     }
 
     protected static function querySetup(
-        ?array $fields=null,
-        ?array $with=null/*,
+        $listing=true,
+        ?array $fieldsArg=null,
+        ?array $withArg=null/*,
         ?int $cache=null*/
     )
     {
-        $fields = $fields ?? [
+        $fields = $fieldsArg ?? [
             'name',
-            'first_release_date',
-            'rating',
             'slug',
+            'first_release_date',
+            'total_rating',
             'total_rating_count',
-            'follows',
-            'hypes',
+            'version_title',
+            'storyline',
         ];
 
-        $with = $with ?? [
+        $fields = ($fieldsArg !== null && $listing === false) ? array_merge($fields, [
+            'summary',
+            'rating',
+            'aggregated_rating',
+            'url',
+            'follows',
+            'hypes',
+        ]) : $fields;
+
+        $with = $withArg ?? [
             'cover' => ['url', 'image_id'],
             'platforms' => ['id', 'name', 'abbreviation'],
             'multiplayer_modes',
+            'genres',
+            'collection',
         ];
 
+        $with = ($withArg !== null && $listing === false) ? array_merge($with, [
+            'age_ratings',
+            'involved_companies',
+            'player_perspectives',
+            'parent_game',
+            'release_dates',
+            'screenshots',
+            'similar_games',
+            'summary',
+            'version_parent',
+            'category',
+        ]) : $with;
 
         return IgdbGame::cache(0)->select(
             $fields
@@ -75,7 +100,7 @@ class Game extends IgdbGame
                 ->limit($limit)
                 ->get()
                 ->sortBy($sort);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             ddd($e);
         }
     }
@@ -184,7 +209,7 @@ class Game extends IgdbGame
         // order by first release date desc
         // sort by total rating count
 
-        $after = Carbon::now()->subYears(1)->timestamp;
+        $after = Carbon::now()->subYears()->timestamp;
         $before= Carbon::now()->addMonths(3)->timestamp;
 
         $query = self::querySetup($fields, $with);
@@ -269,20 +294,6 @@ class Game extends IgdbGame
     {
         // order by first release date desc
         // released in the past 3(?) months
-
-        $fields = $fields ?? [
-            'name',
-            'first_release_date',
-            'total_rating_count',
-            'rating',
-            'slug',
-        ];
-
-        $with = $with ?? [
-            'cover' => ['url', 'image_id'],
-            'platforms' => ['id', 'name', 'abbreviation'],
-            'multiplayer_modes',
-        ];
 
         $after = Carbon::now()->subMonths(3)->timestamp;
 
