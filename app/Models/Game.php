@@ -82,6 +82,18 @@ class Game extends IgdbGame
 
 // --------------------------------------------------------------------------------
 
+    /**
+     * Get games with online co-op
+     *
+     * @param array|null $fields
+     * @param array|null $with
+     * @param int|null   $limit
+     *
+     * @return mixed
+     *
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
     public static function online(
         ?array $fields=null,
         ?array $with=null,
@@ -98,6 +110,18 @@ class Game extends IgdbGame
         return self::queryExecute($query, $limit);
     }
 
+    /**
+     * Get games with offline co-op
+     *
+     * @param array|null $fields
+     * @param array|null $with
+     * @param int|null   $limit
+     *
+     * @return mixed
+     *
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
     public static function offline(
         ?array $fields=null,
         ?array $with=null,
@@ -112,6 +136,18 @@ class Game extends IgdbGame
         return self::queryExecute($query, $limit);
     }
 
+    /**
+     * Get games with couch co-op
+     *
+     * @param array|null $fields
+     * @param array|null $with
+     * @param int|null   $limit
+     *
+     * @return mixed
+     *
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
     public static function couch(
         ?array $fields=null,
         ?array $with=null,
@@ -128,6 +164,8 @@ class Game extends IgdbGame
 
     /**
      * Games released within the previous 3 months or next 1 months
+     * that have the most total ratings
+     *
      * @param array|null $fields
      * @param array|null $with
      * @param int|null   $limit
@@ -175,6 +213,8 @@ class Game extends IgdbGame
     }
 
     /**
+     * Get games that have the most ratings of all time
+     *
      * @param array|null $fields
      * @param array|null $with
      * @param int|null   $limit
@@ -210,6 +250,8 @@ class Game extends IgdbGame
     }
 
     /**
+     * Get games released in the last 3 months
+     *
      * @param array|null $fields
      * @param array|null $with
      * @param int|null   $limit
