@@ -28,9 +28,11 @@ class Game extends IgdbGame
         $fields = $fields ?? [
             'name',
             'first_release_date',
-            'total_rating_count',
             'rating',
             'slug',
+            'total_rating_count',
+            'follows',
+            'hypes',
         ];
 
         $with = $with ?? [
@@ -40,7 +42,7 @@ class Game extends IgdbGame
         ];
 
 
-        return IgdbGame::select(
+        return IgdbGame::cache(0)->select(
             $fields
         )
             ->with(
@@ -125,6 +127,7 @@ class Game extends IgdbGame
     }
 
     /**
+     * Games released within the previous 3 months or next 1 months
      * @param array|null $fields
      * @param array|null $with
      * @param int|null   $limit
@@ -143,17 +146,32 @@ class Game extends IgdbGame
         // order by first release date desc
         // sort by total rating count
 
-        $before = Carbon::now()->subMonths(2)->timestamp;
-        $after = Carbon::now()->addMonths(2)->timestamp;
+        $after = Carbon::now()->subYears(1)->timestamp;
+        $before= Carbon::now()->addMonths(3)->timestamp;
 
         $query = self::querySetup($fields, $with);
 
         $query = $query
-            ->where('first_release_date', '<', $after)
-            ->where('total_rating_count', '>=', 2)
+            ->whereBetween('first_release_date', $after, $before)
+            ->where('total_rating_count', '>=', 5)
+            ->where(function ($query) {
+                $query->where('follows', '>=', 1)
+                    ->orWhere('total_rating_count', '>=', 5)/*
+                    ->orWhere('hypes', '>=', 5)*/
+                ;
+            })
+            ->where(function ($query) {
+                $query->whereNotNull('follows')
+                    ->orWhereNotNull('total_rating_count')/*
+                    ->orWhereNotNull('hypes')*/
+                ;
+            })
             ;
-
-        return self::queryExecute($query, $limit, ['first_release_date', 'desc'], [['total_rating_count', 'desc']]);
+//dump($query);
+        return self::queryExecute($query, $limit, ['total_rating_count', 'desc'], [
+            ['total_rating_count', 'desc'],
+            ['first_release_date', 'desc']
+        ]);
     }
 
     /**
@@ -175,9 +193,20 @@ class Game extends IgdbGame
         // all time highest total rating counts desc
 
         $query = self::querySetup($fields, $with)
-            ->whereNotNull('total_rating_count');
-
-        return self::queryExecute($query, $limit, ['total_rating_count', 'desc']);
+            ->whereNotNull('total_rating_count')
+            ->where('total_rating_count', '>=', 5)
+           /* ->where(function ($query) {
+                $query->where('follows', '>=', 5)
+                    ->orWhere('total_rating_count', '>=', 5)
+                    ->orWhere('hypes', '>=', 5);
+            })*/
+        ;
+        return self::queryExecute($query, $limit, ['total_rating_count', 'desc'], [
+//            ['follows', 'desc'],
+            ['total_rating_count', 'desc'],
+//            ['hypes', 'desc'],
+            ['first_release_date', 'desc']
+        ]);
     }
 
     /**

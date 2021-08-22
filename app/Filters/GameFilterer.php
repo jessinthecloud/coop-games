@@ -8,9 +8,14 @@ use Illuminate\Support\Collection;
 class GameFilterer
 {
 
-    protected Collection $games;
+    protected ?Collection $games;
 
-    public function __construct(Collection $games)
+    public function __construct(Collection $games=null)
+    {
+        $this->games = $games ?? collect([]);
+    }
+
+    public function setGamesCollection(Collection $games)
     {
         $this->games = $games;
     }
@@ -36,12 +41,12 @@ class GameFilterer
         });
     }
 
+    // --------------------------
+
     public function couch()
     {
         return $this->multiplayerMode('splitscreen');
     }
-
-    // --------------------------
 
     public function offlineMax(int $number)
     {

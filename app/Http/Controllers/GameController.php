@@ -17,17 +17,20 @@ class GameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(GameFilterer $filterer)
     {
 //        $games = Game::couch();
 //        $games = Game::offline();
 //        $games = Game::online();
 //        $games = Game::trending();
-        $games = Game::offline();
-        dump($games);
-        $filterer = new GameFilterer($games);
+//        $games = Game::offline();
+        $games = Game::popular();
+
+//        dump($games);
+
+//        $filterer->setGamesCollection($games);
 //        dump($filterer->couch());
-        ddd($filterer->onlineMin(3));
+//        ddd($filterer->onlineMin(3));
 //        $games = Game::recentReleases();
 
         return view('layouts.app', compact('games'));
