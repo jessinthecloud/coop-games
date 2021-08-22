@@ -52,6 +52,7 @@ class Game extends IgdbGame
             'multiplayer_modes',
             'genres',
             'collection',
+            'status',
         ];
 
         $with = ($withArg !== null && $listing === false) ? array_merge($with, [
@@ -65,6 +66,7 @@ class Game extends IgdbGame
             'summary',
             'version_parent',
             'category',
+            'websites',
         ]) : $with;
 
         return IgdbGame::/*cache(0)->*/select(
