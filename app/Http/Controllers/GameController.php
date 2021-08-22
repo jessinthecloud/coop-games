@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\GameFilterer;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -18,11 +19,15 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games = Game::couch();
+//        $games = Game::couch();
 //        $games = Game::offline();
 //        $games = Game::online();
 //        $games = Game::trending();
-//        $games = Game::popular();
+        $games = Game::offline();
+        dump($games);
+        $filterer = new GameFilterer($games);
+//        dump($filterer->couch());
+        ddd($filterer->onlineMin(3));
 //        $games = Game::recentReleases();
 
         return view('layouts.app', compact('games'));
