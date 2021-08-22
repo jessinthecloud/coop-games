@@ -67,7 +67,7 @@ class Game extends IgdbGame
             'category',
         ]) : $with;
 
-        return IgdbGame::cache(0)->select(
+        return IgdbGame::/*cache(0)->*/select(
             $fields
         )
             ->with(
@@ -108,7 +108,7 @@ class Game extends IgdbGame
 // --------------------------------------------------------------------------------
 
     /**
-     * Get games with online co-op
+     * Get released games with online co-op
      *
      * @param array|null $fields
      * @param array|null $with
@@ -130,13 +130,15 @@ class Game extends IgdbGame
 
         $query = $query
             ->where('multiplayer_modes.onlinecoop', '=', true)
+//            ->where('first_release_date', '<=', Carbon::now()->timestamp)
+            ->whereNotNull('first_release_date')
         ;
 
         return self::queryExecute($query, $limit);
     }
 
     /**
-     * Get games with offline co-op
+     * Get released games with offline co-op
      *
      * @param array|null $fields
      * @param array|null $with
@@ -156,13 +158,17 @@ class Game extends IgdbGame
     {
         $query = self::querySetup($fields, $with);
 
-        $query = $query->where('multiplayer_modes.offlinecoop', '=', true);
+        $query = $query
+                    ->where('multiplayer_modes.offlinecoop', '=', true)
+//                    ->where('first_release_date', '<=', Carbon::now()->timestamp)
+                    ->whereNotNull('first_release_date')
+                ;
 
         return self::queryExecute($query, $limit);
     }
 
     /**
-     * Get games with couch co-op
+     * Get released games with couch co-op
      *
      * @param array|null $fields
      * @param array|null $with
@@ -182,7 +188,10 @@ class Game extends IgdbGame
     {
         $query = self::querySetup($fields, $with);
 
-        $query = $query->where('multiplayer_modes.splitscreen', '=', true);
+        $query = $query->where('multiplayer_modes.splitscreen', '=', true)
+//                    ->where('first_release_date', '<=', Carbon::now()->timestamp)
+                    ->whereNotNull('first_release_date')
+                 ;
 
         return self::queryExecute($query, $limit);
     }
@@ -216,6 +225,7 @@ class Game extends IgdbGame
 
         $query = $query
             ->whereBetween('first_release_date', $after, $before)
+            ->whereNotNull('first_release_date')
             ->where('total_rating_count', '>=', 5)
             ->where(function ($query) {
                 $query->where('follows', '>=', 1)
@@ -298,7 +308,9 @@ class Game extends IgdbGame
         $after = Carbon::now()->subMonths(3)->timestamp;
 
         $query = self::querySetup($fields, $with)
-            ->whereBetween('first_release_date', $after, now());
+            ->whereBetween('first_release_date', $after, now())
+            ->whereNotNull('first_release_date')
+        ;
 
         return self::queryExecute($query, $limit, ['first_release_date', 'desc']);
     }
