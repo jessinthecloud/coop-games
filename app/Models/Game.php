@@ -44,6 +44,7 @@ class Game extends IgdbGame
             'url',
             'follows',
             'hypes',
+            'status',
         ]) : $fields;
 
         $with = $withArg ?? [
@@ -52,7 +53,6 @@ class Game extends IgdbGame
             'multiplayer_modes',
             'genres',
             'collection',
-            'status',
         ];
 
         $with = ($withArg !== null && $listing === false) ? array_merge($with, [
