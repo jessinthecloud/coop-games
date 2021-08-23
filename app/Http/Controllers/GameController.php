@@ -6,6 +6,7 @@ use App\Filters\GameFilterer;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use MarcReichel\IGDBLaravel\Exceptions\InvalidParamsException;
 use MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException;
 use MarcReichel\IGDBLaravel\Models\Platform;
@@ -19,21 +20,24 @@ class GameController extends Controller
      */
     public function index(GameFilterer $filterer)
     {
-//        $games = Game::couch();
-//        $games = Game::offline();
-//        $games = Game::online();
-//        $games = Game::trending();
-//        $games = Game::offline();
-        $games = Game::popular();
+        $trending_games = Game::trending();
+//dump($trending_games);
+        // TODO: move to formatter
+        $trending_games = $trending_games->map(function($game, $key){
+            $game->cover_url = ($game->cover !== null) ? Str::replaceFirst('thumb', 'cover_big', $game->cover['url']) : $game->cover;
+            return $game;
+        });
+//ddd($trending_games);
 
+        $online_games = Game::online();
+        $offline_games = Game::offline();
 //        dump($games);
 
 //        $filterer->setGamesCollection($games);
 //        dump($filterer->couch());
 //        ddd($filterer->onlineMin(3));
-//        $games = Game::recentReleases();
 
-        return view('layouts.app', compact('games'));
+        return view('layouts.app', compact('trending_games', 'online_games', 'offline_games'));
     }
 
     /**
