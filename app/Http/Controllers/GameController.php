@@ -29,8 +29,8 @@ class GameController extends Controller
         });
 //ddd($trending_games);
 
-        $online_games = Game::online();
-        $offline_games = Game::offline();
+        $online_games = [];//Game::online();
+        $offline_games = []; //Game::offline();
 //        dump($games);
 
 //        $filterer->setGamesCollection($games);

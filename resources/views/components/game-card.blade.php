@@ -1,10 +1,18 @@
-<div class="game mt-8 md:space-x-1.5">
-    <div class="relative inline-block">
+<div
+    class="game bg-gray-800 p-4 border-transparent rounded-lg mt-12 space-x-2
+">
+    <div
+        class="relative inline-block flex-grow">
     {{-- @if(!empty($game['follows'])) {{ $game['follows'] }} Follows @else No Follows @endif --}}
     <!-- boxart -->
         {{-- cover endpoint returns thumb by default, but the API reference tells us what the name should be, so we use that instead https://api-docs.igdb.com/#images--}}
-        <a href="{{ route('games.show', $game->slug) }}">
-            <img src="https:{{ $game->cover_url }}" alt="{{ $game->name }} Cover Art" class="w-full hover:opacity-75 transition ease-in-out duration-150">
+        <a href="{{ route('games.show', $game->slug) }}"
+            class="inline-block w-full flex flex-col flex-wrap items-center
+        ">
+            <img src="https:{{ $game->cover_url }}" alt="{{ $game->name }} Cover Art"
+                 class="transition ease-in-out duration-150 border-transparent rounded-lg
+                 hover:opacity-75
+            ">
         </a>
         <!-- rating -->
         {{--@if($game['rating'])
@@ -22,7 +30,11 @@
         @endif--}}
     </div>
     <!-- title -->
-    <a href="{{ route('games.show', $game->slug) }}" class="block text-base font-semibold leading-tight hover:text-purple-400 mt-8">
+    <a href="{{ route('games.show', $game->slug) }}"
+       class="block text-base font-semibold leading-tight mt-4 text-purple-400
+        hover:text-gray-200
+        focus:text-gray-200
+    ">
         {{ $game->name }}
     </a>
     {{--@if(!empty($game['platforms']))
