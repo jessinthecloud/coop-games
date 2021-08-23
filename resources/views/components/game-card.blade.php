@@ -1,10 +1,10 @@
-<div class="game mt-8">
+<div class="game mt-8 md:space-x-1.5">
     <div class="relative inline-block">
     {{-- @if(!empty($game['follows'])) {{ $game['follows'] }} Follows @else No Follows @endif --}}
     <!-- boxart -->
         {{-- cover endpoint returns thumb by default, but the API reference tells us what the name should be, so we use that instead https://api-docs.igdb.com/#images--}}
         <a href="{{ route('games.show', $game->slug) }}">
-            <img src="https:{{ $game->cover_url }}" alt="{{ $game->name }} Cover Art" class="hover:opacity-75 transition ease-in-out duration-150">
+            <img src="https:{{ $game->cover_url }}" alt="{{ $game->name }} Cover Art" class="w-full hover:opacity-75 transition ease-in-out duration-150">
         </a>
         <!-- rating -->
         {{--@if($game['rating'])

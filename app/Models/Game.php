@@ -213,7 +213,7 @@ class Game extends IgdbGame
     public static function trending(
         ?array $fields=null,
         ?array $with=null,
-        ?int $limit=15/*,
+        ?int $limit=8/*,
         ?int $cache=null*/
     )
     {

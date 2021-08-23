@@ -13,8 +13,8 @@
         <link href="{{ asset('normalize.min.css') }}" rel="stylesheet">
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
-    <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+    <body class="antialiased w-full bg-gray-900">
+        <div class="container mx-auto flex flex-col justify-center min-h-screen sm:items-center py-4 sm:pt-0">
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
@@ -29,21 +29,21 @@
                 </div>
             @endif
 
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <section class="w-full w-100 flex d-flex flex-wrap justify-between justify-content-between">
-                    <h1 class="text-gray-200 uppercase w-full w-100">Trending</h1>
+            <div class="w-full sm:px-6 lg:px-8 lg:my-8">
+                <section class="w-full flex flex-wrap justify-between">
+                    <h1 class="text-2xl font-semibold uppercase w-full text-gray-200">Trending</h1>
                     @foreach($trending_games as $game)
     {{--                    @php dump($game); @endphp--}}
                         <x-game-card :game="$game" />
                     @endforeach
                 </section>
 
-                <h1 class="text-gray-200 uppercase">Online</h1>
+                <h1 class="text-2xl font-semibold uppercase w-full text-gray-200">Online</h1>
                 @foreach($online_games as $game)
                     @php dump($game); @endphp
                 @endforeach
 
-                <h1 class="text-gray-200 uppercase">Offline</h1>
+                <h1 class="text-2xl font-semibold uppercase w-full text-gray-200">Offline</h1>
                 @foreach($offline_games as $game)
                     @php dump($game); @endphp
                 @endforeach
