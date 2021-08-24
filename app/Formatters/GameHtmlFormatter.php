@@ -36,7 +36,7 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
             return collect($game)->merge([
                 'cover_url' => $this->cover(),
                 'rating' => $this->rating(),
-                'platforms' => implode(', ', $this->platforms()),
+                'platforms' => $this->platforms(),
                 'first_release_date' => $this->date($game->first_release_date),
                 'num_players' => $this->numPlayers(),
                 'coop-types' => $this->coopTypes(),
@@ -73,7 +73,7 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
 
     public function platforms()
     {
-        return parent::platforms();
+        return implode(', ', parent::platforms());
 
         // TODO: Implement platforms() method.
     }
