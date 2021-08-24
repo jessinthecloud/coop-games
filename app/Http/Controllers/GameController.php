@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Filters\GameFilterer;
+use App\Formatters\GameHtmlFormatter;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -18,18 +19,19 @@ class GameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(GameFilterer $filterer)
+    public function index(GameFilterer $filterer, GameHtmlFormatter $formatter)
     {
         $trending_games = Game::trending();
 //dump($trending_games);
         // TODO: move to formatter
-        $trending_games = $trending_games->map(function($game, $key){
+        $formatter->setGames($trending_games);
+        $trending_games = $formatter->format();/*$trending_games->map(function($game, $key){
             $game->cover_url = ($game->cover !== null) ? Str::replaceFirst('thumb', 'cover_big', $game->cover['url']) : $game->cover;
             return $game;
-        });
+        });*/
 //ddd($trending_games);
 
-        $online_games = [];//Game::online();
+        $online_games = []; //Game::online();
         $offline_games = []; //Game::offline();
 //        dump($games);
 
