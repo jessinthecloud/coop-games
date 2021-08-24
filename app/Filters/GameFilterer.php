@@ -27,14 +27,14 @@ class GameFilterer
         });
     }
 
-    protected function maxPlayerNumber(int $number, $mode='online')
+    protected function maxPlayerNumber(int $number, $mode='onlinecoop')
     {
         return $this->games->filter(function($game, $key) use ($number, $mode){
             return (collect($game->multiplayer_modes)->pluck($mode.'max')->first() <= $number);
         });
     }
 
-    protected function minPlayerNumber(int $number, $mode='online')
+    protected function minPlayerNumber(int $number, $mode='onlinecoop')
     {
         return $this->games->filter(function($game, $key) use ($number, $mode){
             return (collect($game->multiplayer_modes)->pluck($mode.'max')->first() >= $number);
