@@ -81,7 +81,7 @@ class Game extends IgdbGame
                         ->orWhere('multiplayer_modes.offlinecoop', '=', true);
                 }
             )
-            ->whereNotNull('slug');
+            ->whereNotNull('slug')
             ;
     }
 
