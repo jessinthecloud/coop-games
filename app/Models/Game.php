@@ -80,7 +80,9 @@ class Game extends IgdbGame
                     $query->where('multiplayer_modes.onlinecoop', '=', true)
                         ->orWhere('multiplayer_modes.offlinecoop', '=', true);
                 }
-            );
+            )
+            ->whereNotNull('slug');
+            ;
     }
 
     protected static function queryExecute(
