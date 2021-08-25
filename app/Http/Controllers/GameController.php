@@ -22,14 +22,9 @@ class GameController extends Controller
     public function index(GameFilterer $filterer, GameHtmlFormatter $formatter)
     {
         $trending_games = Game::trending();
-//dump($trending_games);
-        // TODO: move to formatter
+
         $formatter->setGames($trending_games);
-        $trending_games = $formatter->format();/*$trending_games->map(function($game, $key){
-            $game->cover_url = ($game->cover !== null) ? Str::replaceFirst('thumb', 'cover_big', $game->cover['url']) : $game->cover;
-            return $game;
-        });*/
-//ddd($trending_games);
+        $trending_games = $formatter->format();
 
         $online_games = []; //Game::online();
         $offline_games = []; //Game::offline();
@@ -66,12 +61,15 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Game  $game
-     * @return \Illuminate\Http\Response
      */
-    public function show(Game $game)
+    public function show(Request $request, string $slug, GameHtmlFormatter $formatter)
     {
-        //
+        $formatter->setGame(Game::bySlug($slug)->first());
+        $game = $formatter->format();
+
+        dump($game);
+
+        return view('games.show', compact('game'));
     }
 
     /**

@@ -95,4 +95,22 @@ abstract class GameFormatter
     {
         return !empty($this->game['cover']['url']) ? Str::replaceFirst('thumb', 'cover_big', $this->game['cover']['url']) : '';
     }
+
+    protected function genres()
+    {
+        // TODO: Implement genres() method.
+
+        /*return !empty($this->game->genres) ? collect($this->game->genres)->map(function ($genre) {
+            $slug = (!empty($genre['slug'])
+                ? '<a href="'.route('games.platform', ['slug' => $genre['slug']]).'" class="text-purple-500 underline transition ease-in-out duration-150 hover:text-purple-300 hover:no-underline">'.
+                    (!empty($genre['name']) ? $genre['name'] : $genre['name']).
+                '</a>' : '');
+            return ;
+        })->implode(', ') : false;*/
+    }
+
+    protected function companies()
+    {
+        // TODO: Implement companies() method
+    }
 }

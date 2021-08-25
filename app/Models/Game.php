@@ -21,9 +21,9 @@ class Game extends IgdbGame
     }
 
     protected static function querySetup(
-        $listing=true,
         ?array $fieldsArg=null,
-        ?array $withArg=null/*,
+        ?array $withArg=null,
+        $listing=true/*,
         ?int $cache=null*/
     )
     {
@@ -37,13 +37,14 @@ class Game extends IgdbGame
             'storyline',
         ];
 
-        $fields = ($fieldsArg !== null && $listing === false) ? array_merge($fields, [
+        $fields = ($fieldsArg === null && $listing === false) ? array_merge($fields, [
             'summary',
             'rating',
             'aggregated_rating',
             'url',
             'follows',
             'hypes',
+            'category',
             'status',
         ]) : $fields;
 
@@ -55,7 +56,7 @@ class Game extends IgdbGame
             'collection',
         ];
 
-        $with = ($withArg !== null && $listing === false) ? array_merge($with, [
+        $with = ($withArg === null && $listing === false) ? array_merge($with, [
             'age_ratings',
             'involved_companies',
             'player_perspectives',
@@ -63,9 +64,7 @@ class Game extends IgdbGame
             'release_dates',
             'screenshots',
             'similar_games',
-            'summary',
             'version_parent',
-            'category',
             'websites',
         ]) : $with;
 
@@ -317,5 +316,32 @@ class Game extends IgdbGame
         ;
 
         return self::queryExecute($query, $limit, ['first_release_date', 'desc']);
+    }
+
+    /**
+     * Get specific game by slug
+     *
+     * @param array|null $fields
+     * @param array|null $with
+     * @param int|null   $limit
+     *
+     * @return mixed
+     *
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
+    public static function bySlug(
+        $slug,
+        ?array $fields=null,
+        ?array $with=null,
+        ?int $limit=1/*,
+        ?int $cache=null*/
+    )
+    {
+        $query = self::querySetup($fields, $with, false);
+
+        $query = $query->where('slug', '=', $slug);
+
+        return self::queryExecute($query, $limit);
     }
 }
