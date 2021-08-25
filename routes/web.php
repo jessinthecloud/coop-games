@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\PlatformController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GameController::class, 'index'])->name('home');
 Route::get('/{slug}', [GameController::class, 'show'])->name('games.show');
+Route::get('/platforms/{slug}', [PlatformController::class, 'show'])->name('platforms.show');
