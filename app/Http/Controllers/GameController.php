@@ -34,7 +34,7 @@ class GameController extends Controller
 //        dump($filterer->couch());
 //        ddd($filterer->onlineMin(3));
 
-        return view('layouts.app', compact('trending_games', 'online_games', 'offline_games'));
+        return view('games.index', compact('trending_games', 'online_games', 'offline_games'));
     }
 
     /**

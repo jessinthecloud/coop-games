@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    {{ $game['name'] }} |
+
 @endsection
 
 @section('content')
