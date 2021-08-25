@@ -1,8 +1,10 @@
 <div
-    class="game bg-gray-800 p-4 border-transparent rounded-lg mt-12 space-x-2
+    class="game
+        max-w-xxs bg-gray-800 p-4 border-transparent rounded-lg mt-12
 ">
     <div
-        class="relative inline-block flex-grow">
+        class="boxart
+            w-full relative inline-block">
     {{-- @if(!empty($game['follows'])) {{ $game['follows'] }} Follows @else No Follows @endif --}}
     <!-- boxart -->
         {{-- cover endpoint returns thumb by default, but the API reference tells us what the name should be, so we use that instead https://api-docs.igdb.com/#images--}}
