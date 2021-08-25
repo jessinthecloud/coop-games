@@ -6,7 +6,9 @@
         class="boxart
             w-full relative inline-block">
     {{-- @if(!empty($game['follows'])) {{ $game['follows'] }} Follows @else No Follows @endif --}}
+
     <!-- boxart -->
+    @if(!empty($game['cover_url']))
         {{-- cover endpoint returns thumb by default, but the API reference tells us what the name should be, so we use that instead https://api-docs.igdb.com/#images--}}
         <a href="{{ route('games.show', $game['slug']) }}"
             class="inline-block w-full flex flex-col flex-wrap items-center
@@ -17,6 +19,7 @@
             ">
 {{--            @php dump($game['multiplayer_modes']); @endphp--}}
         </a>
+    @endif
         <!-- rating -->
         {{--@if($game['rating'])
             <div id="{{ $game['slug'] }}" class="absolute -bottom-4 -right-4 w-16 h-16 bg-gray-800 rounded-full">
