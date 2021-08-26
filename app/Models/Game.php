@@ -50,9 +50,9 @@ class Game extends IgdbGame
 
         $with = $withArg ?? [
             'cover' => ['url', 'image_id'],
-            'platforms' => ['id', 'name', 'abbreviation'],
+            'platforms' => ['id', 'name', 'abbreviation', 'slug'],
             'multiplayer_modes',
-            'genres',
+            'genres'=> ['id', 'name', 'slug'],
             'collection',
         ];
 
@@ -63,7 +63,20 @@ class Game extends IgdbGame
             'parent_game',
             'release_dates',
             'screenshots',
-            'similar_games',
+            'videos',
+            'similar_games' => [
+                'id',
+                'name',
+                'slug',
+                'first_release_date',
+                'platforms',
+                'genres',
+                'summary',
+                'rating',
+            ],
+            'similar_games.cover',
+            'similar_games.platforms',
+            'similar_games.genres',
             'version_parent',
             'websites',
         ]) : $with;
