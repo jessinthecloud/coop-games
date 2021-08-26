@@ -21,19 +21,21 @@
         </a>
     @endif
         <!-- rating -->
-        {{--@if($game['rating'])
+        @if($game['rating'])
             <div id="{{ $game['slug'] }}" class="absolute -bottom-4 -right-4 w-16 h-16 bg-gray-800 rounded-full">
-                --}}{{-- doesn't HAVE to go here, just more convenient --}}{{--
+                {{-- doesn't HAVE to go here, just more convenient --}}
                 @push('scripts')
-                    --}}{{-- blade partial file for snippets --}}{{--
-                    @include('partials._rating', [
+                    {{-- blade partial file for snippets --}}
+                    {{--@include('partials._rating', [
                         'slug' => $game['slug'],
                         'rating' => $game['rating'],
                         'event' => null,
-                    ])
+                    ])--}}
                 @endpush
+                {{-- for now until alpine--}}
+                <span class="absolute font-bold top-4 left-5 text-gray-300">{{ $game['rating'] }}</span>
             </div>
-        @endif--}}
+        @endif
     </div>
     <!-- title -->
     <a href="{{ route('games.show', $game['slug']) }}"
@@ -45,7 +47,7 @@
     </a>
     @if(!empty($game['platforms']))
         <div class="text-gray-400 mt-1">
-            {{ $game['platforms'] }}
+            {!! $game['platforms'] !!}
         </div>
     @endif
     @if(!empty($game['first_release_date']))
