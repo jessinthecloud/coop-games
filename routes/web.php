@@ -19,4 +19,6 @@ Route::get('/', [GameController::class, 'index'])->name('home');
 
 Route::get('/games', [GameController::class, 'index'])->name('games.index');
 Route::get('/games/{slug}', [GameController::class, 'show'])->name('games.show');
+
+Route::get('/platforms', [PlatformController::class, 'index'])->name('platforms.index');
 Route::get('/platforms/{slug}', [PlatformController::class, 'show'])->name('platforms.show');
