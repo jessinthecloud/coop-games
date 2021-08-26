@@ -113,4 +113,29 @@ abstract class GameFormatter
     {
         // TODO: Implement companies() method
     }
+
+    protected function similarGames()
+    {
+        // TODO: Implement similarGames() method
+    }
+
+    protected function screenshots()
+    {
+        // TODO: Implement screenshots() method
+    }
+
+    protected function stores()
+    {
+        // TODO: Implement stores() method
+    }
+
+    protected function officialWebsite()
+    {
+        // TODO: Implement officialWebsite() method
+    }
+
+    protected function websites()
+    {
+        // TODO: Implement websites() method
+    }
 }

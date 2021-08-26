@@ -138,4 +138,29 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
                 '</a>' : '');
         })->implode(', ') : false;
     }
+
+    public function similarGames()
+    {
+        // TODO: Implement similarGames() method
+    }
+
+    public function screenshots()
+    {
+        // TODO: Implement screenshots() method
+    }
+
+    public function stores()
+    {
+        // TODO: Implement stores() method
+    }
+
+    public function officialWebsite()
+    {
+        // TODO: Implement officialWebsite() method
+    }
+
+    public function websites()
+    {
+        // TODO: Implement websites() method
+    }
 }
