@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-4 text-gray-200">
 
         <div class="border-b border-gray-800 game-details pb-12 flex flex-col lg:flex-row">
 
@@ -30,7 +30,7 @@
 
                 <!-- companies -->
                     @if($game['companies'])
-                        <span>{{ $game['companies'] }}</span>
+                        <span>{!! $game['companies'] !!}</span>
 
                         &middot;
 
@@ -89,28 +89,33 @@
                     </div> <!-- end critic score -->
 
                     <!-- socials -->
-                    @if(!empty($game['social']))
+                    @if(!empty($game['websites']) || !empty($game['website']))
                         <div class="flex items-center space-x-4 mt-4 lg:mt-0 lg:ml-12">
                             <!-- website -->
-                            @if($game['social']['website'])
+                            @if(!empty($game['website']))
                                 <div class="w-8 h-8 bg-gray-800 rounded-full flex justify-center items-center">
-                                    <a href="{{ $game['social']['website']['url'] }}" class="transition ease-in-out duration-150 hover:text-purple-400">{!! config('services.svg.website') !!}</a>
+                                    <a href="{{ $game['website'] }}"
+                                       class="transition ease-in-out duration-150
+                                            hover:text-purple-400
+                                    ">
+                                        {!! config('services.svg.website') !!}
+                                    </a>
                                 </div>
                             @endif
                         <!-- instagram -->
-                            @if($game['social']['instagram'])
+                            @if(!empty($game['social']['instagram']))
                                 <div class="w-8 h-8 bg-gray-800 rounded-full flex justify-center items-center">
                                     <a href="{{ $game['social']['instagram']['url'] }}" class="transition ease-in-out duration-150 hover:text-purple-400">{!! config('services.svg.instagram') !!}</a>
                                 </div>
                             @endif
                         <!-- twitter -->
-                            @if($game['social']['twitter'])
+                            @if(!empty($game['social']['twitter']))
                                 <div class="w-8 h-8 bg-gray-800 rounded-full flex justify-center items-center">
                                     <a href="{{ $game['social']['twitter']['url'] }}" class="transition ease-in-out duration-150 hover:text-purple-400">{!! config('services.svg.twitter') !!}</a>
                                 </div>
                             @endif
                         <!-- facebook -->
-                            @if($game['social']['facebook'])
+                            @if(!empty($game['social']['facebook']))
                                 <div class="w-8 h-8 bg-gray-800 rounded-full flex justify-center items-center">
                                     <a href="{{ $game['social']['facebook']['url'] }}" class="transition ease-in-out duration-150 hover:text-purple-400">{!! config('services.svg.facebook') !!}</a>
                                 </div>
@@ -126,7 +131,7 @@
                     <div class="modes-wrapper flex flex-col mt-8 lg:flex-row">
                         @if(!empty($game['coop_info']))
                             <div class="coop-details mb-4 lg:mr-16 lg:mb-0">
-                                <h3 class="font-bold mb-1">Co-op Details</h3>
+                                <h3 class="text-xl font-bold mb-1">Co-op Details</h3>
                                 <ul>
                                     @foreach($game['coop_info']['types'] as $ckey => $ctype)
                                         <li>
@@ -149,7 +154,7 @@
 
                         @if(!empty($game['multi_info']))
                             <div class="multi-details">
-                                <h3 class="font-bold mb-1">Multiplayer Details</h3>
+                                <h3 class="text-xl font-bold mb-1">Multiplayer Details</h3>
                                 <ul>
                                     @if(is_array($game['multi_info']))
                                         @foreach($game['multi_info'] as $mkey => $mtype)
@@ -193,14 +198,14 @@
 
                 @if(!empty($game['trailer']))
                     <div class="mt-12" x-data="{ isTrailerModalVisible: false }">
-                    {{-- <a href="{{ $game['trailer'] }}" class="inline-flex bg-blue-500 text-white font-semibold px-4 py-4 hover:bg-blue600 rounded transition ease-in-out duration-150" target="_blank" rel="nofollow noopener">
+                    {{-- <a href="{{ $game['trailer'] }}" class="inline-flex bg-purple-500 text-white font-semibold px-4 py-4 hover:bg-purple600 rounded transition ease-in-out duration-150" target="_blank" rel="nofollow noopener">
                         <svg class="w-6 fill-current mr-2" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                         Play Trailer
                     </a> --}}
                     <!-- play video button -->
                         <button
                                 @click="isTrailerModalVisible = true"
-                                class="flex bg-blue-500 text-white font-semibold px-4 py-4 hover:bg-blue-600 rounded transition ease-in-out duration-150"
+                                class="flex bg-purple-500 text-white font-semibold px-4 py-4 hover:bg-purple-600 rounded transition ease-in-out duration-150"
                         >
                             <svg class="w-6 fill-current" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                             <span class="ml-2">Play Trailer</span>
@@ -248,7 +253,7 @@
                     class="images-container border-b border-gray-800 pb-12 mt-8"
                     x-data="{ isImageModalVisible: false, image: '' }"
             >
-                <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Images</h2>
+                <h2 class="text-2xl text-purple-500 uppercase tracking-wide font-semibold">Images</h2>
                 <div class="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
                     @foreach ($game['screenshots'] as $screenshot)
                         <div>
@@ -295,10 +300,10 @@
         @endif
 
     <!-- similar games -->
-        {{--@if(!empty($game['similar_games']))
+        @if(!empty($game['similar_games']))
             <div class="images-container pb-12 mt-8">
 
-                <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Similar Games</h2>
+                <h2 class="text-2xl text-purple-500 uppercase tracking-wide font-semibold">Similar Games</h2>
 
                 <div class="similar-games text-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12 gap-x-12">
                     @foreach($game['similar_games'] as $sgame)
@@ -308,6 +313,6 @@
                 </div> <!-- end similar games grid -->
 
             </div> <!-- end similar games container -->
-        @endif--}}
+        @endif
     </div> <!-- end container -->
 @endsection

@@ -59,6 +59,12 @@ class Game extends IgdbGame
         $with = ($withArg === null && $listing === false) ? array_merge($with, [
             'age_ratings',
             'involved_companies',
+            'involved_companies.company' => [
+                'id',
+                'name',
+                'slug',
+                'url',
+            ],
             'player_perspectives',
             'parent_game',
             'release_dates',

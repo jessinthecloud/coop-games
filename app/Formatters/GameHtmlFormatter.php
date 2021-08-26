@@ -45,6 +45,12 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
             'coop-types' => $this->coopTypes(),
             'genres' => $this->genres(),
             'companies' => $this->companies(),
+            'similar_games' => $this->similarGames(),
+            'screenshots' => $this->screenshots(),
+            'trailer' => $this->trailer(),
+            'stores' => $this->stores(),
+            'websites' => $this->websites(),
+            'website' => $this->officialWebsite(),
         ])->toArray();
     }
 
@@ -63,9 +69,11 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
         })->toArray();
     }
 
-    public function cover(): string
+    public function cover($url=null): string
     {
-        return parent::cover();
+        $cover = $url ?? $this->game['cover']['url'];
+
+        return parent::cover($cover);
     }
 
     public function date($date, string $format='M d, Y')
@@ -83,16 +91,27 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
         // TODO: Implement dates() method.
     }
 
-    public function rating()
+    public function rating($score=null): string
     {
-        return parent::rating();
+        $rating = $score ?? $this->game->rating;
+        return parent::rating($rating);
 
         // TODO: Implement rating() method.
     }
 
-    public function platforms():string
+    public function platforms($platforms=null): string
     {
-        return implode(', ', parent::platforms());
+        $platforms = $platforms ?? $this->game->platforms;
+
+        return !empty($platforms) ? collect($platforms)->map(function ($platform) {
+            return (!empty($platform['abbreviation'])
+                ? '<a 
+                    href="'.route('platforms.show', ['slug' => $platform['slug']]).'" 
+                    class="text-gray-400 underline transition ease-in-out duration-150 
+                        hover:text-gray-300 hover:no-underline">'.
+                    (!empty($platform['abbreviation']) ? $platform['abbreviation'] : $platform['name']).
+                '</a>' : '');
+        })->implode(', ') : '';
 
         // TODO: Implement platforms() method.
     }
@@ -111,15 +130,17 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
         // TODO: Implement coopTypes() method.
     }
 
-    public function genres()
+    public function genres($genres=null): string
     {
-        parent::genres();
+        $genres = $genres ?? $this->game->genres;
+        parent::genres($genres);
 
         // TODO: Implement genres() method.
 
-        return !empty($this->game->genres) ? collect($this->game->genres)->map(function ($genre) {
+        return !empty($genres) ? collect($genres)->map(function ($genre) {
             return (!empty($genre['slug'])
-                ? '<a href="'.route('platforms.show', ['slug' => $genre['slug']]).'" class="text-purple-500 underline transition ease-in-out duration-150 hover:text-purple-300 hover:no-underline">'.
+                ? '<a href="'.route('genres.show', ['slug' => $genre['slug']]).'" class="text-purple-500 underline transition ease-in-out duration-150 
+                    hover:text-purple-300 hover:no-underline">'.
                 (!empty($genre['name']) ? $genre['name'] : $genre['name']).
                 '</a>' : '');
             })->implode(', ') : false;
@@ -131,36 +152,154 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
 
         // TODO: Implement companies() method.
 
-        return !empty($this->game->companies) ? collect($this->game->companies)->map(function ($company) {
-            return (!empty($company['slug'])
-                ? '<a href="'.route('platforms.show', ['slug' => $company['slug']]).'" class="text-purple-500 underline transition ease-in-out duration-150 hover:text-purple-300 hover:no-underline">'.
-                (!empty($company['name']) ? $company['name'] : $company['name']).
-                '</a>' : '');
+        return !empty($this->game->involved_companies) ? collect($this->game->involved_companies)
+            ->map(function ($company) {
+                return (!empty($company['company']['slug'])
+                    ? '<a 
+                        href="'.route('platforms.show', ['slug' => $company['company']['slug']]).'" 
+                        class="text-purple-500 underline transition ease-in-out duration-150 
+                            hover:text-purple-300 hover:no-underline">'.
+                        (!empty($company['company']['name']) ? $company['company']['name'] : $company['company']['name']).
+                    '</a>' : '');
         })->implode(', ') : false;
     }
 
     public function similarGames()
     {
+        parent::similarGames();
+
         // TODO: Implement similarGames() method
+
+            return !empty($this->game['similar_games'])
+                ? collect($this->game['similar_games'])->map(function ($game) {
+                    return collect($game)->merge([
+                        'cover_url' => isset($game['cover']['url']) ? $this->cover($game['cover']['url']) : 'https://via.placeholder.com/264x352',
+                        'platforms' => isset($game['platforms']) ? $this->platforms($game['platforms']) : '',
+                        'rating' => isset($game['rating']) ? $this->rating($game['rating']) : null,
+                        'first_release_date' => isset($game['first_release_date']) ? $this->date($game['first_release_date']) : null,
+                    ]);
+                })->take(6) : [];
     }
 
     public function screenshots()
     {
+        parent::screenshots();
+
         // TODO: Implement screenshots() method
+
+        return !empty($this->game['screenshots']) ? (collect($this->game['screenshots'])->map(
+            function ($screenshot) {
+                return [
+                    'huge' => \Str::replaceFirst('thumb', 'screenshot_huge', $screenshot['url']),
+                    'big' => \Str::replaceFirst('thumb', 'screenshot_big', $screenshot['url'])
+                ];
+                // if there are lots and lots of screenshots in the collection, limit our return to just 9
+            })->take(9)
+        ) : [];
+    }
+
+    public function trailer()
+    {
+        parent::trailer();
+
+        // 'trailer' => !empty($this->game['videos'][0]['video_id']) ? 'https://youtube.com/watch/'.$this->game['videos'][0]['video_id'] : '',
+        // switch from watch to embed so we can use with modal
+        return !empty($this->game['videos'][0]['video_id']) ? 'https://youtube.com/embed/'.$this->game['videos'][0]['video_id'] : '';
+
     }
 
     public function stores()
     {
+        parent::stores();
+
         // TODO: Implement stores() method
+
+        // game store links
+        // can be external games or websites
+        // websites: store categories
+        // 13 steam, 16 epic, 17 gog
+        /*!empty($this->game['screenshots']) ? (collect($this->game['screenshots'])->map(
+            function ($screenshot) {
+                return [
+        'store_links' => [
+            'steam' => [
+                'url' => !empty($game['websites']) ? collect($game['websites'])->filter(function ($website) {
+                    // filter runs the passed function (Closure?) on the items of the array
+                    // $website is the currently iterated array item
+                    return \Str::contains($website['url'], 'steam');
+                })->pluck('url')->first() :
+                    (!empty($game['external_games']) ? collect($game['external_games'])->filter(function ($game) {
+                        return (!empty($game['category']) && $game['category'] == 1);
+                    })->pluck('url')->first() : ''),
+
+                'icon' => '<i class="fab fa-2x fa-steam"></i>'
+            ],
+
+            'epic' => [
+                'url' => !empty($game['websites']) ? collect($game['websites'])->filter(function ($website) {
+                    // filter runs the passed function (Closure?) on the items of the array
+                    // $website is the currently iterated array item
+                    return \Str::contains($website['url'], 'epic');
+                })->pluck('url')->first() : '',
+
+                'icon' => config('services.svg.epic')
+
+            ],
+
+            'gog' => [
+                'url' => !empty($game['websites']) ? collect($game['websites'])->filter(function ($website) {
+                    // filter runs the passed function (Closure?) on the items of the array
+                    // $website is the currently iterated array item
+                    return \Str::contains($website['url'], 'gog');
+                })->pluck('url')->first() : '',
+
+                'icon' => config('services.svg.gog'),
+            ]
+        ] */
     }
 
     public function officialWebsite()
     {
+        parent::officialWebsite();
+
         // TODO: Implement officialWebsite() method
+        return !empty($this->game['websites']) ? (collect($this->game['websites'])->filter(function($website, $key){
+            return ((int)$website['category'] === 1);
+        }))->pluck('url')->first() : '';
     }
 
     public function websites()
     {
+        parent::websites();
+
         // TODO: Implement websites() method
+
+        // TODO: add check to make sure first website is not one of the social media sites we want
+        /* !empty($this->game['websites']) ? (collect($this->game['websites'])->map(
+            function (website) {
+                return [
+        'social' => [
+
+            'website' => !empty($game['websites']) ? collect($game['websites'])->first() : '',
+
+            // return the first item found by the filter
+            'facebook' => !empty($game['websites']) ? collect($game['websites'])->filter(function ($website) {
+                // filter runs the passed function (Closure?) on the items of the array
+                // $website is the currently iterated array item
+                return \Str::contains($website['url'], 'facebook');
+            })->first() : '',
+
+            'twitter' => !empty($game['websites']) ? collect($game['websites'])->filter(function ($website) {
+                // filter runs the passed function (Closure?) on the items of the array
+                // $website is the currently iterated array item
+                return \Str::contains($website['url'], 'twitter');
+            })->first() : '',
+
+            'instagram' => !empty($game['websites']) ? collect($game['websites'])->filter(function ($website) {
+                // filter runs the passed function (Closure?) on the items of the array
+                // $website is the currently iterated array item
+                return \Str::contains($website['url'], 'instagram');
+            })->first() : '',
+        ], // end social*/
     }
 }
