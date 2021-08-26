@@ -79,10 +79,10 @@ class GameController extends Controller
      * Display the specified resource.
      *
      */
-    public function show(Request $request, string $slug, GameHtmlFormatter $formatter)
+    public function show(Request $request, string $slug)
     {
-        $formatter->setGame(Game::bySlug($slug)->first());
-        $game = $formatter->format();
+        $this->formatter->setGame(Game::bySlug($slug)->first());
+        $game = $this->formatter->format();
 
         dump($game);
 
