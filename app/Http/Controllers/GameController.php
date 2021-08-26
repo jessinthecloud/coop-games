@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Filters\GameFilterer;
-use App\Formatters\GameHtmlFormatter;
+use App\Formatters\Formatter;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -15,16 +15,33 @@ use MarcReichel\IGDBLaravel\Models\Platform;
 class GameController extends Controller
 {
     /**
+     * @var \App\Filters\GameFilterer
+     */
+    protected GameFilterer $filterer;
+    /**
+     * @var \App\Formatters\Formatter
+     */
+    protected Formatter $formatter;
+
+    public function __construct(GameFilterer $filterer, Formatter $formatter)
+    {
+        $this->filterer = $filterer;
+        $this->formatter = $formatter;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(GameFilterer $filterer, GameHtmlFormatter $formatter)
+    public function index()
     {
         $trending_games = Game::trending();
 
-        $formatter->setGames($trending_games);
-        $trending_games = $formatter->format();
+        $trending_games = $trending_games->map(function($game, $key){
+            $this->formatter->setGame($game);
+            return $this->formatter->format();
+        });
 
         $online_games = []; //Game::online();
         $offline_games = []; //Game::offline();

@@ -7,19 +7,11 @@ use MarcReichel\IGDBLaravel\Models\Game;
 
 class GameHtmlFormatter extends GameFormatter implements Formatter
 {
-    protected $games;
-
-    public function __construct(Game $games=null)
+    public function __construct(Game $game=null)
     {
-        $this->games = $games;
-    }
-
-    /**
-     * @param $games
-     */
-    public function setGames($games)
-    {
-        $this->games = $games;
+        if(isset($game)){
+            $this->game = $game;
+        }
     }
 
     /**
