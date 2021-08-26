@@ -36,14 +36,16 @@ abstract class GameFormatter
         // TODO: implement dates()
     }
 
-    protected function rating()
+    protected function rating($score=null)
     {
-        return !empty($this->game->rating) ? round($this->game->rating) : '';
+        $rating = $score ?? $this->game->rating;
+        return !empty($rating) ? round($rating) : '';
     }
 
-    protected function platforms()
+    protected function platforms($platforms=null)
     {
-        return !empty($this->game->platforms) ? collect($this->game->platforms)->pluck('abbreviation')->all() : [];
+        $platforms = $platforms ?? $this->game->platforms;
+        return !empty($platforms) ? collect($platforms)->pluck('abbreviation')->all() : [];
     }
 
     protected function numPlayers($mode='onlinecoop', $limiter='max')
@@ -91,9 +93,11 @@ abstract class GameFormatter
         });
     }
 
-    protected function cover(): string
+    protected function cover($url=null): string
     {
-        return !empty($this->game['cover']['url']) ? Str::replaceFirst('thumb', 'cover_big', $this->game['cover']['url']) : '';
+        $cover = $url ?? $this->game['cover']['url'];
+
+        return !empty($cover) ? Str::replaceFirst('thumb', 'cover_big', $cover) : 'https://via.placeholder.com/264x352';
     }
 
     protected function genres()
@@ -122,6 +126,11 @@ abstract class GameFormatter
     protected function screenshots()
     {
         // TODO: Implement screenshots() method
+    }
+
+    protected function trailer()
+    {
+        // TODO: Implement trailer() method
     }
 
     protected function stores()
