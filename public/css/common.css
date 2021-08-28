@@ -1,19 +1,59 @@
 :root {
-  --primary: #7C3AED;
-  --primary-text: #7C3AED;
-  --primary-dark: #6D28D9;
-  --primary-dark-text: #6D28D9;
-  --accent: rgba(167, 139, 250, 1);
-  --accent-text: rgba(167, 139, 250, 1);
+  --gray-01: #111;
+  --gray-02: #222;
+  --gray-03: #333;
+  --gray-04: #444;
+  --gray-05: #555;
+  --gray-06: #666;
+  --gray-07: #777;
+  --gray-08: #888;
+  --gray-09: #999;
+  --gray-aa: #aaa;
+  --gray-bb: #bbb;
+  --gray-cc: #ccc;
+  --gray-dd: #ddd;
+  --gray-ee: #eee;
+  --gray-e1: #e1e1e1;
+  --lightest-gray: #eeeeee;
+  --lighter-gray: #efefef;
+  --light-gray: #e1e1e1;
+  --dark-gray: #222222;
+  --darker-gray: #111111;
+  --darkest-gray: #101010;
+  --background-color: var(--darker-gray);
+  --primary-purple: #6a1fea;
+  --primary-purple-rgb: 106,31,234;
+  --accent-purple: #CDB4F8;
+  --accent-purple-rgb: 205,180,248;
+  --secondary-purple: #300b71;
+  --secondary-purple-rgb: 48,11,113;
+  --tertiary-purple: #150530;
+  --tertiary-purple-rgb: 21,5,48;
+  --primary-purple-text: #FFF;
+  --secondary-purple-text: var(--accent-purple);
+  --tertiary-purple-text: var(--accent-purple);
+  --accent-purple-text: var(--secondary-purple);
+  --primary-lime: #9fea1f;
+  --primary-lime-rgb: 159,234,31;
+  --accent-lime: #dff8b4;
+  --accent-lime-rgb: 223,248,180;
+  --secondary-lime: #4b710b;
+  --secondary-lime-rgb: 75,113,11;
+  --tertiary-lime: #203005;
+  --tertiary-lime-rgb: 32,48,5;
+  --primary-lime-text: #FFF;
+  --secondary-lime-text: var(--accent-lime);
+  --tertiary-lime-text: var(--accent-lime);
+  --accent-lime-text: var(--secondary-lime);
 }
 
 body {
-  background-color: #111;
-  background-image: linear-gradient(to bottom right, rgba(124, 58, 237, 0.2), transparent 30%);
+  background-color: var(--darker-gray);
+  background-image: linear-gradient(to bottom right, rgba(var(--secondary-purple-rgb), 0.4), transparent 45%);
 }
 
 a {
-  color: var(--accent);
+  color: var(--accent-purple);
   padding: 0.25rem 0;
   text-decoration: underline;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -21,12 +61,12 @@ a {
   transition-property: all;
 }
 a:hover, a:focus {
-  color: #e1e1e1;
+  color: var(--light-gray);
   text-decoration: none;
 }
 a:focus {
-  background-color: var(--primary-text);
-  color: #e1e1e1;
+  background-color: var(--primary-purple-text);
+  color: var(--light-gray);
 }
 
 .round-border {
@@ -47,16 +87,17 @@ nav .menu-item {
 }
 
 .subtitle {
-  color: #e5e7eb;
+  color: var(--light-gray);
   font-weight: 600;
   font-size: 2rem;
   letter-spacing: 0.3rem;
   line-height: 2rem;
   margin-bottom: 1.5rem;
+  text-shadow: var(--darkest-gray) 1px 1px 5px;
 }
 
 .game-card {
-  background-image: linear-gradient(to bottom right, transparent 50%, var(--primary));
+  background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
@@ -71,7 +112,7 @@ nav .menu-item {
   z-index: 0;
 }
 .game-card:before {
-  background: #111;
+  background: var(--darker-gray);
   border-radius: inherit;
   content: "";
   margin: 1px;
@@ -97,7 +138,7 @@ nav .menu-item {
   z-index: 1;
 }
 .game-card .boxart a:before {
-  background-image: linear-gradient(to top right, var(--primary), transparent);
+  background-image: linear-gradient(to top right, var(--primary-purple), transparent);
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   bottom: 0;
@@ -122,7 +163,7 @@ nav .menu-item {
   z-index: 0;
 }
 .game-card .rating-wrapper {
-  border: 3px solid var(--primary);
+  border: 3px solid var(--primary-lime);
   box-shadow: 1px 1px 1px 1px #101010;
 }
 .game-card .game-details {
@@ -143,7 +184,7 @@ nav .menu-item {
 }
 
 .game-card-small {
-  background-image: linear-gradient(to bottom right, transparent 50%, var(--primary));
+  background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
   border-radius: 0.5rem;
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
   display: flex;
@@ -155,7 +196,7 @@ nav .menu-item {
   z-index: 0;
 }
 .game-card-small:before {
-  background: #111;
+  background: var(--darker-gray);
   border-radius: inherit;
   content: "";
   margin: 1px;
