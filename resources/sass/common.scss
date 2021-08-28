@@ -53,10 +53,10 @@
     --accent-lime-rgb: 223,248,180;
     --secondary-lime: #4b710b;
     --secondary-lime-rgb: 75,113,11;
-    --tertiary-lime: #203005; // #180538;
+    --tertiary-lime: #203005;
     --tertiary-lime-rgb: 32,48,5;
 
-    --primary-lime-text: #FFF;
+    --primary-lime-text: #404040;
     --secondary-lime-text: var(--accent-lime);
     --tertiary-lime-text: var(--accent-lime);
     --accent-lime-text: var(--secondary-lime);
@@ -105,8 +105,8 @@ a {
 }
 
 nav {
-    background-color: #161616;
-    border-bottom: 1px solid #101010;
+    background-color: var(--darker-gray);
+    border-bottom: 1px solid var(--darkest-gray);
 
     .menu-item {
         min-width: 8rem;
@@ -209,7 +209,7 @@ nav {
 
     .rating-wrapper {
         border: 3px solid var(--primary-lime); // TEMP RATING RING
-        box-shadow: 1px 1px 1px 1px #101010;
+        box-shadow: 1px 1px 1px 1px var(--darkest-gray);
     }
 
     .game-details {
@@ -232,16 +232,13 @@ nav {
 } // .game-card
 
 .game-card-small {
-    //background-color: #212121;
     background-image : linear-gradient(
         to bottom right,
         transparent 50%,
         //rgba(124, 58, 237, .2),
         var(--primary-purple),
     );
-    //border: 1px solid #101010;
     border-radius: .5rem;
-    //box-shadow: 1px 1px 1px 1px #101010;
     // box-shadow: [horizontal offset] [vertical offset] [blur radius] [optional spread radius] [color];
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
     display: flex;
@@ -263,7 +260,6 @@ nav {
     }
 
     .boxart {
-        //box-shadow: 1px 1px 1px 1px #101010;
         border-radius: .5rem;
         padding: 0;
 
@@ -294,9 +290,6 @@ nav {
 }
 
 #main-aside {
-    //background-color: #111;
-    //border: 1px solid #010101;
-    //box-shadow: 1px 1px 1px 1px #101010;
     display: flex;
     flex-direction: column;
     margin-left: 3rem;

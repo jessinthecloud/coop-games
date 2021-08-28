@@ -41,7 +41,7 @@
   --secondary-lime-rgb: 75,113,11;
   --tertiary-lime: #203005;
   --tertiary-lime-rgb: 32,48,5;
-  --primary-lime-text: #FFF;
+  --primary-lime-text: #404040;
   --secondary-lime-text: var(--accent-lime);
   --tertiary-lime-text: var(--accent-lime);
   --accent-lime-text: var(--secondary-lime);
@@ -78,8 +78,8 @@ a:focus {
 }
 
 nav {
-  background-color: #161616;
-  border-bottom: 1px solid #101010;
+  background-color: var(--darker-gray);
+  border-bottom: 1px solid var(--darkest-gray);
 }
 nav .menu-item {
   min-width: 8rem;
@@ -164,7 +164,7 @@ nav .menu-item {
 }
 .game-card .rating-wrapper {
   border: 3px solid var(--primary-lime);
-  box-shadow: 1px 1px 1px 1px #101010;
+  box-shadow: 1px 1px 1px 1px var(--darkest-gray);
 }
 .game-card .game-details {
   display: flex;
