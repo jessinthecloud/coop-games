@@ -12,7 +12,7 @@ body {
     background-color: #111;
     background-image : linear-gradient(
         to bottom right,
-        transparent,
+        transparent 35%,
         rgba(124, 58, 237, .5),
         //var(--primary),
     );
@@ -152,13 +152,13 @@ nav {
 } // .game-card
 
 .game-card-small {
-    background-color: #212121;
-    background-image : linear-gradient(
+    //background-color: #212121;
+    /*background-image : linear-gradient(
         to bottom right,
         transparent,
         rgba(124, 58, 237, .2),
         //var(--primary),
-    );
+    );*/
     border: 1px solid #101010;
     border-radius: .5rem;
     //box-shadow: 1px 1px 1px 1px #101010;
@@ -166,7 +166,7 @@ nav {
     flex-wrap: wrap;
     margin-bottom: .25rem;
     margin-top: .25rem;
-    padding: 1rem;
+    padding: .5rem;
 
     .boxart {
         //box-shadow: 1px 1px 1px 1px #101010;

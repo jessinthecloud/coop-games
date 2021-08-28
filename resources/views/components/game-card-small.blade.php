@@ -1,4 +1,4 @@
-<div class="game-card-small bg-gray-900">
+<div class="game-card-small">
     <a href="{{ route('games.show', $game['slug']) }}"
        class="boxart"
     >
