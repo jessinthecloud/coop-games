@@ -12,7 +12,7 @@
                 class="w-full inline-block
             ">
                 <img src="https:{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art"
-                     class="w-full transition ease-in-out duration-150 rounded-t-lg
+                     class="w-full transition ease-in-out duration-150
                      hover:opacity-75
                 ">
                 {{--            @php dump($game['multiplayer_modes']); @endphp--}}

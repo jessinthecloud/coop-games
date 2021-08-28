@@ -9,7 +9,7 @@
 
 body {
   background-color: #111;
-  background-image: linear-gradient(to bottom right, transparent 35%, rgba(124, 58, 237, 0.5));
+  background-image: linear-gradient(to bottom right, rgba(124, 58, 237, 0.2), transparent 30%);
 }
 
 a {
@@ -37,6 +37,10 @@ a:focus {
   max-width: 82rem;
 }
 
+nav {
+  background-color: #161616;
+  border-bottom: 1px solid #101010;
+}
 nav .menu-item {
   min-width: 8rem;
   padding: 1rem 0;
@@ -52,27 +56,50 @@ nav .menu-item {
 }
 
 .game-card {
-  background-color: #111;
-  border: 1px solid #060606;
+  background-image: linear-gradient(to bottom right, transparent 50%, var(--primary));
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   margin-bottom: 4rem;
   margin-right: 2rem;
+  padding: 0 1px 1px 0;
+  position: relative;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   transition-property: all;
   width: calc(33% - 2rem);
+  z-index: 0;
+}
+.game-card:before {
+  background: #111;
+  border-radius: inherit;
+  content: "";
+  margin: 1px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
 .game-card:nth-of-type(3n) {
   margin-right: 0;
 }
+.game-card .boxart {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
 .game-card .boxart a {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
   overflow: hidden;
   padding: 0;
   z-index: 1;
 }
 .game-card .boxart a:before {
   background-image: linear-gradient(to top right, var(--primary), transparent);
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
   bottom: 0;
   content: "";
   left: 0;
@@ -90,11 +117,13 @@ nav .menu-item {
   opacity: 0.8;
 }
 .game-card .boxart img {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
   z-index: 0;
 }
 .game-card .rating-wrapper {
-  box-shadow: 1px 1px 1px 1px #101010;
   border: 3px solid var(--primary);
+  box-shadow: 1px 1px 1px 1px #101010;
 }
 .game-card .game-details {
   display: flex;
@@ -138,7 +167,14 @@ nav .menu-item {
   z-index: -1;
 }
 .game-card-small .boxart {
+  border-radius: 0.5rem;
   padding: 0;
+}
+.game-card-small .boxart a {
+  border-radius: 0.5rem;
+}
+.game-card-small .boxart a :before {
+  border-radius: 0.5rem;
 }
 .game-card-small .boxart img {
   border-radius: 0.25rem;
@@ -153,8 +189,6 @@ nav .menu-item {
 }
 
 #main-aside {
-  background-color: #111;
-  border: 1px solid #010101;
   display: flex;
   flex-direction: column;
   margin-left: 3rem;

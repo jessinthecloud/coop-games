@@ -25,7 +25,7 @@
             <!-- #content-wrapper -->
 
             @if(isset($online_games))
-                <aside id="main-aside" class="min-h-screen flex-grow bg-gray-800 round-border">
+                <aside id="main-aside" class="min-h-screen flex-grow round-border">
                     <h3 class="subtitle">
                         Most Anticipated
                     </h3>
