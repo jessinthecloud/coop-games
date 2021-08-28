@@ -36,15 +36,24 @@ class GameController extends Controller
      */
     public function index()
     {
-        $trending_games = Game::trending();
+        $trending_games = Game::trending(null, null, 6);
 
         $trending_games = $trending_games->map(function($game, $key){
             $this->formatter->setGame($game);
             return $this->formatter->format();
         });
 
-        $online_games = []; //Game::online();
-        $offline_games = []; //Game::offline();
+        $online_games = Game::online(null, null, 5);
+        $online_games = $online_games->map(function($game, $key){
+            $this->formatter->setGame($game);
+            return $this->formatter->format();
+        });
+
+        $offline_games = Game::offline(null, null, 5);
+        $offline_games = $offline_games->map(function($game, $key){
+            $this->formatter->setGame($game);
+            return $this->formatter->format();
+        });
 //        dump($games);
 
 //        $filterer->setGamesCollection($games);

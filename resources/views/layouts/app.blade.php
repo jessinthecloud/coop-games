@@ -11,26 +11,37 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/common.css') }}" rel="stylesheet">
     </head>
-    <body class="antialiased w-full bg-gray-900">
-        <div class="container mx-auto flex flex-col justify-center min-h-screen sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 underline">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
+    <body class="antialiased w-full flex flex-col text-gray-200">
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+        <x-navigation></x-navigation>
 
-            <div class="w-full sm:px-6 lg:my-8">
+        <div class="container min-h-screen flex flex-wrap justify-center items-start mx-auto
+        ">
+            <div id="content-wrapper">
                 @yield('content')
             </div>
+            <!-- #content-wrapper -->
+
+            @if(isset($online_games))
+                <aside id="main-aside" class="min-h-screen flex-grow bg-gray-800 round-border">
+                    <h3 class="subtitle">
+                        Most Anticipated
+                    </h3>
+                    @foreach($online_games as $game)
+                        {{-- @php dump($game); @endphp --}}
+                        <x-game-card-small :game="$game" />
+                    @endforeach
+                    <h3 class="subtitle">
+                        Coming Soon
+                    </h3>
+                    @foreach($offline_games as $game)
+                        {{-- @php dump($game); @endphp --}}
+                        <x-game-card-small :game="$game" />
+                    @endforeach
+                </aside>
+            @endif
         </div>
     </body>
 </html>

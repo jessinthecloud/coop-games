@@ -31,6 +31,7 @@ class Game extends IgdbGame
             'name',
             'slug',
             'first_release_date',
+            'rating',
             'total_rating',
             'total_rating_count',
             'version_title',
@@ -233,7 +234,7 @@ class Game extends IgdbGame
     public static function trending(
         ?array $fields=null,
         ?array $with=null,
-        ?int $limit=8/*,
+        ?int $limit=6/*,
         ?int $cache=null*/
     )
     {
