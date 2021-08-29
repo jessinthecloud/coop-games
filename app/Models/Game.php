@@ -52,6 +52,7 @@ class Game extends IgdbGame
         $with = $withArg ?? [
             'cover' => ['url', 'image_id'],
             'platforms' => ['id', 'name', 'abbreviation', 'slug'],
+//            'platforms.platform_logo',
             'multiplayer_modes',
             'genres'=> ['id', 'name', 'slug'],
             'collection',

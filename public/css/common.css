@@ -80,10 +80,19 @@ a:focus {
 nav {
   background-color: var(--darker-gray);
   border-bottom: 1px solid var(--darkest-gray);
+  font-weight: bold;
 }
 nav .menu-item {
+  letter-spacing: 0.1rem;
   min-width: 8rem;
   padding: 1rem 0;
+  text-transform: uppercase;
+}
+nav .menu-item a {
+  text-decoration: none;
+}
+nav .menu-item a:hover, nav .menu-item a:focus {
+  text-decoration: underline;
 }
 
 .subtitle {
@@ -163,7 +172,7 @@ nav .menu-item {
   z-index: 0;
 }
 .game-card .rating-wrapper {
-  border: 3px solid var(--primary-lime);
+  border: 3px solid var(--accent-purple);
   box-shadow: 1px 1px 1px 1px var(--darkest-gray);
 }
 .game-card .game-details {
@@ -184,28 +193,29 @@ nav .menu-item {
 }
 
 .game-card-small {
-  background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
+  /*background-image : linear-gradient(
+      to bottom right,
+      transparent 50%,
+      //rgba(124, 58, 237, .2),
+      var(--primary-purple),
+  );*/
   border-radius: 0.5rem;
-  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
-  padding: 0.75rem 0.5rem;
+  padding: 0.5rem 0;
   position: relative;
   z-index: 0;
-}
-.game-card-small:before {
-  background: var(--darker-gray);
-  border-radius: inherit;
-  content: "";
-  margin: 1px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
+  /*&:before {
+      background: var(--darker-gray);
+      border-radius: inherit;
+      content: '';
+      margin: 1px;
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      z-index: -1;
+  }*/
 }
 .game-card-small .boxart {
   border-radius: 0.5rem;

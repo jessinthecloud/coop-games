@@ -104,6 +104,16 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
         $platforms = $platforms ?? $this->game->platforms;
 
         return !empty($platforms) ? collect($platforms)->map(function ($platform) {
+
+            /*if(!empty($platform['platform_logo'])){
+                return '<a 
+                    href="' . route('platforms.show', ['slug' => $platform['slug']]) . '" 
+                    class="text-gray-400 underline transition ease-in-out duration-150 
+                        hover:text-gray-300 hover:no-underline">
+                    <img src="' . $platform['platform_logo']['url'] . '" alt="' . $platform['name'] . '" >
+                </a>';
+            }*/
+
             return (!empty($platform['abbreviation'])
                 ? '<a 
                     href="'.route('platforms.show', ['slug' => $platform['slug']]).'" 
