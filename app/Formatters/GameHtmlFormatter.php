@@ -188,7 +188,7 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
                         'rating' => isset($game['rating']) ? $this->rating($game['rating']) : null,
                         'first_release_date' => isset($game['first_release_date']) ? $this->date($game['first_release_date']) : null,
                     ]);
-                })->take(6) : [];
+                })->take(5) : [];
     }
 
     public function screenshots()

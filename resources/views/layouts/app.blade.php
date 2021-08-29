@@ -17,31 +17,12 @@
 
         <x-navigation></x-navigation>
 
-        <div class="container min-h-screen flex flex-wrap justify-center items-start mx-auto
+        <div class="container min-h-screen flex flex-column justify-center items-start mx-auto
         ">
             <div id="content-wrapper">
                 @yield('content')
             </div>
             <!-- #content-wrapper -->
-
-            @if(isset($online_games))
-                <aside id="main-aside" class="min-h-screen flex-grow round-border">
-                    <h3 class="subtitle">
-                        Most Anticipated
-                    </h3>
-                    @foreach($online_games as $game)
-                        {{-- @php dump($game); @endphp --}}
-                        <x-game-card-small :game="$game" />
-                    @endforeach
-                    <h3 class="subtitle">
-                        Coming Soon
-                    </h3>
-                    @foreach($offline_games as $game)
-                        {{-- @php dump($game); @endphp --}}
-                        <x-game-card-small :game="$game" />
-                    @endforeach
-                </aside>
-            @endif
         </div>
     </body>
 </html>

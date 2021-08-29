@@ -95,7 +95,7 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   text-decoration: underline;
 }
 
-.subtitle {
+.title {
   color: var(--light-gray);
   font-weight: 600;
   font-size: 2rem;
@@ -105,11 +105,22 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   text-shadow: var(--darkest-gray) 1px 1px 5px;
 }
 
+.subtitle {
+  color: var(--light-gray);
+  font-weight: 600;
+  font-size: 1.5rem;
+  letter-spacing: 0.15rem;
+  line-height: 2rem;
+  margin-bottom: 1.5rem;
+  text-shadow: var(--darkest-gray) 1px 1px 3px;
+}
+
 .game-card {
   background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   margin-bottom: 4rem;
   margin-right: 2rem;
   padding: 0 1px 1px 0;
@@ -117,7 +128,6 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   transition-property: all;
-  width: calc(33% - 2rem);
   z-index: 0;
 }
 .game-card:before {
@@ -131,9 +141,6 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   bottom: 0;
   left: 0;
   z-index: -1;
-}
-.game-card:nth-of-type(3n) {
-  margin-right: 0;
 }
 .game-card .boxart {
   border-top-left-radius: 0.5rem;
@@ -153,7 +160,6 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   bottom: 0;
   content: "";
   left: 0;
-  max-height: 99%;
   opacity: 0.4;
   overflow: hidden;
   position: absolute;
@@ -190,6 +196,25 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   max-width: 90%;
   padding: 0;
   text-decoration: none;
+}
+
+#trending-games .game-card {
+  flex-grow: 0;
+  width: calc(33% - 2rem);
+}
+#trending-games .game-card:nth-of-type(3n) {
+  margin-right: 0;
+}
+
+.similar-games-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+.similar-games-wrapper .game-card {
+  max-width: calc(20% - 1.6rem);
+}
+.similar-games-wrapper .game-card:last-of-type {
+  margin-right: 0;
 }
 
 .game-card-small {
@@ -234,7 +259,7 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   margin-top: 0;
 }
 
-#content-wrapper {
+#trending-wrapper {
   width: 100%;
   max-width: 70%;
 }

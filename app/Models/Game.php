@@ -364,5 +364,5 @@ class Game extends IgdbGame
         $query = $query->where('slug', '=', $slug);
 
         return self::queryExecute($query, $limit);
-    }
+    } // bySlug()
 }

@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container mx-auto px-4 text-gray-200">
+    <div class="mx-auto px-4 text-gray-200">
 
         <div class="border-b border-gray-800 game-details pb-12 flex flex-col lg:flex-row">
 
@@ -301,16 +301,16 @@
 
     <!-- similar games -->
         @if(!empty($game['similar_games']))
-            <div class="images-container pb-12 mt-8">
+            <div id="similar-games" class="pb-12 mt-8">
+                <h2 class="subtitle">
+                    Similar Games
+                </h2>
 
-                <h2 class="text-2xl text-purple-500 uppercase tracking-wide font-semibold">Similar Games</h2>
-
-                <div class="similar-games text-sm grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 xl:grid-cols-6 gap-12 gap-x-12">
+                <div class="similar-games-wrapper">
                     @foreach($game['similar_games'] as $sgame)
                         <x-game-card :game="$sgame" />
                     @endforeach
-
-                </div> <!-- end similar games grid -->
+                </div> <!-- end similar games -->
 
             </div> <!-- end similar games container -->
         @endif
