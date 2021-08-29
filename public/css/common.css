@@ -212,10 +212,27 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   flex-wrap: wrap;
 }
 .similar-games-wrapper .game-card {
-  max-width: calc(20% - 1.6rem);
+  font-size: 0.9em;
+  margin-right: 1.2rem;
+  max-width: calc(14% - 0.85rem);
 }
 .similar-games-wrapper .game-card:last-of-type {
   margin-right: 0;
+}
+.similar-games-wrapper .game-card .game-title {
+  font-size: 0.9em;
+}
+.similar-games-wrapper .game-card .rating-wrapper {
+  border: 2px solid var(--accent-purple);
+  bottom: 0.25rem;
+  font-weight: normal;
+  height: 3rem;
+  right: 0.25rem;
+  width: 3rem;
+}
+.similar-games-wrapper .game-card .rating-wrapper span {
+  left: 0.85rem;
+  top: 0.65rem;
 }
 
 .game-card-small {

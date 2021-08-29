@@ -265,12 +265,37 @@ nav {
     flex-wrap: wrap;
 
     .game-card {
-        max-width: calc(20% - 1.6rem);
+        font-size: .9em;
+        margin-right: 1.2rem;
+        max-width: calc(14% - 0.85rem);
 
         &:last-of-type {
             margin-right : 0;
-        }
-    }
+        } // last of type
+
+        .game-title {
+            font-size: .9em;
+        } // game-title
+
+        .game-title {
+            //font-size: .8em;
+        } // game-title
+
+        .rating-wrapper {
+            border: 2px solid var(--accent-purple);
+            bottom: 0.25rem;
+            font-weight: normal;
+            height: 3rem;
+            right: 0.25rem;
+            width: 3rem;
+
+            span {
+                left: 0.85rem;
+                top: 0.65rem;
+            } // span
+        } // rating-wrapper
+
+    } // game-card
 }
 
 .game-card-small {
