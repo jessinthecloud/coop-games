@@ -346,4 +346,36 @@ nav {
             margin-top: 0;
         }
     }
+} // #main-aside
+
+#details-wrapper {
+    margin: 0 auto;
+    max-width: 75rem;
 }
+
+#cover {
+    margin-right: 1.5rem;
+}
+
+#details {
+
+}
+
+#companies-wrapper {
+    float: right;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    width: 33%;
+
+    .companies {
+        margin-top: 1rem;
+    } // .companies
+
+    h4 {
+        border-top: 1px solid var(--dark-gray);
+        font-style: italic;
+        margin-top: .5rem;
+        padding-top: .25rem;
+    } // h4
+} // #companies-wrapper
+

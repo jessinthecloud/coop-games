@@ -5,15 +5,16 @@
 @endsection
 
 @section('content')
-    <div class="mx-auto px-4 text-gray-200">
+    <div id="" class="">
 
-        <div class="border-b border-gray-800 game-details pb-12 flex flex-col lg:flex-row">
+        <div id="details-wrapper" class="game-details pb-12 flex flex-col
+            lg:flex-row">
 
-            <div class="flex-none">
+            <div id="cover" class="flex-none">
                 <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
             </div>
 
-            <div class="lg:ml-12 lg:mr-64">
+            <div id="details">
                 <!-- title -->
                 <h2 class="font-semibold text-4xl leading-tight mt-1">
                     {{ $game['name'] }}
@@ -28,19 +29,30 @@
                         &middot;
                     @endif
 
-                <!-- companies -->
-                    @if($game['companies'])
-                        <span>{!! $game['companies'] !!}</span>
-
-                        &middot;
-
-                    @endif
-
                 <!-- platforms -->
                     @if($game['platforms'])
                         <span>
 							{!! $game['platforms'] !!}
 						</span>
+                    @endif
+
+                    @if(!empty($game['companies']))
+                        <!-- companies -->
+                        <div id="companies-wrapper">
+                            @if($game['companies']['devs'])
+                                <div id="developers" class="companies">
+                                    <span>{!! $game['companies']['devs'] !!}</span>
+                                    <h4>Developers</h4>
+                                </div>
+                            @endif
+
+                            @if($game['companies']['pubs'])
+                                <div id="publishers" class="companies">
+                                    <span>{!! $game['companies']['pubs'] !!}</span>
+                                    <h4>Publishers</h4>
+                                </div>
+                            @endif
+                        </div>
                     @endif
                 </div>
 
@@ -250,7 +262,7 @@
             {{-- set another var called image so that we can keep track of which image
                     is opened and needs closing for each event --}}
             <div
-                    class="images-container border-b border-gray-800 pb-12 mt-8"
+                    class="images-container border-t border-gray-800 pt-8 mt-12"
                     x-data="{ isImageModalVisible: false, image: '' }"
             >
                 <h2 class="text-2xl text-purple-500 uppercase tracking-wide font-semibold">Images</h2>
@@ -301,7 +313,7 @@
 
     <!-- similar games -->
         @if(!empty($game['similar_games']))
-            <div id="similar-games" class="pb-12 mt-8">
+            <div id="similar-games" class="border-t border-gray-800 pt-8 mt-12">
                 <h2 class="subtitle">
                     Similar Games
                 </h2>

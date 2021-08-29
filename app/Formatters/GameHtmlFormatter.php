@@ -160,18 +160,37 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
     {
         parent::companies();
 
-        // TODO: Implement companies() method.
+        $devs = !empty($this->game->involved_companies) ? collect($this->game->involved_companies)
+            ->filter(function ($company) {
+                return $company['developer'] === true;
+            }) : collect();
 
-        return !empty($this->game->involved_companies) ? collect($this->game->involved_companies)
-            ->map(function ($company) {
-                return (!empty($company['company']['slug'])
-                    ? '<a 
-                        href="'.route('platforms.show', ['slug' => $company['company']['slug']]).'" 
-                        class="text-purple-500 underline transition ease-in-out duration-150 
-                            hover:text-purple-300 hover:no-underline">'.
-                        (!empty($company['company']['name']) ? $company['company']['name'] : $company['company']['name']).
-                    '</a>' : '');
-        })->implode(', ') : false;
+        $pubs = !empty($this->game->involved_companies) ? collect($this->game->involved_companies)
+            ->filter(function ($company) {
+                return $company['publisher'] === true;
+            }) : collect();
+
+        $devs = $devs->map(function ($company) {
+             return (!empty($company['company']['slug'])
+                ? '<a 
+                    href="'.route('platforms.show', ['slug' => $company['company']['slug']]).'" 
+                    class="text-purple-500 underline transition ease-in-out duration-150 
+                        hover:text-purple-300 hover:no-underline">'.
+                    $company['company']['name'].
+                '</a>' : '');
+        })->implode(', ');
+
+        $pubs = $pubs->map(function ($company) {
+            return (!empty($company['company']['slug'])
+                ? '<a 
+                    href="'.route('platforms.show', ['slug' => $company['company']['slug']]).'" 
+                    class="text-purple-500 underline transition ease-in-out duration-150 
+                        hover:text-purple-300 hover:no-underline">'.
+                $company['company']['name'].
+                '</a>' : '');
+        })->implode(', ');
+
+        return ['devs' => $devs, 'pubs'=>$pubs];
     }
 
     public function similarGames()
