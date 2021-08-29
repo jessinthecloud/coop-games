@@ -134,6 +134,7 @@ nav {
     line-height: 2rem;
     margin-bottom: 1.5rem;
     text-shadow: var(--darkest-gray) 1px 1px 5px;
+    //text-transform: uppercase;
 } // .title
 
 .subtitle {
@@ -144,6 +145,7 @@ nav {
     line-height: 2rem;
     margin-bottom: 1.5rem;
     text-shadow: var(--darkest-gray) 1px 1px 3px;
+    text-transform: uppercase;
 } // .subtitle
 
 .game-card {
@@ -324,6 +326,7 @@ nav {
 
 // -- Move somewhere else -----------------------------------------------------
 
+// -- HOME
 #trending-wrapper {
     width: 100%;
     max-width: 70%;
@@ -347,6 +350,12 @@ nav {
         }
     }
 } // #main-aside
+
+// -- END HOME
+
+// -----------------------------
+
+// -- GAMES - SHOW
 
 #details-wrapper {
     margin: 0 auto;
@@ -379,3 +388,10 @@ nav {
     } // h4
 } // #companies-wrapper
 
+#title {
+
+}
+
+// -- END GAMES - SHOW
+
+// -----------------------------------

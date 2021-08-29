@@ -16,7 +16,7 @@
 
             <div id="details">
                 <!-- title -->
-                <h2 class="font-semibold text-4xl leading-tight mt-1">
+                <h2 id="title" class="font-semibold text-4xl leading-tight mt-1">
                     {{ $game['name'] }}
                 </h2>
                 <div class="text-gray-400">
@@ -261,11 +261,11 @@
         @if(!empty($game['screenshots'] && isset($game['screenshots'][0]['huge'])))
             {{-- set another var called image so that we can keep track of which image
                     is opened and needs closing for each event --}}
-            <div
-                    class="images-container border-t border-gray-800 pt-8 mt-12"
-                    x-data="{ isImageModalVisible: false, image: '' }"
+            <div id="screenshots"
+                class="images-container border-t border-gray-800 pt-8 mt-12"
+                x-data="{ isImageModalVisible: false, image: '' }"
             >
-                <h2 class="text-2xl text-purple-500 uppercase tracking-wide font-semibold">Images</h2>
+                <h2 class="subtitle">Images</h2>
                 <div class="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
                     @foreach ($game['screenshots'] as $screenshot)
                         <div>
