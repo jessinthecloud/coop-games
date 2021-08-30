@@ -1,3 +1,4 @@
+@props(['game', 'count' => 0])
 <div
     class="game-card round-border
 ">
@@ -24,16 +25,17 @@
                  class="rating-wrapper
                     absolute -bottom-4 -right-4 w-16 h-16 bg-gray-800 rounded-full">
                 {{-- doesn't HAVE to go here, just more convenient --}}
-{{--                @push('scripts')--}}
+                @push('scripts')
                     {{-- blade partial file for snippets --}}
-                    {{--@include('partials._rating', [
+                    @include('partials._rating', [
                         'slug' => $game['slug'],
                         'rating' => $game['rating'],
                         'event' => null,
-                    ])--}}
-{{--                @endpush--}}
+                        'count' => $count,
+                    ])
+                @endpush
                 {{-- for now until alpine--}}
-                <span class="absolute font-bold top-4 left-5 text-gray-300">{{ $game['rating'] }}</span>
+{{--                <span class="absolute font-bold top-4 left-5 text-gray-300">{{ $game['rating'] }}</span>--}}
             </div>
         @endif
     </div>

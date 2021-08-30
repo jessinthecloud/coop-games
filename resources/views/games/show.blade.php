@@ -68,17 +68,17 @@
                         <div class="w-16 h-16 bg-gray-800 rounded-full relative text-sm" id="member-rating">
                             @if($game['rating'])
                                 {{-- add to the "scripts" stack (from app.blade.php) --}}
-{{--                                @push('scripts')--}}
-{{--                                    --}}{{-- blade partial file for snippets --}}
-{{--                                    @include('partials._rating', [--}}
-{{--                                        'slug' => 'member-rating',--}}
-{{--                                        'rating' => $game['rating'],--}}
-{{--                                        'event' => null,--}}
-{{--                                    ])--}}
-{{--                                @endpush--}}
-                                 <div class="font-semibold text-xs flex justify-center items-center h-full">
+                                @push('scripts')
+                                    @include('partials._rating', [
+                                        'slug' => 'member-rating',
+                                        'rating' => $game['rating'],
+                                        'event' => null,
+                                        'count' => 0,
+                                    ])
+                                @endpush
+                                 {{--<div class="font-semibold text-xs flex justify-center items-center h-full">
                                     {{ $game['rating'] }}
-                                </div>
+                                 </div>--}}
                             @endif
                         </div>
                         <div class="ml-4 text-xs">Member<br>Score</div>
@@ -87,14 +87,17 @@
                     <div class="flex items-center ml-12">
                         <div class="w-16 h-16 bg-gray-800 rounded-full relative" id="critic-rating">
                             @if($game['aggregated_rating'])
-{{--                                @push('scripts')--}}
-{{--                                    --}}{{-- blade partial file for snippets --}}
-{{--                                    @include('partials._rating', [--}}
-{{--                                        'slug' => 'critic-rating',--}}
-{{--                                        'rating' => $game['aggregated_rating'],--}}
-{{--                                        'event' => null,--}}
-{{--                                    ])--}}
-{{--                                @endpush--}}
+                                @push('scripts')
+                                    @include('partials._rating', [
+                                        'slug' => 'critic-rating',
+                                        'rating' => $game['aggregated_rating'],
+                                        'event' => null,
+                                        'count' => 1,
+                                    ])
+                                @endpush
+                                {{--<div class="font-semibold text-xs flex justify-center items-center h-full">
+                                    {{ $game['rating'] }}
+                                 </div>--}}
                             @endif
                         </div>
                         <div class="ml-4 text-xs">Critic<br>Score</div>
@@ -266,19 +269,22 @@
                 x-data="{ isImageModalVisible: false, image: '' }"
             >
                 <h2 class="subtitle">Images</h2>
-                <div class="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
                     @foreach ($game['screenshots'] as $screenshot)
-                        <div>
+                        <div class="screenshot">
                             <a
-                                    href="#"
+                                href="#"
                                     @click.prevent="
 	                                isImageModalVisible = true
 
 	                        		// set currently opened image
 	                                image='{{ $screenshot['huge'] }}'
 	                            "
+                                class="round-border"
                             >
-                                <img src="{{ $screenshot['big'] }}" alt="screenshot" class="hover:opacity-75 transition ease-in-out duration-150">
+                                <img src="{{ $screenshot['big'] }}" alt="screenshot"
+                                     class="round-border
+                                ">
                             </a>
                         </div>
                     @endforeach
@@ -287,16 +293,17 @@
                 <!-- image modal -->
                 <template x-if="isImageModalVisible">
                     <div
-                            style="background-color: rgba(0, 0, 0, .5);"
-                            class="z-50 fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto"
+                        style="background-color: rgba(0, 0, 0, .5);"
+                        class="screenshot-modal
+                            z-50 fixed top-0 left-0 w-full h-full flex items-center shadow-lg overflow-y-auto"
                     >
-                        <div class="container mx-auto lg:px-32 rounded-lg overflow-y-auto">
-                            <div class="bg-gray-900 rounded">
+                        <div class="container mx-auto rounded-lg overflow-y-auto lg:px-32">
+                            <div class="screenshot-modal-bg round-border">
                                 <div class="flex justify-end pr-4 pt-2">
                                     <button
-                                            class="text-3xl leading-none hover:text-gray-300"
-                                            @click="isImageModalVisible = false"
-                                            @keydown.escape.window="isImageModalVisible = false"
+                                        class="text-3xl leading-none hover:text-gray-300"
+                                        @click="isImageModalVisible = false"
+                                        @keydown.escape.window="isImageModalVisible = false"
                                     >
                                         &times;
                                     </button>
@@ -307,6 +314,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- /.screenshot-modal -->
                 </template>
             </div> <!-- end images-container -->
         @endif
@@ -319,8 +327,8 @@
                 </h2>
 
                 <div class="similar-games-wrapper">
-                    @foreach($game['similar_games'] as $sgame)
-                        <x-game-card :game="$sgame" />
+                    @foreach($game['similar_games'] as $i => $sgame)
+                        <x-game-card :game="$sgame" :count="$i" />
                     @endforeach
                 </div> <!-- end similar games -->
 

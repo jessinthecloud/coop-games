@@ -179,7 +179,6 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   z-index: 0;
 }
 .game-card .rating-wrapper {
-  border: 3px solid var(--accent-purple);
   box-shadow: 1px 1px 1px 1px var(--darkest-gray);
 }
 .game-card .game-details {
@@ -199,11 +198,11 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   text-decoration: none;
 }
 
-#trending-games .game-card {
+#trending-wrapper .game-card {
   flex-grow: 0;
   width: calc(33% - 2rem);
 }
-#trending-games .game-card:nth-of-type(3n) {
+#trending-wrapper .game-card:nth-of-type(3n) {
   margin-right: 0;
 }
 
@@ -223,7 +222,6 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   font-size: 0.9em;
 }
 .similar-games-wrapper .game-card .rating-wrapper {
-  border: 2px solid var(--accent-purple);
   bottom: 0.25rem;
   font-weight: normal;
   height: 3rem;
@@ -307,6 +305,26 @@ nav .menu-item a:hover, nav .menu-item a:focus {
 #cover {
   margin-right: 1.5rem;
 }
+#cover img {
+  background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
+  border-radius: 0.5rem;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
+  padding: 0 1px 1px 0;
+  position: relative;
+  z-index: 0;
+}
+#cover img:before {
+  background: var(--darker-gray);
+  border-radius: inherit;
+  content: "";
+  margin: 1px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
 
 #companies-wrapper {
   float: right;
@@ -322,4 +340,37 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   font-style: italic;
   margin-top: 0.5rem;
   padding-top: 0.25rem;
+}
+
+#screenshots .screenshot a {
+  display: inline-block;
+  padding: 0 1px 1px 0;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-property: all;
+}
+#screenshots .screenshot a:hover, #screenshots .screenshot a:active {
+  background-image: linear-gradient(to bottom right, var(--darker-gray), var(--primary-purple));
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
+  position: relative;
+  z-index: 0;
+}
+#screenshots .screenshot a:hover:before, #screenshots .screenshot a:active:before {
+  background-image: linear-gradient(to bottom right, var(--darker-gray), var(--primary-purple));
+  border-radius: inherit;
+  content: "";
+  margin: 1px;
+  opacity: 0.2;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-property: all;
+  z-index: 0;
+}
+#screenshots .screenshot-modal-bg {
+  background-color: var(--background-color);
 }

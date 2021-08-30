@@ -42,6 +42,12 @@ abstract class GameFormatter
         return !empty($rating) ? round($rating) : '';
     }
 
+    protected function criticRating($score=null)
+    {
+        $rating = $score ?? $this->game->aggregated_rating;
+        return !empty($rating) ? round($rating) : '';
+    }
+
     protected function platforms($platforms=null)
     {
         $platforms = $platforms ?? $this->game->platforms;

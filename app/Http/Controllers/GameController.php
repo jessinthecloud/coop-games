@@ -93,7 +93,7 @@ class GameController extends Controller
         $this->formatter->setGame(Game::bySlug($slug)->first());
         $game = $this->formatter->format();
 
-        dump($game);
+//        dump($game);
 
         return view('games.show', compact('game'));
     }

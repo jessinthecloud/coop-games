@@ -39,6 +39,7 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
         return collect($this->game)->merge([
             'cover_url' => $this->cover(),
             'rating' => $this->rating(),
+            'aggregated_rating' => $this->criticRating(),
             'platforms' => $this->platforms(),
             'first_release_date' => $this->date($this->game->first_release_date),
             'num_players' => $this->numPlayers(),
@@ -95,6 +96,14 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
     {
         $rating = $score ?? $this->game->rating;
         return parent::rating($rating);
+
+        // TODO: Implement rating() method.
+    }
+
+    public function criticRating($score=null): string
+    {
+        $rating = $score ?? $this->game->aggregated_rating;
+        return parent::criticRating($rating);
 
         // TODO: Implement rating() method.
     }

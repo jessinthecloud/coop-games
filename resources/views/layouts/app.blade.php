@@ -12,6 +12,8 @@
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="{{ asset('css/common.css') }}" rel="stylesheet">
+
+        <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="antialiased w-full flex flex-col text-gray-200">
 
@@ -24,5 +26,10 @@
             </div>
             <!-- #content-wrapper -->
         </div>
+
+        <script src="https://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/master/dist/progressbar.min.js"></script>
+
+        {{-- allows other views to also add JS --}}
+        @stack('scripts')
     </body>
 </html>

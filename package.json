@@ -19,5 +19,9 @@
         "sass": "^1.38.1",
         "sass-loader": "^12.1.0",
         "tailwindcss": "^2.2.7"
+    },
+    "dependencies": {
+        "alpinejs": "^3.2.4",
+        "progressbar.js": "^1.1.0"
     }
 }

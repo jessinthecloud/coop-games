@@ -152,7 +152,7 @@ nav {
     background-image : linear-gradient(
         to bottom right,
         transparent 50%,
-        //rgba(124, 58, 237, .2),
+        //var(--primary-lime),
         var(--primary-purple),
     );
     box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
@@ -226,7 +226,7 @@ nav {
     } // .boxart a
 
     .rating-wrapper {
-        border: 3px solid var(--accent-purple); // TEMP RATING RING
+        //border: 3px solid var(--accent-purple); // TEMP RATING RING
         box-shadow: 1px 1px 1px 1px var(--darkest-gray);
     }
 
@@ -249,7 +249,7 @@ nav {
     } // .game-title
 } // .game-card
 
-#trending-games {
+#trending-wrapper {
     .game-card {
         flex-grow: 0;
         width : calc(33% - 2rem);
@@ -282,7 +282,6 @@ nav {
         } // game-title
 
         .rating-wrapper {
-            border: 2px solid var(--accent-purple);
             bottom: 0.25rem;
             font-weight: normal;
             height: 3rem;
@@ -389,7 +388,31 @@ nav {
 
 #cover {
     margin-right: 1.5rem;
-}
+
+    img {
+        background-image : linear-gradient(
+            to bottom right,
+            transparent 50%,
+            //var(--primary-lime),
+            var(--primary-purple),
+        );
+        border-radius: .5rem;
+        box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
+        padding: 0 1px 1px 0;
+        position:relative;
+        z-index: 0;
+
+        &:before {
+            background: var(--darker-gray);
+            border-radius: inherit;
+            content: '';
+            margin: 1px;
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            z-index: -1;
+        } // :before
+    } // img
+} // #cover
 
 #details {
 
@@ -416,6 +439,55 @@ nav {
 #title {
 
 }
+
+#screenshots {
+    .screenshot {
+        a {
+            display: inline-block;
+            padding                    : 0 1px 1px 0;
+            transition-timing-function : cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration        : 150ms;
+            transition-property        : all;
+
+            &:hover,
+            &:active {
+                background-image : linear-gradient(
+                    to bottom right,
+                    var(--darker-gray),
+                    var(--primary-purple),
+                );
+                box-shadow       : 0 0 2px 1px rgba(0, 0, 0, 0.4);
+                position         : relative;
+                z-index          : 0;
+
+                &:before {
+                    background-image : linear-gradient(
+                        to bottom right,
+                        var(--darker-gray),
+                        var(--primary-purple),
+                    );
+                    border-radius              : inherit;
+                    content                    : '';
+                    margin                     : 1px;
+                    opacity                    : .2;
+                    position                   : absolute;
+                    top                        : 0;
+                    right                      : 0;
+                    bottom                     : 0;
+                    left                       : 0;
+                    transition-timing-function : cubic-bezier(0.4, 0, 0.2, 1);
+                    transition-duration        : 150ms;
+                    transition-property        : all;
+                    z-index                    : 0;
+                } // :before
+            } // hover/focus
+        } // a
+    } // .screenshot
+
+    .screenshot-modal-bg {
+        background-color: var(--background-color);
+    }
+} // #screenshots
 
 // -- END GAMES - SHOW
 
