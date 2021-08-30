@@ -326,6 +326,21 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   z-index: -1;
 }
 
+#details {
+  font-size: 1em;
+  /*.first-release {
+      font-size: .9em;
+  }
+
+  .rating {
+      font-size: .9em;
+  }*/
+}
+#details .rating-label {
+  font-size: 0.9em;
+  margin-left: 1rem;
+}
+
 #companies-wrapper {
   float: right;
   margin-bottom: 1.5rem;

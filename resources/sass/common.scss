@@ -415,7 +415,20 @@ nav {
 } // #cover
 
 #details {
+    font-size: 1em;
 
+    /*.first-release {
+        font-size: .9em;
+    }
+
+    .rating {
+        font-size: .9em;
+    }*/
+
+    .rating-label {
+        font-size: .9em;
+        margin-left: 1rem;
+    } // .rating-label
 }
 
 #companies-wrapper {

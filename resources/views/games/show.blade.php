@@ -19,7 +19,7 @@
                 <h2 id="title" class="font-semibold text-4xl leading-tight mt-1">
                     {{ $game['name'] }}
                 </h2>
-                <div class="text-gray-400">
+                <div class="mt-4 text-gray-400">
                     <!-- genres -->
                     @if($game['genres'])
                         <span>
@@ -57,7 +57,8 @@
                 </div>
 
                 @if(!empty($game['first_release_date']))
-                    <div class="flex flex-wrap items-center mt-4 text-sm">
+                    <div class="first-release
+                        flex flex-wrap items-center mt-4">
                         <span class="font-semibold">First Released</span>: {{ $game['first_release_date'] }}
                     </div>
                 @endif
@@ -65,7 +66,8 @@
                 <div class="flex flex-wrap items-center mt-8">
                     <!-- member score -->
                     <div class="flex items-center">
-                        <div class="w-16 h-16 bg-gray-800 rounded-full relative text-sm" id="member-rating">
+                        <div id="member-rating" class="rating
+                        w-16 h-16 bg-gray-800 rounded-full relative">
                             @if($game['rating'])
                                 {{-- add to the "scripts" stack (from app.blade.php) --}}
                                 @push('scripts')
@@ -81,11 +83,12 @@
                                  </div>--}}
                             @endif
                         </div>
-                        <div class="ml-4 text-xs">Member<br>Score</div>
+                        <div class="rating-label">Member<br>Score</div>
                     </div><!-- end member score -->
                     <!-- critic score -->
                     <div class="flex items-center ml-12">
-                        <div class="w-16 h-16 bg-gray-800 rounded-full relative" id="critic-rating">
+                        <div id="critic-rating" class="rating
+                        w-16 h-16 bg-gray-800 rounded-full relative">
                             @if($game['aggregated_rating'])
                                 @push('scripts')
                                     @include('partials._rating', [
@@ -100,7 +103,7 @@
                                  </div>--}}
                             @endif
                         </div>
-                        <div class="ml-4 text-xs">Critic<br>Score</div>
+                        <div class="rating-label">Critic<br>Score</div>
                     </div> <!-- end critic score -->
 
                     <!-- socials -->
