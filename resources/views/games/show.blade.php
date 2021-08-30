@@ -326,7 +326,7 @@
         @if(!empty($game['similar_games']))
             <div id="similar-games" class="border-t border-gray-800 pt-8 mb-12">
                 <h2 class="subtitle">
-                    Similar Games
+                    Similar Co-op Games
                 </h2>
 
                 <div class="similar-games-wrapper">
