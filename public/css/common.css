@@ -360,7 +360,7 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   border-radius: inherit;
   content: "";
   margin: 1px;
-  opacity: 0.2;
+  opacity: 0.45;
   position: absolute;
   top: 0;
   right: 0;
