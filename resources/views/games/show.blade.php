@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div id="" class="">
+    <div id="" class="mt-8">
 
         <div id="details-wrapper" class="game-details pb-12 flex flex-col
             lg:flex-row">
@@ -268,7 +268,7 @@
             {{-- set another var called image so that we can keep track of which image
                     is opened and needs closing for each event --}}
             <div id="screenshots"
-                class="images-container border-t border-gray-800 pt-8 mt-12"
+                class="images-container border-t border-gray-800 pt-8 mb-12"
                 x-data="{ isImageModalVisible: false, image: '' }"
             >
                 <h2 class="subtitle">Images</h2>
@@ -324,7 +324,7 @@
 
     <!-- similar games -->
         @if(!empty($game['similar_games']))
-            <div id="similar-games" class="border-t border-gray-800 pt-8 mt-12">
+            <div id="similar-games" class="border-t border-gray-800 pt-8 mb-12">
                 <h2 class="subtitle">
                     Similar Games
                 </h2>

@@ -81,10 +81,12 @@ class Game extends IgdbGame
                 'genres',
                 'summary',
                 'rating',
+                'multiplayer_modes',
             ],
             'similar_games.cover',
             'similar_games.platforms',
             'similar_games.genres',
+            'similar_games.multiplayer_modes',
             'version_parent',
             'websites',
         ]) : $with;
@@ -360,8 +362,9 @@ class Game extends IgdbGame
     )
     {
         $query = self::querySetup($fields, $with, false);
+        $query = $query->where('slug', 'like', $slug);
 
-        $query = $query->where('slug', '=', $slug);
+//    ddd($query, $slug);
 
         return self::queryExecute($query, $limit);
     } // bySlug()

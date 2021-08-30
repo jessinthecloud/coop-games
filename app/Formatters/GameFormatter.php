@@ -10,12 +10,12 @@ use MarcReichel\IGDBLaravel\Models\Game;
 abstract class GameFormatter
 {
     /**
-     * @var \MarcReichel\IGDBLaravel\Models\Game
+     * @var Game
      */
     protected Game $game;
 
     /**
-     * @param \MarcReichel\IGDBLaravel\Models\Game $game
+     * @param Game $game
      */
     protected function setGame(Game $game)
     {
