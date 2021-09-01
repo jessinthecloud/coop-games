@@ -9,6 +9,70 @@ use Throwable;
 
 class Game extends IgdbGame
 {
+    use QuerySetup;
+
+    protected static $fields = [
+        'name',
+        'slug',
+        'first_release_date',
+        'rating',
+        'total_rating',
+        'total_rating_count',
+        'version_title',
+        'storyline',
+    ];
+
+    protected static $listing_fields = [
+        'summary',
+        'rating',
+        'aggregated_rating',
+        'url',
+        'follows',
+        'hypes',
+        'category',
+        'status',
+    ];
+
+    protected static $with = [
+        'cover' => ['url', 'image_id'],
+        'platforms' => ['id', 'name', 'abbreviation', 'slug'],
+        'multiplayer_modes',
+        'genres'=> ['id', 'name', 'slug'],
+        'collection',
+    ];
+
+    protected static $listing_with = [
+        'age_ratings',
+        'involved_companies',
+        'involved_companies.company' => [
+            'id',
+            'name',
+            'slug',
+            'url',
+        ],
+        'player_perspectives',
+        'parent_game',
+        'release_dates',
+        'screenshots',
+        'videos',
+        'similar_games' => [
+            'id',
+            'name',
+            'slug',
+            'first_release_date',
+            'platforms',
+            'genres',
+            'summary',
+            'rating',
+            'multiplayer_modes',
+        ],
+        'similar_games.cover',
+        'similar_games.platforms',
+        'similar_games.genres',
+        'similar_games.multiplayer_modes',
+        'version_parent',
+        'websites',
+    ];
 
     protected $formatter;
 
@@ -27,69 +91,8 @@ class Game extends IgdbGame
         ?int $cache=null*/
     )
     {
-        $fields = $fieldsArg ?? [
-            'name',
-            'slug',
-            'first_release_date',
-            'rating',
-            'total_rating',
-            'total_rating_count',
-            'version_title',
-            'storyline',
-        ];
-
-        $fields = ($fieldsArg === null && $listing === false) ? array_merge($fields, [
-            'summary',
-            'rating',
-            'aggregated_rating',
-            'url',
-            'follows',
-            'hypes',
-            'category',
-            'status',
-        ]) : $fields;
-
-        $with = $withArg ?? [
-            'cover' => ['url', 'image_id'],
-            'platforms' => ['id', 'name', 'abbreviation', 'slug'],
-//            'platforms.platform_logo',
-            'multiplayer_modes',
-            'genres'=> ['id', 'name', 'slug'],
-            'collection',
-        ];
-
-        $with = ($withArg === null && $listing === false) ? array_merge($with, [
-            'age_ratings',
-            'involved_companies',
-            'involved_companies.company' => [
-                'id',
-                'name',
-                'slug',
-                'url',
-            ],
-            'player_perspectives',
-            'parent_game',
-            'release_dates',
-            'screenshots',
-            'videos',
-            'similar_games' => [
-                'id',
-                'name',
-                'slug',
-                'first_release_date',
-                'platforms',
-                'genres',
-                'summary',
-                'rating',
-                'multiplayer_modes',
-            ],
-            'similar_games.cover',
-            'similar_games.platforms',
-            'similar_games.genres',
-            'similar_games.multiplayer_modes',
-            'version_parent',
-            'websites',
-        ]) : $with;
+        $fields = self::querySetupFields();
+        $with = self::querySetupWith();
 
         return IgdbGame::/*cache(0)->*/select(
             $fields
@@ -107,31 +110,7 @@ class Game extends IgdbGame
             ;
     }
 
-    protected static function queryExecute(
-        $query,
-        ?int $limit=15,
-        ?array $order=['first_release_date', 'desc'],
-        ?array $sort=null
-    )
-    {
-        try {
-            return $query
-                /**
-                 * can only have one sort field for IGDB API
-                 *
-                 * Must keep in mind what your main sort field is because the limit will
-                 * mess with proper ordering
-                 */
-                ->orderBy($order[0], $order[1])
-                ->limit($limit)
-                ->get()
-                ->sortBy($sort);
-        } catch (Throwable $e) {
-            ddd($e);
-        }
-    }
-
-// --------------------------------------------------------------------------------
+// -------------------------------------------------------------
 
     /**
      * Get released games with online co-op
