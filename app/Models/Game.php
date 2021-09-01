@@ -84,6 +84,17 @@ class Game extends IgdbGame
         // $this->formatter = $formatter;
     }
 
+    /**
+     * Setup fields and filters for every game query
+     *
+     * @param array|null $fieldsArg
+     * @param array|null $withArg
+     * @param bool       $listing
+     *
+     * @return \MarcReichel\IGDBLaravel\Builder
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
     protected static function querySetup(
         ?array $fieldsArg=null,
         ?array $withArg=null,
