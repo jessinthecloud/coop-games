@@ -102,8 +102,8 @@ class Game extends IgdbGame
         ?int $cache=null*/
     )
     {
-        $fields = self::querySetupFields();
-        $with = self::querySetupWith();
+        $fields = self::querySetupFields($fieldsArg, $listing);
+        $with = self::querySetupWith($withArg, $listing);
 
         return IgdbGame::/*cache(0)->*/select(
             $fields
