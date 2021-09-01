@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Throwable;
+
 trait QuerySetup
 {
     protected static function querySetupFields(
@@ -10,7 +12,7 @@ trait QuerySetup
         ?int $cache=null*/
     )
     {
-        return ($fieldsArg === null && $listing === false) ? array_merge(self::$fields, self::$listing_fields) : self::$fields;
+        return ($fieldsArg === null && $listing === false) ? array_merge(self::$fields, self::$detail_fields) : self::$fields;
     }
 
     protected static function querySetupWith(
@@ -19,7 +21,7 @@ trait QuerySetup
         ?int $cache=null*/
     )
     {
-        return ($withArg === null && $listing === false) ? array_merge(self::$with, self::$listing_with) : self::$with;
+        return ($withArg === null && $listing === false) ? array_merge(self::$with, self::$detail_with) : self::$with;
     }
 
     protected static function queryExecute(

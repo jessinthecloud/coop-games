@@ -22,7 +22,7 @@ class Game extends IgdbGame
         'storyline',
     ];
 
-    protected static $listing_fields = [
+    protected static $detail_fields = [
         'summary',
         'rating',
         'aggregated_rating',
@@ -41,7 +41,7 @@ class Game extends IgdbGame
         'collection',
     ];
 
-    protected static $listing_with = [
+    protected static $detail_with = [
         'age_ratings',
         'involved_companies',
         'involved_companies.company' => [
