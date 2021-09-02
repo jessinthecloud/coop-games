@@ -90,11 +90,9 @@ class GameController extends Controller
      */
     public function show(Request $request, string $slug)
     {
-//      ddd(Game::where('slug', 'like', $slug), Game::bySlug($slug));
-//      ddd(Game::bySlug($slug)->firstOrFail());
         $game = Game::bySlug($slug)->firstOrFail();
-//        dump($game['similar_games']);
-        $this->formatter->setGame(Game::bySlug($slug)->firstOrFail());
+        $game->similar_games = $game->similarGames(); 
+        $this->formatter->setGame($game);
         $game = $this->formatter->format();
 
 //        dump($game);

@@ -207,14 +207,14 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
         parent::similarGames();
 
             return !empty($this->game['similar_games'])
-                ? collect($this->game['similar_games'])->filter(function ($game) {
+                ? collect($this->game['similar_games'])/*->filter(function ($game) {
                     return (isset($game['multiplayer_modes'])
                         && (
                             (isset($game['multiplayer_modes']['onlinecoop']) && $game['multiplayer_modes']['onlinecoop'])
                             || (isset($game['multiplayer_modes']['offlinecoop']) && $game['multiplayer_modes']['offlinecoop'])
                         )
                     );
-                })->map(function ($game) {
+                })*/->map(function ($game) {
                     return collect($game)->merge([
                         'cover_url' => isset($game['cover']['url']) ? $this->cover($game['cover']['url']) : 'https://via.placeholder.com/264x352',
                         'platforms' => isset($game['platforms']) ? $this->platforms($game['platforms']) : '',

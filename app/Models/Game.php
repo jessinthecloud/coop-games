@@ -57,19 +57,7 @@ class Game extends IgdbGame
         'videos',
         'similar_games' => [
             'id',
-            'name',
-            'slug',
-            'first_release_date',
-            'platforms',
-            'genres',
-            'summary',
-            'rating',
-            'multiplayer_modes',
         ],
-        'similar_games.cover',
-        'similar_games.platforms',
-        'similar_games.genres',
-        'similar_games.multiplayer_modes',
         'version_parent',
         'websites',
     ];
@@ -105,7 +93,7 @@ class Game extends IgdbGame
         $fields = self::querySetupFields($fieldsArg, $listing);
         $with = self::querySetupWith($withArg, $listing);
 
-        return IgdbGame::/*cache(0)->*/select(
+        return Game::/*cache(0)->*/select(
             $fields
         )
             ->with(
@@ -358,4 +346,32 @@ class Game extends IgdbGame
 
         return self::queryExecute($query, $limit);
     } // bySlug()
+
+    /*
+        'similar_games' => [
+            'id',
+            'name',
+            'slug',
+            'cover',
+            'first_release_date',
+            'platforms',
+            'genres',
+            'summary',
+            'rating',
+            'multiplayer_modes',
+        ],
+        'similar_games.cover',
+        'similar_games.platforms',
+        'similar_games.genres',
+        'similar_games.multiplayer_modes',
+        'version_parent',
+        'websites',
+     */
+
+    public function similarGames()
+    {
+        $query = self::querySetup(self::$fields, self::$with)
+                    ->whereIn('id', collect($this->similar_games)->pluck('id')->all());
+        return self::queryExecute($query, 5);
+    }
 }

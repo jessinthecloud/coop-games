@@ -208,7 +208,15 @@
                 <!-- links to digital marketplace -->
                     <div class="flex flex-wrap">
                         @foreach($game['store_links'] as $store => $store_link)
-                            <a class="mt-6 mr-4 text-gray-200 hover:opacity-50 hover:text-purple-400 transition ease-in-out duration-150" target="_blank" rel="noopener nofollow" href="{{ $store_link['url'] }}">{!! $store_link['icon'] !!}</a>
+                            <a 
+                               class="mt-6 mr-4 text-gray-200 transition ease-in-out duration-150
+                                   hover:opacity-50 hover:text-purple-400" 
+                               target="_blank" 
+                               rel="noopener nofollow" 
+                               href="{{ $store_link['url'] }}"
+                            >
+                                {!! $store_link['icon'] !!}
+                            </a>
                         @endforeach
                     </div>
                     <!-- end store links -->
