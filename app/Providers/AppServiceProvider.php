@@ -6,6 +6,7 @@ use App\Filters\GameFilterer;
 use App\Formatters\Formatter;
 use App\Formatters\GameHtmlFormatter;
 use App\Http\Controllers\GameController;
+use App\Models\Game;
 use Illuminate\Support\ServiceProvider;
 
 /*
@@ -62,11 +63,10 @@ class AppServiceProvider extends ServiceProvider
         });*/
 
 //        $this->app->bind(Formatter::class, GameHtmlFormatter::class);
-
-        /*$this->app->bindMethod([GameController::class, 'index'],
-            function ($controller, $app) {
-                return $controller->index(
-                    $app->make(GameFilterer::class),
+        
+        /*$this->app->bindMethod([Game::class, 'setFormatter'],
+            function ($model, $app) {
+                return $model->setFormatter(
                     $app->make(GameHtmlFormatter::class)
                 );
             }
@@ -75,6 +75,10 @@ class AppServiceProvider extends ServiceProvider
 
         // to set a specific implementation for an interface depending
         // on the class that calls it
+        $this->app->when(Game::class)
+            ->needs(Formatter::class)
+            ->give(GameHtmlFormatter::class);
+
         $this->app->when(GameController::class)
             ->needs(Formatter::class)
             ->give(GameHtmlFormatter::class);

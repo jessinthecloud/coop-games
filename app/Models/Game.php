@@ -3,6 +3,8 @@
 
 namespace App\Models;
 
+use App\Formatters\Formatter;
+use App\Formatters\GameHtmlFormatter;
 use Illuminate\Support\Carbon;
 use MarcReichel\IGDBLaravel\Models\Game as IgdbGame;
 use Throwable;
@@ -62,14 +64,34 @@ class Game extends IgdbGame
         'websites',
     ];
 
-    protected $formatter;
+    /**
+     * @var \App\Formatters\GameHtmlFormatter 
+     */
+    public ?Formatter $formatter;
 
-    public function __construct(array $properties = [], $formatter=null)
+    public function __construct(array $properties = [], Formatter $formatter=null)
     {
         parent::__construct($properties);
+        
+        // only allow null and set because of static method calls
+        // TODO: find a way to inject to constructor even when using __callStatic()
+        $this->formatter = $formatter ?? null;
+        if(isset($this->formatter) && !$this->formatter->hasGame() ){
+            $this->formatter->setGame($this);
+        }
+    }
 
-        // TODO: create formatter class to format data for view
-        // $this->formatter = $formatter;
+    /**
+     * Inject formatter (if created model statically)
+     * 
+     * @param \App\Formatters\Formatter $formatter
+     */
+    public function setFormatter(Formatter $formatter)
+    {
+        $this->formatter = $formatter;
+        $this->formatter->setGame($this);
+        
+        return $this;
     }
 
     /**

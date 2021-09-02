@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Filters\GameFilterer;
 use App\Formatters\Formatter;
+use App\Formatters\GameHtmlFormatter;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -14,21 +14,13 @@ use MarcReichel\IGDBLaravel\Models\Platform;
 
 class GameController extends Controller
 {
-    /**
-     * @var \App\Filters\GameFilterer
-     */
-    protected GameFilterer $filterer;
-    /**
-     * @var \App\Formatters\Formatter
-     */
-    protected Formatter $formatter;
+    public Formatter $formatter;
 
-    public function __construct(GameFilterer $filterer, Formatter $formatter)
+    public function __construct(Formatter $formatter)
     {
-        $this->filterer = $filterer;
         $this->formatter = $formatter;
     }
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -39,20 +31,20 @@ class GameController extends Controller
         $trending_games = Game::trending(null, null, 6);
 
         $trending_games = $trending_games->map(function($game, $key){
-            $this->formatter->setGame($game);
-            return $this->formatter->format();
+            $game->setFormatter($this->formatter);
+            return $game->formatter->format();
         });
 
         $online_games = Game::online(null, null, 5);
         $online_games = $online_games->map(function($game, $key){
-            $this->formatter->setGame($game);
-            return $this->formatter->format();
+            $game->setFormatter($this->formatter);
+            return $game->formatter->format();
         });
 
         $offline_games = Game::offline(null, null, 5);
         $offline_games = $offline_games->map(function($game, $key){
-            $this->formatter->setGame($game);
-            return $this->formatter->format();
+            $game->setFormatter($this->formatter);
+            return $game->formatter->format();
         });
 //        dump($games);
 
@@ -91,11 +83,9 @@ class GameController extends Controller
     public function show(Request $request, string $slug)
     {
         $game = Game::bySlug($slug)->firstOrFail();
-        $game->similar_games = $game->similarGames(); 
-        $this->formatter->setGame($game);
-        $game = $this->formatter->format();
-
-//        dump($game);
+        $game->similar_games = $game->similarGames();
+        $game->setFormatter($this->formatter);
+        $game = $game->formatter->format();
 
         return view('games.show', compact('game'));
     }
