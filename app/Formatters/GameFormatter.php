@@ -65,38 +65,89 @@ abstract class GameFormatter
 
     protected function coopTypes()
     {
+        /*'online_multi_num' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->pluck('onlinemax')->unique()->flatten()[0] : [],
+        'offline_multi_num' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->pluck('offlinemax')->unique()->flatten()[0] : [],
+        'online_coop_num' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->pluck('onlinecoopmax')->unique()->flatten()[0] : [],
+        'offline_coop_num' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->pluck('offlinecoopmax')->unique()->flatten()[0] : [],*/
+
+        /*'coop_info' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->map(function ($game) {
+            return collect($game)->merge([
+                 'types' => [
+                     'online'      => [
+                         'label'=> 'Online',
+                         'value'=> !empty($game['onlinecoop']) ? $game['onlinecoop'] : false
+                     ],
+                     'offline'     => [
+                         'label'=> 'Offline',
+                         'value'=> !empty($game['offlinecoop']) ? $game['offlinecoop'] : false
+                     ],
+                     'campaign'    => [
+                         'label'=> 'Campaign',
+                         'value'=> !empty($game['campaigncoop']) ? $game['campaigncoop'] : false
+                     ],
+                     'lan'         => [
+                         'label'=> 'LAN',
+                         'value'=> !empty($game['lancoop']) ? $game['lancoop'] : false
+                     ],
+                 ],
+                 'onlinemax' => !empty($game['online_coop_num']) ? $game['online_coop_num'] : 0,
+                 'offlinemax' => !empty($game['offline_coop_num']) ? $game['offline_coop_num'] : 0,
+
+            ]);
+        })->toArray() : [],*/
+
+    /*'multi_info' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->map(function ($game) {
+        return collect($game)->merge([
+             'online'  => [
+                 'label'=> 'Online',
+                 'value'=> !empty($game['onlinemax']) ? $game['onlinemax'] : 0
+             ],
+             'offline' => [
+                 'label'=> 'Offline',
+                 'value'=> !empty($game['offlinemax']) ? $game['offlinemax'] : 0
+             ],
+             'splitscreen'  => [
+                 'label'=> 'Local Splitscreen',
+                 'value'=> !empty($game['multiplayer_modes']['splitscreen']) ? $game['multiplayer_modes']['splitscreen'] : false
+             ],
+             'split_online' => [
+                 'label'=> 'Online Splitscreen',
+                 'value'=> !empty($game['multiplayer_modes']['split_online']) ? $game['multiplayer_modes']['split_online'] : false
+             ],
+        ]);
+    })->toArray() : [],*/
+
         // num players and multiplayer_mode are relative to platform
+        // multiplayer_modes already split by platform
         return collect($this->game->multiplayer_modes)->map(function($mode, $key){
 
             $types = [];
 
             if(isset($mode['campaigncoop']) && $mode['campaigncoop']){
-                $types []= MultiplayerMode::CAMPAIGN;
+                $types [$key]['label']= MultiplayerMode::CAMPAIGN;
             }
             if(isset($mode['lancoop']) && $mode['lancoop']){
-                $types []= MultiplayerMode::LAN;
+                $types [$key]['label']= MultiplayerMode::LAN;
             }
             if(isset($mode['offlinecoop']) && $mode['offlinecoop']){
-                $types []= MultiplayerMode::OFFLINE;
+                $types [$key]['label']= MultiplayerMode::OFFLINE;
+                $types [$key]['max']= !empty($game['offlinemax']) ? $game['offlinemax'] : null;
             }
             if(isset($mode['onlinecoop']) && $mode['onlinecoop']){
-                $types []= MultiplayerMode::ONLINE;
+                $types [$key]['label']= MultiplayerMode::ONLINE;
+                $types [$key]['max']= !empty($game['onlinemax']) ? $game['onlinemax'] : null;
             }
             if(isset($mode['splitscreen']) && $mode['splitscreen']){
-                $types []= MultiplayerMode::COUCH;
+                $types [$key]['label']= MultiplayerMode::COUCH;
             }
             if(isset($mode['splitscreenonline']) && $mode['splitscreenonline']){
-                $types []= MultiplayerMode::SPLITONLINE;
+                $types [$key]['label']= MultiplayerMode::SPLITONLINE;
             }
 
-            $platform = $mode['platform'] ?? null;
-
             return collect($mode)->merge([
-                'coopTypes' => [
-                    $platform => $types,
-                ]
+                'coop-types' => $types,
             ]);
-        });
+        }); // end map
     }
 
     protected function cover($url=null): string
