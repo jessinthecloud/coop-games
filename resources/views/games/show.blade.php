@@ -40,8 +40,10 @@
                     @if(!empty($game['multiplayer_modes']))
                         <div class="modes-wrapper flex flex-col lg:flex-row">
                             @if(!empty($game['multiplayer_modes'][0]['coop-types']))
-                                <div class="coop-details mb-4 lg:mr-16 lg:mb-0">
-                                    <h3 class="text-lg font-bold mb-1 uppercase tracking-wide">
+                                <div class="coop-details
+                                    w-full
+                                ">
+                                    <h3 class="text-lg font-bold mb-1 uppercase tracking-wide w-full">
                                         Co-op Modes
                                     </h3>
                                     @foreach($game['multiplayer_modes'] as $modes)
