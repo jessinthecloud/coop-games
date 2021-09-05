@@ -432,11 +432,11 @@ nav {
     } // .rating-label
 }
 
-#related-details-card {
+.related-details-card {
     background-color: rgba(var(--tertiary-purple-rgb), 0.25);
-    border: 1px solid var(--darkest-gray);
+    border: 1px solid var(--darker-gray);
     border-radius: .5rem;
-    margin-left: .5rem;
+    margin-left: 1rem;
     padding: 1rem;
 
     a {
@@ -457,7 +457,24 @@ nav {
 
     .details-card-section {
         margin-bottom: 1.5rem;
+    }
 
+    .fa-check-square {
+        color: var(--primary-lime);
+        margin-left: 1rem;
+        margin-right: .25rem;
+    }
+
+    .coop-label {
+        padding-left: 0;
+    }
+
+    .coop-details {
+        h3 {
+            background-color: var(--darkest-gray);
+            margin-bottom: .25rem;
+            padding: .25rem .5rem;
+        }
     }
 }
 
@@ -472,10 +489,6 @@ nav {
     } // .companies
 
 } // #companies-wrapper
-
-#title {
-
-}
 
 #screenshots {
     .screenshot {

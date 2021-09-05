@@ -342,28 +342,41 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   margin-left: 1rem;
 }
 
-#related-details-card {
+.related-details-card {
   background-color: rgba(var(--tertiary-purple-rgb), 0.25);
-  border: 1px solid var(--darkest-gray);
+  border: 1px solid var(--darker-gray);
   border-radius: 0.5rem;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
   padding: 1rem;
 }
-#related-details-card a {
+.related-details-card a {
   color: var(--accent-purple);
 }
-#related-details-card h4 {
+.related-details-card h4 {
   background-color: var(--darkest-gray);
   font-style: italic;
   margin-bottom: 0.25rem;
   padding: 0.25rem 0.5rem;
 }
-#related-details-card span {
+.related-details-card span {
   display: inline-block;
   padding-left: 1rem;
 }
-#related-details-card .details-card-section {
+.related-details-card .details-card-section {
   margin-bottom: 1.5rem;
+}
+.related-details-card .fa-check-square {
+  color: var(--primary-lime);
+  margin-left: 1rem;
+  margin-right: 0.25rem;
+}
+.related-details-card .coop-label {
+  padding-left: 0;
+}
+.related-details-card .coop-details h3 {
+  background-color: var(--darkest-gray);
+  margin-bottom: 0.25rem;
+  padding: 0.25rem 0.5rem;
 }
 
 #companies-wrapper .companies {

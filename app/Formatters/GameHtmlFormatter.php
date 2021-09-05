@@ -43,7 +43,7 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
             'platforms' => $this->platforms(),
             'first_release_date' => $this->date($this->game->first_release_date),
             'num_players' => $this->numPlayers(),
-            'coop-types' => $this->coopTypes(),
+            'multiplayer_modes' => $this->coopTypes(),
             'genres' => $this->genres(),
             'companies' => $this->companies(),
 //            'similar_games' => $this->similarGames(),

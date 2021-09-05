@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+    <?php //dump($game['multiplayer_modes']); ?>
     <div id="" class="
         md:mt-8
     ">
@@ -31,7 +32,68 @@
                 ">
                     <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
                 </div>
-                <div id="related-details-card" class="mt-4 text-gray-400 inline-block w-full
+
+                <!-- multiplayer_modes -->
+                <div id="" class="related-details-card mt-4 text-gray-400 inline-block w-full
+                    md:w-1/2 md:float-right
+                ">
+                    @if(!empty($game['multiplayer_modes']))
+                        <div class="modes-wrapper flex flex-col lg:flex-row">
+                            @if(!empty($game['multiplayer_modes'][0]['coop-types']))
+                                <div class="coop-details mb-4 lg:mr-16 lg:mb-0">
+                                    <h3 class="text-lg font-bold mb-1 uppercase tracking-wide">
+                                        Co-op Modes
+                                    </h3>
+                                    @foreach($game['multiplayer_modes'] as $modes)
+                                        <ul>
+                                            @foreach($modes['coop-types'] as $ctype)
+                                                <li>
+                                                    <i class="fas fa-check-square"></i>
+                                                    <span class="coop-label">
+                                                        {{ $ctype['label'] }}
+                                                        @if(!empty($ctype['max']))
+                                                            ({{ $ctype['max'] }} player max)
+                                                        @endif
+                                                    </span>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endforeach
+                                </div>
+                            @endif {{-- end coop --}}
+
+                            {{--@if(!empty($game['multi_info']))
+                                    <div class="multi-details">
+                                        <h3 class="text-xl font-bold mb-1">Multiplayer Details</h3>
+                                        <ul>
+                                            @if(is_array($game['multi_info']))
+                                                @foreach($game['multi_info'] as $mkey => $mtype)
+                                                    @if(is_array($mtype))
+                                                        <li>
+                                                            @if(!empty($mtype['value']))
+                                                                <i class="fas fa-check-square text-purple-600"></i>
+                                                            @else
+                                                                <i class="fas fa-window-close"></i>
+                                                            @endif
+                                                            <span class="multi-label">
+                                                    {{ $mtype['label'] }}
+                                                                @if(($mkey == 'online' || $mkey == 'offline') && !empty($mtype['value']))
+                                                                    ({{ $mtype['value'] }} player max)
+                                                                @endif
+                                                </span>
+                                                        </li>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        </ul>
+                                    </div> <!-- end mutli details -->
+                                @endif--}}
+                        </div>
+                    @endif
+                    {{-- end if multi or coop --}}
+                </div>
+
+                <div id="" class="related-details-card mt-4 text-gray-400 inline-block w-full
                     md:w-1/2 md:float-right
                 ">
                     <!-- platforms -->
@@ -165,62 +227,6 @@
                     <!-- end socials -->
                 </div>
                 <!-- end scores-container -->
-
-                <!-- multiplayer_modes -->
-                @if(!empty($game['coop_info']) && !empty($game['multi_info']))
-                    <div class="modes-wrapper flex flex-col mt-8 lg:flex-row">
-                        @if(!empty($game['coop_info']))
-                            <div class="coop-details mb-4 lg:mr-16 lg:mb-0">
-                                <h3 class="text-xl font-bold mb-1">Co-op Details</h3>
-                                <ul>
-                                    @foreach($game['coop_info']['types'] as $ckey => $ctype)
-                                        <li>
-                                            @if(!empty($ctype['value']))
-                                                <i class="fas fa-check-square text-purple-600"></i>
-                                            @else
-                                                <i class="fas fa-window-close"></i>
-                                            @endif
-                                            <span class="coop-label">
-									{{ $ctype['label'] }}
-                                                @if($ckey == 'online' && !empty($game['coop_info']['onlinecoopmax']))
-                                                    ({{ $game['coop_info']['onlinecoopmax'] }} player max)
-                                                @endif
-								</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif {{-- end coop --}}
-
-                        @if(!empty($game['multi_info']))
-                            <div class="multi-details">
-                                <h3 class="text-xl font-bold mb-1">Multiplayer Details</h3>
-                                <ul>
-                                    @if(is_array($game['multi_info']))
-                                        @foreach($game['multi_info'] as $mkey => $mtype)
-                                            @if(is_array($mtype))
-                                                <li>
-                                                    @if(!empty($mtype['value']))
-                                                        <i class="fas fa-check-square text-purple-600"></i>
-                                                    @else
-                                                        <i class="fas fa-window-close"></i>
-                                                    @endif
-                                                    <span class="multi-label">
-											{{ $mtype['label'] }}
-                                                        @if(($mkey == 'online' || $mkey == 'offline') && !empty($mtype['value']))
-                                                            ({{ $mtype['value'] }} player max)
-                                                        @endif
-										</span>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </ul>
-                            </div> <!-- end mutli details -->
-                        @endif
-                    </div>
-                @endif
-                {{-- end if multi or coop --}}
 
                 <p class="mt-12">
                     {{ $game['summary'] }}
