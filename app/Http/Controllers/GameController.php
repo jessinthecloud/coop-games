@@ -20,7 +20,7 @@ class GameController extends Controller
     {
         $this->formatter = $formatter;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -83,7 +83,7 @@ class GameController extends Controller
     public function show(Request $request, string $slug)
     {
         $game = Game::bySlug($slug)->firstOrFail();
-        $game->similar_games = $game->similarGames();
+//        $game->similar_games = $game->similarGames();
         $game->setFormatter($this->formatter);
         $game = $game->formatter->format();
 

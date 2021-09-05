@@ -57,9 +57,22 @@ class Game extends IgdbGame
         'release_dates',
         'screenshots',
         'videos',
-        'similar_games' => [
+        /*'similar_games' => [
             'id',
+            'name',
+            'slug',
+            'cover',
+            'first_release_date',
+            'platforms',
+            'genres',
+            'summary',
+            'rating',
+            'multiplayer_modes',
         ],
+        'similar_games.cover',
+        'similar_games.platforms',
+        'similar_games.genres',
+        'similar_games.multiplayer_modes',*/
         'version_parent',
         'websites',
     ];
@@ -342,7 +355,7 @@ class Game extends IgdbGame
     }
 
     /**
-     * Get specific game by slug
+     * Get specific game by slug (for detail page)
      *
      * @param array|null $fields
      * @param array|null $with
@@ -362,9 +375,16 @@ class Game extends IgdbGame
     )
     {
         $query = self::querySetup($fields, $with, false);
-        $query = $query->where('slug', 'like', $slug);
+        $query = $query->where('slug', 'like', $slug)
+            ->where(function($query){
+                $query->where('similar_games.multiplayer_modes.onlinecoop', '=', true)
+                    ->orWhere('similar_games.multiplayer_modes.offlinecoop', '=', true)
+                    ;
+            })
+            ->whereNotNull('similar_games.multiplayer_modes')
+        ;
 
-//    ddd($query, $slug);
+//    dump($query, $slug);
 
         return self::queryExecute($query, $limit);
     } // bySlug()
@@ -393,7 +413,15 @@ class Game extends IgdbGame
     public function similarGames()
     {
         $query = self::querySetup(self::$fields, self::$with)
-                    ->whereIn('id', collect($this->similar_games)->pluck('id')->all());
+            ->whereIn('id', collect($this->similar_games)->pluck('id')->all())
+            /*->where(function($query){
+                $query->where('similar_games.multiplayer_modes.onlinecoop', '=', true)
+                    ->orWhere('similar_games.multiplayer_modes.offlinecoop', '=', true)
+                ;
+            })
+            ->whereNotNull('similar_games.multiplayer_modes')*/
+        ;
+
         return self::queryExecute($query, 5);
     }
 }

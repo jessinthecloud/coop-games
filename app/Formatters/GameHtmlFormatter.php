@@ -46,7 +46,7 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
             'coop-types' => $this->coopTypes(),
             'genres' => $this->genres(),
             'companies' => $this->companies(),
-            'similar_games' => $this->similarGames(),
+//            'similar_games' => $this->similarGames(),
             'screenshots' => $this->screenshots(),
             'trailer' => $this->trailer(),
             'stores' => $this->stores(),
@@ -221,7 +221,7 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
                         'rating' => isset($game['rating']) ? $this->rating($game['rating']) : null,
                         'first_release_date' => isset($game['first_release_date']) ? $this->date($game['first_release_date']) : null,
                     ]);
-                })->take(7) : [];
+                })->take(5) : [];
     }
 
     public function screenshots()

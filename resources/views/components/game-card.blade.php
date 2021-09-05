@@ -2,6 +2,7 @@
 <div
     class="game-card round-border
 ">
+    <?php if(isset($game['multiplayer_modes'])) dump($game['multiplayer_modes']); ?>
     <div
         class="boxart
             w-full relative">
@@ -48,7 +49,8 @@
             hover:text-gray-200
             focus:text-gray-200
         ">
-            {{ $game['name'] }}
+            {{ $game['name'] }} --
+            {{ $game['id'] }} --
         </a>
         @if(!empty($game['platforms']))
             <div class="text-gray-400 mt-1">
