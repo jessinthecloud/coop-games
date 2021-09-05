@@ -5,56 +5,72 @@
 @endsection
 
 @section('content')
-    <div id="" class="mt-8">
+    <div id="" class="
+        md:mt-8
+    ">
 
-        <div id="details-wrapper" class="game-details pb-12 flex flex-col
-            lg:flex-row">
+        <div id="details-wrapper" class="game-details
+            pb-12 flex
+        ">
 
-            <div id="cover" class="flex-none">
+            <div class="cover
+                flex-none hidden
+                lg:block
+            ">
                 <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
             </div>
 
             <div id="details">
                 <!-- title -->
-                <h2 id="title" class="font-semibold text-4xl leading-tight mt-1">
+                <h2 id="title" class="font-semibold text-4xl leading-tight">
                     {{ $game['name'] }}
                 </h2>
-                <div class="mt-4 text-gray-400">
-                    <!-- genres -->
-                    @if($game['genres'])
-                        <span>
-							{!! $game['genres'] !!}
-						</span>
-
-                        &middot;
+                <div class="cover
+                    mt-4 float-left
+                    lg:hidden
+                ">
+                    <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
+                </div>
+                <div id="related-details-card" class="mt-4 text-gray-400 inline-block w-full
+                    md:w-1/2 md:float-right
+                ">
+                    <!-- platforms -->
+                    @if($game['platforms'])
+                        <div id="platforms" class="details-card-section">
+                            <h4>Platforms</h4>
+                            <span>{!! $game['platforms'] !!}</span>
+                        </div>
                     @endif
 
-                <!-- platforms -->
-                    @if($game['platforms'])
-                        <span>
-							{!! $game['platforms'] !!}
-						</span>
+                    <!-- genres -->
+                    @if($game['genres'])
+                        <div id="genres" class="details-card-section">
+                            <h4>Genres</h4>
+                            <span>{!! $game['genres'] !!}</span>
+						</div>
                     @endif
 
                     @if(!empty($game['companies']))
                         <!-- companies -->
-                        <div id="companies-wrapper">
+                        <div id="companies-wrapper" class="details-card-section">
                             @if($game['companies']['devs'])
                                 <div id="developers" class="companies">
-                                    <span>{!! $game['companies']['devs'] !!}</span>
                                     <h4>Developers</h4>
+                                    <span>{!! $game['companies']['devs'] !!}</span>
                                 </div>
                             @endif
 
                             @if($game['companies']['pubs'])
                                 <div id="publishers" class="companies">
-                                    <span>{!! $game['companies']['pubs'] !!}</span>
                                     <h4>Publishers</h4>
+                                    <span>{!! $game['companies']['pubs'] !!}</span>
                                 </div>
                             @endif
                         </div>
+                        <!-- companies-wrapper -->
                     @endif
                 </div>
+            <!-- related-details-card -->
 
                 @if(!empty($game['first_release_date']))
                     <div class="first-release
@@ -63,11 +79,14 @@
                     </div>
                 @endif
 
-                <div class="flex flex-wrap items-center mt-8">
+                <div class="flex flex-wrap justify-between items-center mt-8
+
+                ">
                     <!-- member score -->
-                    <div class="flex items-center">
+                    <div class="flex items-center flex-grow">
                         <div id="member-rating" class="rating
-                        w-16 h-16 bg-gray-800 rounded-full relative">
+                            w-16 h-16 bg-gray-800 rounded-full relative
+                        ">
                             @if($game['rating'])
                                 {{-- add to the "scripts" stack (from app.blade.php) --}}
                                 @push('scripts')
@@ -86,9 +105,12 @@
                         <div class="rating-label">Member<br>Score</div>
                     </div><!-- end member score -->
                     <!-- critic score -->
-                    <div class="flex items-center ml-12">
+                    <div class="flex items-center ml-12 flex-grow
+                        md:ml-6
+                    ">
                         <div id="critic-rating" class="rating
-                        w-16 h-16 bg-gray-800 rounded-full relative">
+                            w-16 h-16 bg-gray-800 rounded-full relative
+                        ">
                             @if($game['aggregated_rating'])
                                 @push('scripts')
                                     @include('partials._rating', [

@@ -75,6 +75,7 @@ a:focus {
 
 .container {
   max-width: 82rem;
+  padding: 0 5vw;
 }
 
 nav {
@@ -302,10 +303,10 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   max-width: 75rem;
 }
 
-#cover {
+.cover {
   margin-right: 1.5rem;
 }
-#cover img {
+.cover img {
   background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
   border-radius: 0.5rem;
   box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
@@ -313,7 +314,7 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   position: relative;
   z-index: 0;
 }
-#cover img:before {
+.cover img:before {
   background: var(--darker-gray);
   border-radius: inherit;
   content: "";
@@ -341,20 +342,32 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   margin-left: 1rem;
 }
 
-#companies-wrapper {
-  float: right;
-  margin-bottom: 1.5rem;
-  margin-top: 1.5rem;
-  width: 33%;
+#related-details-card {
+  background-color: rgba(var(--tertiary-purple-rgb), 0.25);
+  border: 1px solid var(--darkest-gray);
+  border-radius: 0.5rem;
+  margin-left: 0.5rem;
+  padding: 1rem;
 }
-#companies-wrapper .companies {
-  margin-top: 1rem;
+#related-details-card a {
+  color: var(--accent-purple);
 }
-#companies-wrapper h4 {
-  border-top: 1px solid var(--dark-gray);
+#related-details-card h4 {
+  background-color: var(--darkest-gray);
   font-style: italic;
-  margin-top: 0.5rem;
-  padding-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding: 0.25rem 0.5rem;
+}
+#related-details-card span {
+  display: inline-block;
+  padding-left: 1rem;
+}
+#related-details-card .details-card-section {
+  margin-bottom: 1.5rem;
+}
+
+#companies-wrapper .companies {
+  margin-bottom: 1rem;
 }
 
 #screenshots .screenshot a {
