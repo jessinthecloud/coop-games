@@ -1,6 +1,8 @@
 <nav class="w-full p-0 mb-8">
     <div class="container h-full mx-auto">
-        <ul class="max-w-3/4 flex flex-wrap">
+        <ul class="flex flex-wrap
+            md:max-w-3/4
+        ">
             <li class="menu-item">
                 <a href="{{ route('home') }}">Home</a>
             </li>

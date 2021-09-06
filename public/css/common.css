@@ -45,6 +45,10 @@
   --secondary-lime-text: var(--accent-lime);
   --tertiary-lime-text: var(--accent-lime);
   --accent-lime-text: var(--secondary-lime);
+  --w-xl: 1200px;
+  --w-lg: 1024px;
+  --w-md: 768px;
+  --w-sm: 500px;
 }
 
 body {
@@ -303,9 +307,6 @@ nav .menu-item a:hover, nav .menu-item a:focus {
   max-width: 75rem;
 }
 
-.cover {
-  margin-right: 1.5rem;
-}
 .cover img {
   background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
   border-radius: 0.5rem;
@@ -329,24 +330,20 @@ nav .menu-item a:hover, nav .menu-item a:focus {
 
 #details {
   font-size: 1em;
-  /*.first-release {
-      font-size: .9em;
-  }
-
-  .rating {
-      font-size: .9em;
-  }*/
 }
 #details .rating-label {
   font-size: 0.9em;
   margin-left: 1rem;
 }
 
+#game-details-sidebar {
+  min-width: calc(30% - 1rem);
+}
+
 .related-details-card {
   background-color: rgba(var(--tertiary-purple-rgb), 0.25);
   border: 1px solid var(--darker-gray);
   border-radius: 0.5rem;
-  margin-left: 1rem;
   padding: 1rem;
 }
 .related-details-card a {

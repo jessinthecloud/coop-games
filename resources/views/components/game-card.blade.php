@@ -28,7 +28,7 @@
                 {{-- doesn't HAVE to go here, just more convenient --}}
                 @push('scripts')
                     {{-- blade partial file for snippets --}}
-                    @include('partials._rating', [
+                    @include('games.partials._rating', [
                         'slug' => $game['slug'],
                         'rating' => $game['rating'],
                         'event' => null,

@@ -11,137 +11,34 @@
     ">
 
         <div id="details-wrapper" class="game-details
-            pb-12 flex
+            pb-12 flex flex-wrap
+            lg:flex-nowrap
         ">
-
             <div class="cover
                 flex-none hidden
+                md:mr-6
                 lg:block
             ">
                 <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
             </div>
 
-            <div id="details">
+            <div id="details" class="flex flex-col md:block">
                 <!-- title -->
                 <h2 id="title" class="font-semibold text-4xl leading-tight">
                     {{ $game['name'] }}
                 </h2>
-                <div class="cover
-                    mt-4 float-left
-                    lg:hidden
-                ">
-                    <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
-                </div>
-
-                <!-- multiplayer_modes -->
-                <div id="" class="related-details-card mt-4 text-gray-400 inline-block w-full
-                    md:w-1/2 md:float-right
-                ">
-                    @if(!empty($game['multiplayer_modes']))
-                        <div class="modes-wrapper flex flex-col lg:flex-row">
-                            @if(!empty($game['multiplayer_modes'][0]['coop-types']))
-                                <div class="coop-details
-                                    w-full
-                                ">
-                                    <h3 class="text-lg font-bold mb-1 uppercase tracking-wide w-full">
-                                        Co-op Modes
-                                    </h3>
-                                    @foreach($game['multiplayer_modes'] as $modes)
-                                        <ul>
-                                            @foreach($modes['coop-types'] as $ctype)
-                                                <li>
-                                                    <i class="fas fa-check-square"></i>
-                                                    <span class="coop-label">
-                                                        {{ $ctype['label'] }}
-                                                        @if(!empty($ctype['max']))
-                                                            ({{ $ctype['max'] }} player max)
-                                                        @endif
-                                                    </span>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endforeach
-                                </div>
-                            @endif {{-- end coop --}}
-
-                            {{--@if(!empty($game['multi_info']))
-                                    <div class="multi-details">
-                                        <h3 class="text-xl font-bold mb-1">Multiplayer Details</h3>
-                                        <ul>
-                                            @if(is_array($game['multi_info']))
-                                                @foreach($game['multi_info'] as $mkey => $mtype)
-                                                    @if(is_array($mtype))
-                                                        <li>
-                                                            @if(!empty($mtype['value']))
-                                                                <i class="fas fa-check-square text-purple-600"></i>
-                                                            @else
-                                                                <i class="fas fa-window-close"></i>
-                                                            @endif
-                                                            <span class="multi-label">
-                                                    {{ $mtype['label'] }}
-                                                                @if(($mkey == 'online' || $mkey == 'offline') && !empty($mtype['value']))
-                                                                    ({{ $mtype['value'] }} player max)
-                                                                @endif
-                                                </span>
-                                                        </li>
-                                                    @endif
-                                                @endforeach
-                                            @endif
-                                        </ul>
-                                    </div> <!-- end mutli details -->
-                                @endif--}}
-                        </div>
-                    @endif
-                    {{-- end if multi or coop --}}
-                </div>
-
-                <div id="" class="related-details-card mt-4 text-gray-400 inline-block w-full
-                    md:w-1/2 md:float-right
-                ">
-                    <!-- platforms -->
-                    @if($game['platforms'])
-                        <div id="platforms" class="details-card-section">
-                            <h4>Platforms</h4>
-                            <span>{!! $game['platforms'] !!}</span>
-                        </div>
-                    @endif
-
-                    <!-- genres -->
-                    @if($game['genres'])
-                        <div id="genres" class="details-card-section">
-                            <h4>Genres</h4>
-                            <span>{!! $game['genres'] !!}</span>
-						</div>
-                    @endif
-
-                    @if(!empty($game['companies']))
-                        <!-- companies -->
-                        <div id="companies-wrapper" class="details-card-section">
-                            @if($game['companies']['devs'])
-                                <div id="developers" class="companies">
-                                    <h4>Developers</h4>
-                                    <span>{!! $game['companies']['devs'] !!}</span>
-                                </div>
-                            @endif
-
-                            @if($game['companies']['pubs'])
-                                <div id="publishers" class="companies">
-                                    <h4>Publishers</h4>
-                                    <span>{!! $game['companies']['pubs'] !!}</span>
-                                </div>
-                            @endif
-                        </div>
-                        <!-- companies-wrapper -->
-                    @endif
-                </div>
-            <!-- related-details-card -->
-
                 @if(!empty($game['first_release_date']))
                     <div class="first-release
                         flex flex-wrap items-center mt-4">
                         <span class="font-semibold">First Released</span>: {{ $game['first_release_date'] }}
                     </div>
                 @endif
+                <div class="cover
+                    mt-4 mr-0 float-left
+                    lg:hidden
+                ">
+                    <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
+                </div>
 
                 <div class="flex flex-wrap justify-between items-center mt-8
 
@@ -154,7 +51,7 @@
                             @if($game['rating'])
                                 {{-- add to the "scripts" stack (from app.blade.php) --}}
                                 @push('scripts')
-                                    @include('partials._rating', [
+                                    @include('games.partials._rating', [
                                         'slug' => 'member-rating',
                                         'rating' => $game['rating'],
                                         'event' => null,
@@ -177,7 +74,7 @@
                         ">
                             @if($game['aggregated_rating'])
                                 @push('scripts')
-                                    @include('partials._rating', [
+                                    @include('games.partials._rating', [
                                         'slug' => 'critic-rating',
                                         'rating' => $game['aggregated_rating'],
                                         'event' => null,
@@ -230,7 +127,9 @@
                 </div>
                 <!-- end scores-container -->
 
-                <p class="mt-12">
+                <p class="mt-8
+                    md:mt-12
+                ">
                     {{ $game['summary'] }}
                 </p>
 
@@ -253,7 +152,7 @@
                 @endif
 
                 @if(!empty($game['trailer']))
-                    <div class="mt-12" x-data="{ isTrailerModalVisible: false }">
+                    <div id="trailer-wrapper" class="mt-8 md:mt-12" x-data="{ isTrailerModalVisible: false }">
                     {{-- <a href="{{ $game['trailer'] }}" class="inline-flex bg-purple-500 text-white font-semibold px-4 py-4 hover:bg-purple600 rounded transition ease-in-out duration-150" target="_blank" rel="nofollow noopener">
                         <svg class="w-6 fill-current mr-2" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                         Play Trailer
@@ -299,6 +198,9 @@
                     </div> <!-- end trailer button -->
                 @endif
             </div> <!-- end details -->
+
+            @include('games.partials._game-details-sidebar')
+
         </div> <!-- end game container -->
 
         <!-- screenshots -->
@@ -310,18 +212,20 @@
                 x-data="{ isImageModalVisible: false, image: '' }"
             >
                 <h2 class="subtitle">Images</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-8">
+                <div class="grid grid-cols-1 gap-6 mt-6
+                    md:grid-cols-2 md:gap-12 md:mt-8
+                    lg:grid-cols-3
+                ">
                     @foreach ($game['screenshots'] as $screenshot)
                         <div class="screenshot">
-                            <a
-                                href="#"
-                                    @click.prevent="
-	                                isImageModalVisible = true
-
-	                        		// set currently opened image
-	                                image='{{ $screenshot['huge'] }}'
-	                            "
+                            <a href="#"
                                 class="round-border"
+                                @click.prevent="
+                                    isImageModalVisible = true
+
+                                    // set currently opened image
+                                    image='{{ $screenshot['huge'] }}'
+	                            "
                             >
                                 <img src="{{ $screenshot['big'] }}" alt="screenshot"
                                      class="round-border
@@ -360,7 +264,7 @@
             </div> <!-- end images-container -->
         @endif
 
-    <!-- similar games -->
+        <!-- similar games -->
         @if(!empty($game['similar_games']))
             <div id="similar-games" class="border-t border-gray-800 pt-8 mb-12">
                 <h2 class="subtitle">

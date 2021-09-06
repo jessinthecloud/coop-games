@@ -60,6 +60,12 @@
     --secondary-lime-text: var(--accent-lime);
     --tertiary-lime-text: var(--accent-lime);
     --accent-lime-text: var(--secondary-lime);
+
+    // responsive widths
+    --w-xl: 1200px;
+    --w-lg: 1024px;
+    --w-md: 768px;
+    --w-sm: 500px;
 } // :root
 
 body {
@@ -385,10 +391,9 @@ nav {
 #details-wrapper {
     margin: 0 auto;
     max-width: 75rem;
-}
+} // #details-wrapper
 
 .cover {
-    margin-right: 1.5rem;
 
     img {
         background-image : linear-gradient(
@@ -413,30 +418,25 @@ nav {
             z-index: -1;
         } // :before
     } // img
-} // #cover
+} // .cover
 
 #details {
     font-size: 1em;
-
-    /*.first-release {
-        font-size: .9em;
-    }
-
-    .rating {
-        font-size: .9em;
-    }*/
 
     .rating-label {
         font-size: .9em;
         margin-left: 1rem;
     } // .rating-label
+} // #details
+
+#game-details-sidebar {
+    min-width: calc(30% - 1rem);
 }
 
 .related-details-card {
     background-color: rgba(var(--tertiary-purple-rgb), 0.25);
     border: 1px solid var(--darker-gray);
     border-radius: .5rem;
-    margin-left: 1rem;
     padding: 1rem;
 
     a {
