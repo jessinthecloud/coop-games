@@ -2,7 +2,6 @@
 <div
     class="game-card round-border
 ">
-    <?php if(isset($game['multiplayer_modes'])) dump($game['multiplayer_modes']); ?>
     <div
         class="boxart
             w-full relative">
