@@ -355,6 +355,66 @@ class Game extends IgdbGame
     }
 
     /**
+     * Get games with a high following that are
+     * upcoming in the next 6 months
+     *
+     * @param array|null $fields
+     * @param array|null $with
+     * @param int|null   $limit
+     *
+     * @return mixed|string
+     *
+     * @throws \Exception
+     */
+    public static function mostAnticipated(
+        ?array $fields=null,
+        ?array $with=null,
+        ?int $limit=15/*,
+        ?int $cache=null*/
+    )
+    {
+        $query = self::querySetup($fields, $with)
+            ->where('first_release_date', '>', now())
+            ->orWhereNull('first_release_date')
+             ->where(function ($query) {
+                $query->where('follows', '>=', 3)
+                    ->orWhere('hypes', '>=', 3);
+             })
+        ;
+        return self::queryExecute($query, $limit, ['hypes', 'desc'], [
+            ['follows', 'desc'],
+        ]);
+    }
+
+    /**
+     * Get games upcoming in the next 6 months
+     *
+     * @param array|null $fields
+     * @param array|null $with
+     * @param int|null   $limit
+     *
+     * @return mixed|string
+     *
+     * @throws \Exception
+     */
+    public static function comingSoon(
+        ?array $fields=null,
+        ?array $with=null,
+        ?int $limit=15/*,
+        ?int $cache=null*/
+    )
+    {
+        $after = Carbon::now()->addMonths(6)->timestamp;
+
+        $query = self::querySetup($fields, $with)
+            ->whereBetween('first_release_date', now(), $after)
+            ->whereNotNull('first_release_date')
+        ;
+//        dump($query);
+        return self::queryExecute($query, $limit, ['first_release_date', 'desc']);
+    }
+
+    /**
      * Get specific game by slug (for detail page)
      *
      * @param array|null $fields
@@ -376,12 +436,12 @@ class Game extends IgdbGame
     {
         $query = self::querySetup($fields, $with, false);
         $query = $query->where('slug', 'like', $slug)
-            ->where(function($query){
+            /*->where(function($query){
                 $query->where('similar_games.multiplayer_modes.onlinecoop', '=', true)
                     ->orWhere('similar_games.multiplayer_modes.offlinecoop', '=', true)
                     ;
             })
-            ->whereNotNull('similar_games.multiplayer_modes')
+            ->whereNotNull('similar_games.multiplayer_modes')*/
         ;
 
 //    dump($query, $slug);

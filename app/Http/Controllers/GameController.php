@@ -24,7 +24,6 @@ class GameController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -35,7 +34,19 @@ class GameController extends Controller
             return $game->formatter->format();
         });
 
-        $online_games = Game::online(null, null, 5);
+        $mostAnticipated = Game::mostAnticipated(null, null, 5);
+        $mostAnticipated = $mostAnticipated->map(function($game, $key){
+            $game->setFormatter($this->formatter);
+            return $game->formatter->format();
+        });
+
+        $comingSoon = Game::comingSoon(null, null, 5);
+        $comingSoon = $comingSoon->map(function($game, $key){
+            $game->setFormatter($this->formatter);
+            return $game->formatter->format();
+        });
+
+        /*$online_games = Game::online(null, null, 5);
         $online_games = $online_games->map(function($game, $key){
             $game->setFormatter($this->formatter);
             return $game->formatter->format();
@@ -45,14 +56,13 @@ class GameController extends Controller
         $offline_games = $offline_games->map(function($game, $key){
             $game->setFormatter($this->formatter);
             return $game->formatter->format();
-        });
-//        dump($games);
+        });*/
 
-//        $filterer->setGamesCollection($games);
-//        dump($filterer->couch());
-//        ddd($filterer->onlineMin(3));
-
-        return view('games.index', compact('trending_games', 'online_games', 'offline_games'));
+        return view('games.index', compact(
+            'trending_games',
+            'comingSoon',
+            'mostAnticipated'
+        ));
     }
 
     /**

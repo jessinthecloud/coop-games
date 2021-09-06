@@ -19,25 +19,28 @@
         </div>
         <!-- trending-wrapper -->
 
-        @if(isset($online_games))
-            <aside id="main-aside" class="min-h-screen flex-grow round-border">
+        <aside id="main-aside" class="min-h-screen flex-grow round-border">
+            @if(isset($mostAnticipated))
                 <h3 class="subtitle">
                     Most Anticipated
                 </h3>
-                @foreach($online_games as $game)
+                @foreach($mostAnticipated as $game)
                     {{-- @php dump($game); @endphp --}}
                     <x-game-card-small :game="$game" />
                 @endforeach
+            @endif
+
+            @if(isset($comingSoon))
                 <h3 class="subtitle">
                     Coming Soon
                 </h3>
-                @foreach($offline_games as $game)
+                @foreach($comingSoon as $game)
                     {{-- @php dump($game); @endphp --}}
                     <x-game-card-small :game="$game" />
                 @endforeach
-            </aside>
-            <!-- main-aside -->
-        @endif
+            @endif
+        </aside>
+        <!-- main-aside -->
 
         {{--
         <h1 class="subtitle text-2xl font-semibold uppercase w-full text-gray-200">Online</h1>
