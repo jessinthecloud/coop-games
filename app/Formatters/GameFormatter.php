@@ -15,6 +15,16 @@ abstract class GameFormatter
     protected Game $game;
 
     /**
+     * Determine if game is set 
+     * 
+     * @return bool
+     */
+    public function hasGame()
+    {
+        return isset($this->game);
+    }
+
+    /**
      * @param Game $game
      */
     protected function setGame(Game $game)
