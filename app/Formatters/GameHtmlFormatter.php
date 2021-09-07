@@ -24,14 +24,14 @@ class GameHtmlFormatter extends GameFormatter implements Formatter
 
     public function format()
     {
-        if(isset($this->game)){
-//        dump($this->games, $this->game);
-            return $this->formatGame();
-        }
+        // TODO: unset game after format() call? -- would allow singleton usage of this class without collision of data
+        
+        return (isset($this->game)) 
+            ? $this->formatGame() 
+            // merge the array into the currently iterated item of the collection
+            // can use these to overwrite existing values or create new ones
+            : $this->formatGames();
 
-        // merge the array into the currently iterated item of the collection
-        // can use these to overwrite existing values or create new ones
-        return $this->formatGames();
     }
 
     public function formatGame()
