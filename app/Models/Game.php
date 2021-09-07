@@ -411,7 +411,7 @@ class Game extends IgdbGame
             ->whereNotNull('first_release_date')
         ;
 //        dump($query);
-        return self::queryExecute($query, $limit, ['first_release_date', 'desc']);
+        return self::queryExecute($query, $limit, ['first_release_date', 'asc']);
     }
 
     /**
