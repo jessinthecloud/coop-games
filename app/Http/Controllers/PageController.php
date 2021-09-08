@@ -57,5 +57,15 @@ class PageController extends Controller
             'comingSoon',
             'mostAnticipated',
         ));
+    } // index()
+
+    public function about(  )
+    {
+        return view('pages.about');
+    }
+
+    public function contact(  )
+    {
+        return view('pages.contact');
     }
 }
