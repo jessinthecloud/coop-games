@@ -1,5 +1,5 @@
 <nav class="w-full p-0 mb-8">
-    <div class="container h-full mx-auto">
+    <div class="container flex flex-wrap items-center justify-between h-full mx-auto">
         <ul class="flex flex-wrap
             md:max-w-3/4
         ">
@@ -16,6 +16,9 @@
                 <a href="#">Contact</a>
             </li>
         </ul>
+        
+        <livewire:search-box/>
+        
         @if (Route::has('login'))
             <ul class="flex flex-wrap justify-end">
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">

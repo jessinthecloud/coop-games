@@ -19,6 +19,22 @@
     --gray-ee: #eee;
     --gray-e1: #e1e1e1;
 
+    --gray-01-text: var(--gray-ee);
+    --gray-02-text: var(--gray-ee);
+    --gray-03-text: var(--gray-ee);
+    --gray-04-text: var(--gray-ee);
+    --gray-05-text: var(--gray-ee);
+    --gray-06-text: var(--gray-ee);
+    --gray-07-text: var(--gray-01);
+    --gray-08-text: var(--gray-01);
+    --gray-09-text: var(--gray-01);
+    --gray-aa-text: var(--gray-01);
+    --gray-bb-text: var(--gray-01);
+    --gray-cc-text: var(--gray-01);
+    --gray-dd-text: var(--gray-01);
+    --gray-ee-text: var(--gray-01);
+    --gray-e1-text: var(--gray-01);
+
     // general colors
     --lightest-gray: #eeeeee;
     --lighter-gray: #efefef;
@@ -96,7 +112,7 @@ a {
         color: var(--light-gray);
     }
 
-}
+} // a
 
 // -- Utility ---------------------------------------------------------
 
@@ -131,6 +147,20 @@ nav {
             }
         }
     } // .menu-item
+    
+    .search-dropdown {
+        background-color: var(--dark-gray);
+        
+        a {
+            text-decoration: none;
+            
+            &:hover,
+            &:focus{
+                background-color: var(--gray-04);
+                color: var(--gray-04-text);
+            }
+        }
+    } //.search-dropdown
 } // nav
 
 .title {
@@ -265,7 +295,7 @@ nav {
             margin-right : 0;
         }
     }
-}
+} // #trending-wrapper
 
 .similar-games-wrapper {
     display: flex;
