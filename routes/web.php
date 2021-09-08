@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\PlatformController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [GameController::class, 'index'])->name('home');
+Route::get('/', [PageController::class, 'index'])->name('home');
+
 
 Route::get('/games', [GameController::class, 'index'])->name('games.index');
 Route::get('/games/{slug}', [GameController::class, 'show'])->name('games.show');
