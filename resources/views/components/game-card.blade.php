@@ -2,6 +2,7 @@
 <div
     class="game-card round-border
 ">
+<?php //dump($game); ?>
     <div
         class="boxart
             w-full relative">

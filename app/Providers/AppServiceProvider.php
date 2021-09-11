@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Filters\GameFilterer;
 use App\Formatters\Formatter;
-use App\Formatters\GameHtmlFormatter;
+use App\Formatters\GameFormatter;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PageController;
 use App\Http\Livewire\SearchBox;
@@ -64,12 +64,12 @@ class AppServiceProvider extends ServiceProvider
             return new Connection(config('riak'));
         });*/
 
-//        $this->app->bind(Formatter::class, GameHtmlFormatter::class);
+//        $this->app->bind(Formatter::class, GameFormatter::class);
         
         /*$this->app->bindMethod([Game::class, 'setFormatter'],
             function ($model, $app) {
                 return $model->setFormatter(
-                    $app->make(GameHtmlFormatter::class)
+                    $app->make(GameFormatter::class)
                 );
             }
         );*/
@@ -79,23 +79,23 @@ class AppServiceProvider extends ServiceProvider
         // on the class that calls it
         $this->app->when(Game::class)
             ->needs(Formatter::class)
-            ->give(GameHtmlFormatter::class);
+            ->give( GameFormatter::class);
 
         $this->app->bindMethod([SearchBox::class, 'mount'],
             function ($model, $app) {
                 return $model->mount(
-                    $app->make(GameHtmlFormatter::class)
+                    $app->make( GameFormatter::class)
                 );
             }
         );
 
         $this->app->when(GameController::class)
             ->needs(Formatter::class)
-            ->give(GameHtmlFormatter::class);
+            ->give( GameFormatter::class);
 
         $this->app->when(PageController::class)
             ->needs(Formatter::class)
-            ->give(GameHtmlFormatter::class);
+            ->give( GameFormatter::class);
     }
 
     /**

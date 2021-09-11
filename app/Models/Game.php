@@ -4,7 +4,7 @@
 namespace App\Models;
 
 use App\Formatters\Formatter;
-use App\Formatters\GameHtmlFormatter;
+use App\Formatters\FormatsToHtml;
 use Illuminate\Support\Carbon;
 use MarcReichel\IGDBLaravel\Models\Game as IgdbGame;
 use Throwable;
@@ -78,7 +78,7 @@ class Game extends IgdbGame
     ];
 
     /**
-     * @var \App\Formatters\GameHtmlFormatter 
+     * @var \App\Formatters\FormatsToHtml 
      */
     public ?Formatter $formatter;
 

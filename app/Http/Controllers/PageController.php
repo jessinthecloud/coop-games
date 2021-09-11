@@ -22,7 +22,6 @@ class PageController extends Controller
     public function index()
     {
         $trending_games = Game::trending(null, null, 6);
-
         $trending_games = $trending_games->map(function($game, $key){
             $game->setFormatter($this->formatter);
             return $game->formatter->format();

@@ -3,7 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Formatters\Formatter;
-use App\Formatters\GameHtmlFormatter;
+use App\Formatters\GameFormatter;
 use App\Models\Game;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
@@ -19,7 +19,7 @@ class SearchBox extends Component
     // instead of __construct()
     public function mount(Formatter $formatter)
     {
-        $this->formatter = $formatter ?? new GameHtmlFormatter();
+        $this->formatter = $formatter ?? new GameFormatter();
     }*/
 
     public function render()
@@ -62,7 +62,7 @@ class SearchBox extends Component
     private function formatForView( $games )
     {
         // method binding not working with mount()
-        $this->formatter = $this->formatter ?? new GameHtmlFormatter();
+        $this->formatter = $this->formatter ?? new GameFormatter();
         
         return collect( $games )->map( function ( $game ) {
             $game->setFormatter($this->formatter);

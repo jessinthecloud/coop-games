@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Filters\GameFilterer;
-use App\Formatters\GameHtmlFormatter;
+use App\Formatters\GameFormatter;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
