@@ -13,7 +13,7 @@
             <div id="filters-wrapper" class="w-full flex flex-wrap justify-center">
                 
             </div>
-            <div id="games-grid" class="w-full grid grid-flow-row grid-cols-2 gap-1 md:grid-cols-5">
+            <div id="games-grid" class="w-full grid grid-flow-row grid-cols-2 gap-1 lg:grid-cols-5">
                 @foreach($games as $i => $game)
                     <x-game-listing-card :game="$game" :count="$i"/>
                 @endforeach
