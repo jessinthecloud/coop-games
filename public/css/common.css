@@ -437,3 +437,14 @@ nav .search-dropdown a:hover, nav .search-dropdown a:focus {
 #screenshots .screenshot-modal-bg {
   background-color: var(--background-color);
 }
+
+#games-listing-wrapper .game-card-small {
+  margin: 0;
+  padding: 0;
+}
+
+#games-grid {
+  -moz-column-gap: 3rem;
+       column-gap: 3rem;
+  row-gap: 2rem;
+}

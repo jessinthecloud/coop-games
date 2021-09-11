@@ -21,7 +21,10 @@ Route::get('/', [PageController::class, 'index'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 
-Route::get('/games', [GameController::class, 'index'])->name('games.index');
+Route::get('/games/{page?}', [GameController::class, 'index'])
+    ->name('games.index')
+    ->where('page', '[0-9]+')
+    ;
 Route::get('/games/{slug}', [GameController::class, 'show'])->name('games.show');
 
 Route::get('/platforms', [PlatformController::class, 'index'])->name('platforms.index');

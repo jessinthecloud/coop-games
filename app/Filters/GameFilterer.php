@@ -10,7 +10,7 @@ class GameFilterer
 
     protected ?Collection $games;
 
-    public function __construct(Collection $games=null)
+    public function __construct(Collection $games=null) 
     {
         $this->games = $games ?? collect([]);
     }

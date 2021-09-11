@@ -25,8 +25,10 @@ class GameController extends Controller
      * Display a listing of the resource.
      *
      */
-    public function index()
+    public function index($page=null)
     {
+        $page = $page ?? 1;
+        
         $games = Game::listing();
 
         $games = $games->map(function($game, $key){

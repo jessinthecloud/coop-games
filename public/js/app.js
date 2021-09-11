@@ -1479,7 +1479,7 @@ function refreshScope(element, scope) {
 function closestDataStack(node) {
   if (node._x_dataStack)
     return node._x_dataStack;
-  if (node instanceof ShadowRoot) {
+  if (typeof ShadowRoot === "function" && node instanceof ShadowRoot) {
     return closestDataStack(node.host);
   }
   if (!node.parentNode) {
@@ -1691,6 +1691,9 @@ function directives(el, attributes, originalAttributeOverride) {
     return getDirectiveHandler(el, directive2);
   });
 }
+function attributesOnly(attributes) {
+  return Array.from(attributes).map(toTransformedAttributes()).filter((attr) => !outNonAlpineAttributes(attr));
+}
 var isDeferringHandlers = false;
 var directiveHandlerStacks = new Map();
 var currentHandlerStackKey = Symbol();
@@ -1744,7 +1747,8 @@ var startingWith = (subject, replacement) => ({name, value}) => {
   return {name, value};
 };
 var into = (i) => i;
-function toTransformedAttributes(callback) {
+function toTransformedAttributes(callback = () => {
+}) {
   return ({name, value}) => {
     let {name: newName, value: newValue} = attributeTransformers.reduce((carry, transform) => {
       return transform(carry);
@@ -1830,7 +1834,7 @@ function holdNextTicks() {
 
 // packages/alpinejs/src/utils/walk.js
 function walk(el, callback) {
-  if (el instanceof ShadowRoot) {
+  if (typeof ShadowRoot === "function" && el instanceof ShadowRoot) {
     Array.from(el.children).forEach((el2) => walk(el2, callback));
     return;
   }
@@ -1904,6 +1908,33 @@ function initTree(el, walker = walk) {
 }
 function destroyTree(root) {
   walk(root, (el) => cleanupAttributes(el));
+}
+
+// packages/alpinejs/src/utils/debounce.js
+function debounce(func, wait) {
+  var timeout;
+  return function() {
+    var context = this, args = arguments;
+    var later = function() {
+      timeout = null;
+      func.apply(context, args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// packages/alpinejs/src/utils/throttle.js
+function throttle(func, limit) {
+  let inThrottle;
+  return function() {
+    let context = this, args = arguments;
+    if (!inThrottle) {
+      func.apply(context, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
 }
 
 // packages/alpinejs/src/plugin.js
@@ -2001,7 +2032,7 @@ var Alpine = {
   get raw() {
     return raw;
   },
-  version: "3.2.4",
+  version: "3.3.3",
   disableEffectScheduling,
   setReactivityEngine,
   addRootSelector,
@@ -2012,6 +2043,8 @@ var Alpine = {
   interceptor,
   mutateDom,
   directive,
+  throttle,
+  debounce,
   evaluate,
   initTree,
   nextTick,
@@ -2056,6 +2089,9 @@ magic("watch", (el) => (key, callback) => {
 
 // packages/alpinejs/src/magics/$store.js
 magic("store", getStores);
+
+// packages/alpinejs/src/magics/$root.js
+magic("root", (el) => closestRoot(el));
 
 // packages/alpinejs/src/magics/$refs.js
 magic("refs", (el) => closestRoot(el)._x_refs || {});
@@ -2616,12 +2652,12 @@ function on(el, event, modifiers, callback) {
   if (modifiers.includes("debounce")) {
     let nextModifier = modifiers[modifiers.indexOf("debounce") + 1] || "invalid-wait";
     let wait = isNumeric(nextModifier.split("ms")[0]) ? Number(nextModifier.split("ms")[0]) : 250;
-    handler3 = debounce(handler3, wait, this);
+    handler3 = debounce(handler3, wait);
   }
   if (modifiers.includes("throttle")) {
     let nextModifier = modifiers[modifiers.indexOf("throttle") + 1] || "invalid-wait";
     let wait = isNumeric(nextModifier.split("ms")[0]) ? Number(nextModifier.split("ms")[0]) : 250;
-    handler3 = throttle(handler3, wait, this);
+    handler3 = throttle(handler3, wait);
   }
   if (modifiers.includes("once")) {
     handler3 = wrapHandler(handler3, (next, e) => {
@@ -2639,29 +2675,6 @@ function dotSyntax(subject) {
 }
 function camelCase2(subject) {
   return subject.toLowerCase().replace(/-(\w)/g, (match, char) => char.toUpperCase());
-}
-function debounce(func, wait) {
-  var timeout;
-  return function() {
-    var context = this, args = arguments;
-    var later = function() {
-      timeout = null;
-      func.apply(context, args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-function throttle(func, limit) {
-  let inThrottle;
-  return function() {
-    let context = this, args = arguments;
-    if (!inThrottle) {
-      func.apply(context, args);
-      inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
-    }
-  };
 }
 function isNumeric(subject) {
   return !Array.isArray(subject) && !isNaN(subject);
@@ -2714,7 +2727,9 @@ function keyToModifiers(key) {
     up: "arrow-up",
     down: "arrow-down",
     left: "arrow-left",
-    right: "arrow-right"
+    right: "arrow-right",
+    period: ".",
+    equal: "="
   };
   modifierToKeyMap[key] = key;
   return Object.keys(modifierToKeyMap).map((modifier) => {
@@ -2801,7 +2816,12 @@ directive("cloak", (el) => queueMicrotask(() => mutateDom(() => el.removeAttribu
 
 // packages/alpinejs/src/directives/x-init.js
 addInitSelector(() => `[${prefix("init")}]`);
-directive("init", skipDuringClone((el, {expression}) => evaluate(el, expression, {}, false)));
+directive("init", skipDuringClone((el, {expression}) => {
+  if (typeof expression === "string") {
+    return !!expression.trim() && evaluate(el, expression, {}, false);
+  }
+  return evaluate(el, expression, {}, false);
+}));
 
 // packages/alpinejs/src/directives/x-text.js
 directive("text", (el, {expression}, {effect: effect3, evaluateLater: evaluateLater2}) => {
@@ -2847,6 +2867,12 @@ function applyBindingsObject(el, expression, original, effect3) {
       cleanupRunners.pop()();
     getBindings((bindings) => {
       let attributes = Object.entries(bindings).map(([name, value]) => ({name, value}));
+      attributesOnly(attributes).forEach(({name, value}, index) => {
+        attributes[index] = {
+          name: `x-bind:${name}`,
+          value: `"${value}"`
+        };
+      });
       directives(el, attributes, original).map((handle) => {
         cleanupRunners.push(handle.runCleanups);
         handle();
@@ -3052,6 +3078,11 @@ function getIterationScopeVariables(iteratorNames, item, index, items) {
     names.forEach((name, i) => {
       scopeVariables[name] = item[i];
     });
+  } else if (/^\{.*\}$/.test(iteratorNames.item) && !Array.isArray(item) && typeof item === "object") {
+    let names = iteratorNames.item.replace("{", "").replace("}", "").split(",").map((i) => i.trim());
+    names.forEach((name) => {
+      scopeVariables[name] = item[name];
+    });
   } else {
     scopeVariables[iteratorNames.item] = item;
   }
@@ -3142,8 +3173,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
 // require('./bootstrap');
 
-window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_0__.default;
-alpinejs__WEBPACK_IMPORTED_MODULE_0__.default.start();
+window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"];
+alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
 
 /***/ }),
 

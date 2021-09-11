@@ -506,7 +506,7 @@ nav {
             padding: .25rem .5rem;
         }
     }
-}
+} // .related-details-card
 
 #companies-wrapper {
     //float: right;
@@ -572,3 +572,20 @@ nav {
 // -- END GAMES - SHOW
 
 // -----------------------------------
+
+// GAMES LISTING PAGE
+
+#games-listing-wrapper {
+    .game-card-small {
+        margin:0;
+        padding:0;
+    }
+} // #games-listing-wrapper
+
+#games-grid {
+    //gap: 3rem;
+    column-gap: 3rem;
+    row-gap: 2rem;
+} // #games-grid
+
+// -- END GAMES LISTING PAGE
