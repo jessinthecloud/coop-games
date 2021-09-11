@@ -488,6 +488,29 @@ class Game extends IgdbGame
         return self::queryExecute($query, $limit, ['name', 'desc']);
     } // search()
 
+    /**
+     * Get games released in the last 3 months
+     *
+     * @param array|null $fields
+     * @param array|null $with
+     * @param int|null   $limit
+     *
+     * @return mixed|string
+     *
+     * @throws \Exception
+     */
+    public static function listing(
+        ?array $fields=null,
+        ?array $with=null,
+        ?int $limit=30/*,
+        ?int $cache=null*/
+    )
+    {
+        $query = self::querySetup($fields, $with, true);
+
+        return self::queryExecute($query, $limit, ['name', 'asc']);
+    }
+
     /*
         'similar_games' => [
             'id',

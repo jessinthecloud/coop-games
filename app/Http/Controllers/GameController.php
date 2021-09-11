@@ -27,7 +27,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games = Game::get()->take(15);
+        $games = Game::listing();
 
         $games = $games->map(function($game, $key){
             $game->setFormatter($this->formatter);

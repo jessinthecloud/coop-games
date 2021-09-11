@@ -13,7 +13,7 @@
             <section class="w-full flex flex-wrap justify-between">
                 @foreach($games as $i => $game)
                     {{-- @php dump($game); @endphp --}}
-                    <x-game-card :game="$game" :count="$i" />
+                    <x-game-card-small :game="$game" :count="$i"/>
                 @endforeach
             </section>
         </div>
