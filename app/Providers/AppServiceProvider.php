@@ -8,7 +8,9 @@ use App\Formatters\GameFormatter;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PageController;
 use App\Http\Livewire\SearchBox;
+use App\Models\BuilderInterface;
 use App\Models\Game;
+use App\Models\GameBuilder;
 use Illuminate\Support\ServiceProvider;
 
 /*
@@ -92,10 +94,26 @@ class AppServiceProvider extends ServiceProvider
         $this->app->when(GameController::class)
             ->needs(Formatter::class)
             ->give( GameFormatter::class);
+        
+        // give the builder a game model for easier querying 
+        $this->app->when(GameBuilder::class)
+            ->needs('$model')
+            ->give(function($app){
+                return new Game; 
+            });
 
         $this->app->when(PageController::class)
             ->needs(Formatter::class)
             ->give( GameFormatter::class);
+
+        $this->app->when(PageController::class)
+            ->needs(BuilderInterface::class)
+            ->give( GameBuilder::class);
+        
+        // might be obsolete
+        $this->app->when(Game::class)
+            ->needs(BuilderInterface::class)
+            ->give( GameBuilder::class);
     }
 
     /**

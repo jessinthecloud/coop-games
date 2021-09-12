@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Formatters\Formatter;
+use App\Models\BuilderInterface;
 use App\Models\Game;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
     public Formatter $formatter;
+    /**
+     * @var \App\Models\GameBuilder
+     */
+    protected BuilderInterface $builder;
 
-    public function __construct(Formatter $formatter)
+    public function __construct(BuilderInterface $builder, Formatter $formatter)
     {
         $this->formatter = $formatter;
+        $this->builder = $builder;
     }
     
     /**
@@ -27,7 +33,8 @@ class PageController extends Controller
             return $game->formatter->format();
         });
 
-        $mostAnticipated = Game::mostAnticipated(null, null, 5);
+        $mostAnticipated = $this->builder->mostAnticipated();
+
         $mostAnticipated = $mostAnticipated->map(function($game, $key){
             $game->setFormatter($this->formatter);
             return $game->formatter->format();
