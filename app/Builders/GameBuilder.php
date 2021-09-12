@@ -5,6 +5,7 @@ namespace App\Builders;
 
 use App\Models\Game;
 use App\Traits\HasFields;
+use App\Traits\HasFilters;
 use App\Traits\SetsUpQuery;
 use MarcReichel\IGDBLaravel\Builder;
 use Illuminate\Pagination\Paginator;
@@ -14,7 +15,7 @@ use MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException;
 
 class GameBuilder extends Builder implements BuilderInterface
 {
-    use HasFields, SetsUpQuery;
+    use HasFields, SetsUpQuery, HasFilters;
     
     public function __construct(Game $model, Collection $query=null) 
     {
@@ -155,18 +156,5 @@ class GameBuilder extends Builder implements BuilderInterface
 
         return $this->executeQuery($this, $limit, ['first_release_date', 'desc'], null, false);
     } // bySlug()
-    
-    // ##################################
-
-    // TODO: add these queries:
-    // online -- boolean
-    // offline -- boolean
-    // campaign -- boolean
-    // splitscreen -- boolean
-    // drop-in -- boolean
-    // LAN -- boolean
-    // platform -- Platform
-    // release year -- value (date)
-    // max players -- value (int)
     
 }
