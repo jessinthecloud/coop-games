@@ -43,11 +43,11 @@ trait SetsUpQuery
     protected function executeQuery(
         $query,
         ?int $limit=15,
-        ?array $order=['first_release_date', 'desc'],
+        array $order=['first_release_date', 'desc'],
         ?array $sort=null,
+        $listing=true,
         ?array $fieldsArg=null,
-        ?array $withArg=null,
-        $listing=true
+        ?array $withArg=null
     )
     {
         $fields = $this->setupFields($fieldsArg, $listing);

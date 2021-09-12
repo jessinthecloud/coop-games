@@ -130,6 +130,58 @@ class GameBuilder extends Builder implements BuilderInterface
         ]);
     }
 
+    /**
+     * Get games released in the last 3 months
+     *
+     * @param int|null $limit
+     *
+     * @return mixed|string
+     *
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
+    public function listing(
+        ?int $limit=30/*,
+        ?int $cache=null*/
+    )
+    {
+        return $this->executeQuery($this, $limit, ['name', 'asc']);
+    }
+
+    /**
+     * Get specific game by slug (for detail page)
+     *
+     * @param array|null $fields
+     * @param array|null $with
+     * @param int|null   $limit
+     *
+     * @return mixed
+     *
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
+    public function bySlug(
+        $slug,
+        ?int $limit=1/*,
+        ?int $cache=null*/
+    )
+    {
+        $this->where('slug', 'like', $slug)
+            /*->where(function($query){
+                $query->where('similar_games.multiplayer_modes.onlinecoop', '=', true)
+                    ->orWhere('similar_games.multiplayer_modes.offlinecoop', '=', true)
+                    ;
+            })
+            ->whereNotNull('similar_games.multiplayer_modes')*/
+        ;
+
+//    dump($query, $slug);
+
+        return $this->executeQuery($this, $limit, ['first_release_date', 'desc'], null, false);
+    } // bySlug()
+    
+    // ##################################
+
     // online -- boolean
     // offline -- boolean
     // campaign -- boolean
@@ -194,7 +246,7 @@ class GameBuilder extends Builder implements BuilderInterface
         return $model;
     }
     
-    
+    // ###############################
     
     
     

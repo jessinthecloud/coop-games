@@ -259,41 +259,6 @@ class Game extends IgdbGame
     }
 
     /**
-     * Get specific game by slug (for detail page)
-     *
-     * @param array|null $fields
-     * @param array|null $with
-     * @param int|null   $limit
-     *
-     * @return mixed
-     *
-     * @throws \JsonException
-     * @throws \ReflectionException
-     */
-    public static function bySlug(
-        $slug,
-        ?array $fields=null,
-        ?array $with=null,
-        ?int $limit=1/*,
-        ?int $cache=null*/
-    )
-    {
-        $query = self::querySetup($fields, $with, false);
-        $query = $query->where('slug', 'like', $slug)
-            /*->where(function($query){
-                $query->where('similar_games.multiplayer_modes.onlinecoop', '=', true)
-                    ->orWhere('similar_games.multiplayer_modes.offlinecoop', '=', true)
-                    ;
-            })
-            ->whereNotNull('similar_games.multiplayer_modes')*/
-        ;
-
-//    dump($query, $slug);
-
-        return self::queryExecute($query, $limit);
-    } // bySlug()
-
-    /**
      * Search for game
      *
      * @param array|null $fields
@@ -331,29 +296,6 @@ class Game extends IgdbGame
 
         return self::queryExecute($query, $limit, ['name', 'desc']);
     } // search()
-
-    /**
-     * Get games released in the last 3 months
-     *
-     * @param array|null $fields
-     * @param array|null $with
-     * @param int|null   $limit
-     *
-     * @return mixed|string
-     *
-     * @throws \Exception
-     */
-    public static function listing(
-        ?array $fields=null,
-        ?array $with=null,
-        ?int $limit=30/*,
-        ?int $cache=null*/
-    )
-    {
-        $query = self::querySetup($fields, $with, true);
-
-        return self::queryExecute($query, $limit, ['name', 'asc']);
-    }
 
     /*
         'similar_games' => [

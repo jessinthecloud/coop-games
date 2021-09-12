@@ -29,6 +29,8 @@ class GameFormatter implements Formatter
            'stores' => $this->stores($item),
            'websites' => $this->websites($item),
            'website' => $this->officialWebsite($item),
+           // in case there is none
+           'summary' => $item->summary ?? '',
        ])->toArray();
 
     }

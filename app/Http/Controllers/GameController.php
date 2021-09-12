@@ -31,13 +31,11 @@ class GameController extends Controller
     public function index($page=null)
     {
         $page = $page ?? 1;
-dump($this->builder);        
+        
 //        $games = $this->builder->select('name, slug, first_release_date')->get(); 
-        $games = Game::listing();
-dump($games);
+        $games = $this->builder->listing();
         $games = $games->map(function($game, $key){
-            $game->setFormatter($this->formatter);
-            return $game->formatter->format();
+            return $this->formatter->format($game);
         });
 
         return view('games.index', compact(
@@ -51,10 +49,9 @@ dump($games);
      */
     public function show(Request $request, string $slug)
     {
-        $game = Game::bySlug($slug)->firstOrFail();
+        $game = $this->builder->bySlug($slug)->firstOrFail();
 //        $game->similar_games = $game->similarGames();
-        $game->setFormatter($this->formatter);
-        $game = $game->formatter->format();
+        $game = $this->formatter->format($game);
 
         return view('games.show', compact('game'));
     }
