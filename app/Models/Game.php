@@ -1,9 +1,9 @@
 <?php
 
-
 namespace App\Models;
 
 use App\Formatters\Formatter;
+use App\Formatters\GameFormatter;
 use Illuminate\Support\Carbon;
 use MarcReichel\IGDBLaravel\Models\Game as IgdbGame;
 use Throwable;
@@ -18,54 +18,45 @@ class Game extends IgdbGame
     use HasFields;
 
     /**
-     * @var \App\Formatters\Formatter|null
+     * @var \App\Models\GameFormatter|null
      */
-    public ?Formatter $formatter;
+    public ?GameFormatter $formatter;
 
+    /**
+     * @var \App\Models\GameBuilder|null
+     */
+    public $builder;
+
+    /**
+     * @param array                              $properties
+     * @param \App\Formatters\GameFormatter|null $formatter
+     * @param \App\Models\GameBuilder|null       $builder
+     *
+     * @throws \ReflectionException
+     */
     public function __construct(
-        array $properties = [], 
-        Formatter $formatter=null, 
-        BuilderInterface $builder=null
+        array $properties = [],
+        GameBuilder $builder=null
     )
     {
+//dump('creating game model parent');
         parent::__construct($properties);
-
+//dump($this);
         $this->builder = $builder;
-        $this->formatter = $formatter;
-        
-    dump('formatter: ', $formatter, 'builder: ', $builder);
-
-        /*// only allow null and set because of static method calls
-        // TODO: find a way to inject to constructor even when using __callStatic()
-        $this->formatter = $formatter ?? null;*/
-        if(isset($this->formatter) && !$this->formatter->hasGame() ){
-            $this->formatter->setGame($this);
-        }
     }
 
     /**
      * Inject builder
      *
-     * @param \App\Builders\Builder $builder
+     * @param \App\Models\Builder $builder
+     *
+     * @return \App\Models\Game
      */
-    public function setBuilder(Builder $builder)
+    public function setBuilder(Builder $builder) : Game
     {
         $this->builder = $builder;
 //        $this->builder->setGame($this);
 
-        return $this;
-    }
-
-    /**
-     * Inject formatter (if created model statically)
-     * 
-     * @param \App\Formatters\Formatter $formatter
-     */
-    public function setFormatter(Formatter $formatter)
-    {
-        $this->formatter = $formatter;
-        $this->formatter->setGame($this);
-        
         return $this;
     }
 

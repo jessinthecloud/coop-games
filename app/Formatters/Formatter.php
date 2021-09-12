@@ -4,5 +4,5 @@ namespace App\Formatters;
 
 interface Formatter
 {
-    public function format();
+    public function format($item);
 }

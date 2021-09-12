@@ -3,33 +3,32 @@
 namespace App\Formatters;
 
 use Illuminate\Support\Str;
-use MarcReichel\IGDBLaravel\Models\Game;
 
 trait FormatsToHtml
 {
-    public function coverHtml($url=null)
+    public function coverHtml($item,$url=null)
     {
         
     }
 
-    public function dateHtml($date)
+    public function dateHtml($item,$date)
     {
         
     }
 
-    public function ratingHtml($score=null)
+    public function ratingHtml($item,$score=null)
     {
         
     }
 
-    public function criticRatingHtml($score=null)
+    public function criticRatingHtml($item,$score=null)
     {
     
     }
 
-    public function platformsHtml($platforms=null): string
+    public function platformsHtml($item,$platforms=null): string
     {
-        $platforms = $platforms ?? $this->game->platforms;
+        $platforms = $platforms ?? $item->platforms;
 
         return !empty($platforms) ? collect($platforms)->map(function ($platform) {
 
@@ -52,19 +51,19 @@ trait FormatsToHtml
         })->implode(', ') : '';
     }
 
-    public function numPlayersHtml($mode='onlinecoop', $limiter='max')
+    public function numPlayersHtml($item,$mode='onlinecoop', $limiter='max')
     {
     
     }
 
-    public function coopTypesHtml()
+    public function coopTypesHtml($item)
     {
        
     }
 
-    public function genresHtml($genres=null): string
+    public function genresHtml($item,$genres=null): string
     {
-        $genres = $genres ?? $this->game->genres;
+        $genres = $genres ?? $item->genres;
 
         return !empty($genres) ? collect($genres)->map(function ($genre) {
             return (!empty($genre['slug'])
@@ -75,7 +74,7 @@ trait FormatsToHtml
         })->implode(', ') : false;
     }
 
-    public function companiesHtml($devs, $pubs)
+    public function companiesHtml($item,$devs, $pubs)
     {
         $devs = $devs->map(function ($company) {
              return (!empty($company['company']['slug'])
@@ -100,30 +99,30 @@ trait FormatsToHtml
         return ['devs' => $devs, 'pubs'=>$pubs];
     }
 
-    public function similarGamesHtml()
+    public function similarGamesHtml($item)
     {
         
     }
 
-    public function screenshotsHtml()
+    public function screenshotsHtml($item)
     {
         
     }
 
-    public function trailerHtml()
+    public function trailerHtml($item)
     {
-        // 'trailer' => !empty($this->game['videos'][0]['video_id']) ? 'https://youtube.com/watch/'.$this->game['videos'][0]['video_id'] : '',
+        // 'trailer' => !empty($item['videos'][0]['video_id']) ? 'https://youtube.com/watch/'.$item['videos'][0]['video_id'] : '',
         // switch from watch to embed so we can use with modal
         
     }
 
-    public function storesHtml()
+    public function storesHtml($item)
     {
         // game store links
         // can be external games or websites
         // websites: store categories
         // 13 steam, 16 epic, 17 gog
-        /*!empty($this->game['screenshots']) ? (collect($this->game['screenshots'])->map(
+        /*!empty($item['screenshots']) ? (collect($item['screenshots'])->map(
             function ($screenshot) {
                 return [
         'store_links' => [
@@ -163,15 +162,15 @@ trait FormatsToHtml
         ] */
     }
 
-    public function officialWebsiteHtml()
+    public function officialWebsiteHtml($item)
     {
        
     }
 
-    public function websitesHtml()
+    public function websitesHtml($item)
     {
         // TODO: add check to make sure first website is not one of the social media sites we want
-        /* !empty($this->game['websites']) ? (collect($this->game['websites'])->map(
+        /* !empty($item['websites']) ? (collect($item['websites'])->map(
             function (website) {
                 return [
         'social' => [

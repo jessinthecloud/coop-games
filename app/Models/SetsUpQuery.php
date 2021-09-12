@@ -13,8 +13,8 @@ trait SetsUpQuery
     )
     {
         return ($fieldsArg === null && $listing === false) 
-            ? array_merge(self::$fields, self::$detail_fields) 
-                : ($fieldsArg ?? self::$fields);
+            ? array_merge($this->fields, $this->detail_fields) 
+                : ($fieldsArg ?? $this->fields);
     }
 
     protected function setupWith(
@@ -24,8 +24,8 @@ trait SetsUpQuery
     )
     {
         return ($withArg === null && $listing === false) 
-            ? array_merge(self::$with, self::$detail_with) 
-                : ($withArg ?? self::$with);
+            ? array_merge($this->with, $this->detail_with) 
+                : ($withArg ?? $this->with);
     }
    
     /**
@@ -54,6 +54,7 @@ trait SetsUpQuery
         $with = $this->setupWith($withArg, $listing);
         
         try {
+        
             return $query
                 ->select(
                     $fields

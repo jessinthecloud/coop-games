@@ -3,7 +3,9 @@
 
 namespace App\Models;
 
-use App\Http\Builder;
+use App\Formatters\Formatter;
+use App\Formatters\GameFormatter;
+use App\Models\Builder;
 use App\Models\BuilderInterface;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
@@ -13,10 +15,21 @@ use MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException;
 class GameBuilder extends Builder implements BuilderInterface
 {
     use HasFields, SetsUpQuery;
-        
-    public function __construct($model = null, Collection $query=null) 
+
+    /**
+     * @var \App\Formatters\GameFormatter
+     */
+    protected GameFormatter $formatter;
+    
+    // Typehinting $model as Game $model crashes the app with no errors.
+    // Page literally will not respond: "The connection to the server was reset while the page was loading."
+    public function __construct($model=null, Collection $query=null) 
     {
-    dump('model: ',$model);
+        // injection not working so make it if we don't have it
+        $model = $model ?? new Game([], $this);
+
+//dump('gamebuilder: ', $model, $formatter, $query);
+
         parent::__construct($model);
     }
     
@@ -141,6 +154,46 @@ class GameBuilder extends Builder implements BuilderInterface
 
         return new Paginator($data, $limit);
     }
+
+    /**
+     * Execute the query.
+     *
+     * @return mixed|string
+     * @throws \MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException
+     */
+    public function get()
+    {
+        $data = $this->fetchApi();
+
+        if ( $this->class ) {
+            $data = collect( $data )->map( function ( $result ) {
+                return $this->mapToModel( $result, $this );
+            } );
+        }
+
+        $this->init();
+
+        return $data;
+    }
+
+    /**
+     * @param $result
+     *
+     * @return mixed
+     */
+    protected function mapToModel( $result )
+    {
+        $model = $this->class;
+
+        $properties = collect( $result )->toArray();
+
+        $model = new $model( $properties, $this );
+
+        unset( $model->builder );
+
+        return $model;
+    }
+    
     
     
     

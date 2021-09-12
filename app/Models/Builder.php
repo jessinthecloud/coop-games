@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http;
+namespace App\Models;
 
 use App\Formatters\Formatter;
 use App\Models\BuilderInterface;
@@ -22,7 +22,7 @@ use MarcReichel\IGDBLaravel\Traits\{DateCasts, Operators};
 use ReflectionClass;
 use ReflectionException;
 
-class Builder extends \MarcReichel\IGDBLaravel\Builder
+class Builder implements BuilderInterface
 {
     use Operators, DateCasts;
 
@@ -70,7 +70,7 @@ class Builder extends \MarcReichel\IGDBLaravel\Builder
      */
     public function __construct( $model = null )
     {
-dump('parent model: ',$model);
+//dump('builder model: ', $model);
 
         if ( $model ) {
             $this->setEndpoint( $model );
@@ -1510,9 +1510,9 @@ dump('parent model: ',$model);
      */
     protected function setEndpoint( $model ) : void
     {
-        $neededNamespace = __NAMESPACE__ . '\\Models';
-
+        $neededNamespace = 'MarcReichel\IGDBLaravel' . '\\Models';
         if ( is_object( $model ) ) {
+    
             $class = get_class( $model );
             $parents = collect( class_parents( $model ) );
 
@@ -1522,6 +1522,7 @@ dump('parent model: ',$model);
 
             $reflectionClass = new ReflectionClass( $parents->last() );
             $reflectionNamespace = $reflectionClass->getNamespaceName();
+//    ddd('setEndpoint', $model, $class,$parents,$reflectionClass,'needed: '.$neededNamespace.' gotten: '.$reflectionNamespace);
 
             if ( Str::startsWith( $reflectionNamespace, $neededNamespace ) ) {
                 $this->class = get_class( $model );
@@ -1559,15 +1560,16 @@ dump('parent model: ',$model);
      * Execute the query.
      *
      * @return mixed|string
-     * @throws MissingEndpointException
+     * @throws \MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException
      */
-    public function get(Formatter $formatter=null, BuilderInterface $builder=null)
+    public function get()
     {
+        
         $data = $this->fetchApi();
 
         if ( $this->class ) {
-            $data = collect( $data )->map( function ( $result ) use($formatter, $builder) {
-                return $this->mapToModel( $result, $formatter, $builder );
+            $data = collect( $data )->map( function ( $result ) {
+                return $this->mapToModel( $result, $this );
             } );
         }
 
@@ -1581,12 +1583,12 @@ dump('parent model: ',$model);
      *
      * @return mixed
      */
-    protected function mapToModel( $result, Formatter $formatter=null, BuilderInterface $builder=null )
+    protected function mapToModel( $result )
     {
         $model = $this->class;
 
         $properties = collect( $result )->toArray();
-        $model = new $model( $properties, $formatter, $builder );
+        $model = new $model( $properties, $this );
 
         unset( $model->builder );
 

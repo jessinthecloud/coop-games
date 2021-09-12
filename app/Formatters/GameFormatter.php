@@ -11,134 +11,87 @@ class GameFormatter implements Formatter
 {
     use FormatsToHtml;
     
-    /**
-     * @var Game
-     */
-    protected Game $game;
-
-    public function __construct(Game $game=null)
+    public function format($item)
     {
-        if(isset($game)){
-            $this->game = $game;
-        }
-    }
-
-    public function format()
-    {
-        // TODO: unset game after format() call? -- would allow singleton usage of this class without collision of data
-
-        return (isset($this->game))
-            ? $this->formatGame()
-            // merge the array into the currently iterated item of the collection
-            // can use these to overwrite existing values or create new ones
-            : $this->formatGames();
-
-    }
-
-    public function formatGame()
-    {
-        return collect($this->game)->merge([
-           'cover_url' => $this->cover(),
-           'rating' => $this->rating(),
-           'aggregated_rating' => $this->criticRating(),
-           'platforms' => $this->platforms(),
-           'first_release_date' => $this->date($this->game->first_release_date),
-           'num_players' => $this->numPlayers(),
-           'multiplayer_modes' => $this->coopTypes(),
-           'genres' => $this->genres(),
-           'companies' => $this->companies(),
-//            'similar_games' => $this->similarGames(),
-           'screenshots' => $this->screenshots(),
-           'trailer' => $this->trailer(),
-           'stores' => $this->stores(),
-           'websites' => $this->websites(),
-           'website' => $this->officialWebsite(),
+        return collect($item)->merge([
+           'cover_url' => $this->cover($item),
+           'rating' => $this->rating($item),
+           'aggregated_rating' => $this->criticRating($item),
+           'platforms' => $this->platforms($item),
+           'first_release_date' => $this->date($item, $item->first_release_date),
+           'num_players' => $this->numPlayers($item),
+           'multiplayer_modes' => $this->coopTypes($item),
+           'genres' => $this->genres($item),
+           'companies' => $this->companies($item),
+//            'similar_games' => $this->similarGames($item),
+           'screenshots' => $this->screenshots($item),
+           'trailer' => $this->trailer($item),
+           'stores' => $this->stores($item),
+           'websites' => $this->websites($item),
+           'website' => $this->officialWebsite($item),
        ])->toArray();
+
     }
 
-    public function formatGames()
+    public function formatGames($games)
     {
         // return a Collection of $games
         // run the Closure function on each item of the games collection
-        return collect($this->games)->map(function($game){
-            // run this function on an item
-
-            parent::setGame($game);
-
-            // merge the array into the currently iterated item of the collection
-            // can use these to overwrite existing values or create new ones
-            return $this->formatGame();
+        return collect($games)->map(function($game){
+            return $this->format($game);
         })->toArray();
     }
 
-    /**
-     * Determine if game is set 
-     * 
-     * @return bool
-     */
-    public function hasGame()
+    public function cover($game,$url=null): string
     {
-        return isset($this->game);
-    }
-
-    /**
-     * @param Game $game
-     */
-    public function setGame(Game $game)
-    {
-        $this->game = $game;
-    }
-
-    public function cover($url=null): string
-    {
-        $cover = $url ?? $this->game['cover']['url'];
+        $cover = $url ?? (isset($game->cover) ? $game->cover['url'] : null);
 
         return !empty($cover) ? Str::replaceFirst('thumb', 'cover_big', $cover) : 'https://via.placeholder.com/264x352';
     }
 
-    public function date($date, string $format='M d, Y')
+    public function date($game, $date, string $format='M d, Y')
     {
         // date:
         // accepts $date string
 
         // TODO: accept Carbon or DateTime
-        return !empty($this->game->first_release_date) ? Carbon::parse($this->game->first_release_date)->format($format) : null;
+        return !empty($game->first_release_date) ? Carbon::parse($game->first_release_date)->format($format) : null;
     }
 
-    public function dates()
+    public function dates($game)
     {
         // TODO: implement dates()
     }
 
-    public function rating($score=null)
+    public function rating($game,$score=null)
     {
-        $rating = $score ?? $this->game->rating;
+        $rating = $score ?? $game->rating;
         return !empty($rating) ? round($rating) : '';
     }
 
-    public function criticRating($score=null)
+    public function criticRating($game,$score=null)
     {
-        $rating = $score ?? $this->game->aggregated_rating;
+        $rating = $score ?? $game->aggregated_rating;
         return !empty($rating) ? round($rating) : '';
     }
 
-    public function platforms($platforms=null)
+    public function platforms($game,$platforms=null)
     {
-        $platforms = $platforms ?? $this->game->platforms;
+        $platforms = $platforms ?? $game->platforms;
 
-        return $this->platformsHtml();
+        return $this->platformsHtml($game);
     }
 
-    public function numPlayers($mode='onlinecoop', $limiter='max')
+    public function numPlayers($game,$mode='onlinecoop', $limiter='max')
     {
         // num players and multiplayer_mode are relative to platform
-        return collect($this->game->multiplayer_modes)->map(function($mode, $key){
+        return collect($game->multiplayer_modes)->map(function($mode, $key){
             // onlinecoopmax, offlinecoopmax, per platform
             // TODO: finish implementing
         });
     }
 
-    public function coopTypes()
+    public function coopTypes($game)
     {
         /*'online_multi_num' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->pluck('onlinemax')->unique()->flatten()[0] : [],
         'offline_multi_num' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->pluck('offlinemax')->unique()->flatten()[0] : [],
@@ -194,7 +147,7 @@ class GameFormatter implements Formatter
 
         // num players and multiplayer_mode are relative to platform
         // multiplayer_modes already split by platform
-        return collect($this->game->multiplayer_modes)->map(function($mode, $key){
+        return collect($game->multiplayer_modes)->map(function($mode, $key){
 
             $types = [];
 
@@ -225,11 +178,11 @@ class GameFormatter implements Formatter
         }); // end map
     }
 
-    public function genres()
+    public function genres($game)
     {
-        return $this->genresHtml();
+        return $this->genresHtml($game);
 
-        /*return !empty($this->game->genres) ? collect($this->game->genres)->map(function ($genre) {
+        /*return !empty($game->genres) ? collect($game->genres)->map(function ($genre) {
             $slug = (!empty($genre['slug'])
                 ? '<a href="'.route('games.platform', ['slug' => $genre['slug']]).'" class="text-purple-500 underline transition ease-in-out duration-150 hover:text-purple-300 hover:no-underline">'.
                     (!empty($genre['name']) ? $genre['name'] : $genre['name']).
@@ -238,25 +191,25 @@ class GameFormatter implements Formatter
         })->implode(', ') : false;*/
     }
 
-    public function companies()
+    public function companies($game)
     {
-        $devs = !empty($this->game->involved_companies) ? collect($this->game->involved_companies)
+        $devs = !empty($game->involved_companies) ? collect($game->involved_companies)
             ->filter(function ($company) {
                 return $company['developer'] === true;
             }) : collect();
 
-        $pubs = !empty($this->game->involved_companies) ? collect($this->game->involved_companies)
+        $pubs = !empty($game->involved_companies) ? collect($game->involved_companies)
             ->filter(function ($company) {
                 return $company['publisher'] === true;
             }) : collect();
             
-        return $this->companiesHtml($devs, $pubs);
+        return $this->companiesHtml($game, $devs, $pubs);
     }
 
-    public function similarGames()
+    public function similarGames($game)
     {
-        return !empty($this->game['similar_games'])
-            ? collect($this->game['similar_games'])/*->filter(function ($game) {
+        return !empty($game['similar_games'])
+            ? collect($game['similar_games'])/*->filter(function ($game) {
                 return (isset($game['multiplayer_modes'])
                     && (
                         (isset($game['multiplayer_modes']['onlinecoop']) && $game['multiplayer_modes']['onlinecoop'])
@@ -274,9 +227,9 @@ class GameFormatter implements Formatter
             : [];
     }
 
-    public function screenshots()
+    public function screenshots($game)
     {
-        return !empty($this->game['screenshots']) ? (collect($this->game['screenshots'])->map(
+        return !empty($game['screenshots']) ? (collect($game['screenshots'])->map(
             function ($screenshot) {
                 return [
                     'huge' => \Str::replaceFirst('thumb', 'screenshot_huge', $screenshot['url']),
@@ -287,24 +240,24 @@ class GameFormatter implements Formatter
         ) : [];
     }
 
-    public function trailer()
+    public function trailer($game)
     {
-        return !empty($this->game['videos'][0]['video_id']) ? 'https://youtube.com/embed/'.$this->game['videos'][0]['video_id'] : '';
+        return !empty($game['videos'][0]['video_id']) ? 'https://youtube.com/embed/'.$game['videos'][0]['video_id'] : '';
     }
 
-    public function stores()
+    public function stores($game)
     {
         // TODO: Implement stores() method
     }
 
-    public function officialWebsite()
+    public function officialWebsite($game)
     {
-        return !empty($this->game['websites']) ? (collect($this->game['websites'])->filter(function($website, $key){
+        return !empty($game['websites']) ? (collect($game['websites'])->filter(function($website, $key){
             return ((int)$website['category'] === 1);
         }))->pluck('url')->first() : '';
     }
 
-    public function websites()
+    public function websites($game)
     {
         // TODO: Implement websites() method
     }

@@ -6,7 +6,7 @@ use Throwable;
 
 trait HasFields
 {
-    protected static $fields = [
+    protected $fields = [
         'name',
         'slug',
         'first_release_date',
@@ -17,7 +17,7 @@ trait HasFields
         'storyline',
     ];
 
-    protected static $detail_fields = [
+    protected $detail_fields = [
         'summary',
         'rating',
         'aggregated_rating',
@@ -28,7 +28,7 @@ trait HasFields
         'status',
     ];
 
-    protected static $with = [
+    protected $with = [
         'cover' => ['url', 'image_id'],
         'platforms' => ['id', 'name', 'abbreviation', 'slug'],
         'multiplayer_modes',
@@ -36,7 +36,7 @@ trait HasFields
         'collection',
     ];
 
-    protected static $detail_with = [
+    protected $detail_with = [
         'age_ratings',
         'involved_companies',
         'involved_companies.company' => [
