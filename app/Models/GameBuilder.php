@@ -3,10 +3,7 @@
 
 namespace App\Models;
 
-use App\Formatters\Formatter;
-use App\Formatters\GameFormatter;
-use App\Models\Builder;
-use App\Models\BuilderInterface;
+use MarcReichel\IGDBLaravel\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -15,21 +12,9 @@ use MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException;
 class GameBuilder extends Builder implements BuilderInterface
 {
     use HasFields, SetsUpQuery;
-
-    /**
-     * @var \App\Formatters\GameFormatter
-     */
-    protected GameFormatter $formatter;
     
-    // Typehinting $model as Game $model crashes the app with no errors.
-    // Page literally will not respond: "The connection to the server was reset while the page was loading."
-    public function __construct($model=null, Collection $query=null) 
+    public function __construct(Game $model, Collection $query=null) 
     {
-        // injection not working so make it if we don't have it
-        $model = $model ?? new Game([], $this);
-
-//dump('gamebuilder: ', $model, $formatter, $query);
-
         parent::__construct($model);
     }
     
@@ -191,66 +176,10 @@ class GameBuilder extends Builder implements BuilderInterface
     // platform -- Platform
     // release year -- value (date)
     // max players -- value (int)
-
-    /**
-     * @param int $limit
-     *
-     * @return Paginator
-     * @throws MissingEndpointException
-     */
-    public function paginate(int $limit = 10): Paginator
-    {
-        $page = optional(request())->get('page', 1);
-
-        $data = $this->forPage($page, $limit)->get();
-
-        return new Paginator($data, $limit);
-    }
-
-    /**
-     * Execute the query.
-     *
-     * @return mixed|string
-     * @throws \MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException
-     */
-    public function get()
-    {
-        $data = $this->fetchApi();
-
-        if ( $this->class ) {
-            $data = collect( $data )->map( function ( $result ) {
-                return $this->mapToModel( $result, $this );
-            } );
-        }
-
-        $this->init();
-
-        return $data;
-    }
-
-    /**
-     * @param $result
-     *
-     * @return mixed
-     */
-    protected function mapToModel( $result )
-    {
-        $model = $this->class;
-
-        $properties = collect( $result )->toArray();
-
-        $model = new $model( $properties, $this );
-
-        unset( $model->builder );
-
-        return $model;
-    }
     
+   
     // ###############################
-    
-    
-    
-    
+    // deprecated methods?     
 
     protected function multiplayerMode($type)
     {
