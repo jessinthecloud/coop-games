@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
+use App\Builders\BuilderInterface;
+use App\Builders\GameBuilder;
 use App\Filters\GameFilterer;
 use App\Formatters\Formatter;
 use App\Formatters\GameFormatter;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PageController;
 use App\Http\Livewire\SearchBox;
-use App\Models\BuilderInterface;
 use App\Models\Game;
-use App\Models\GameBuilder;
 use Illuminate\Support\ServiceProvider;
 
 /*

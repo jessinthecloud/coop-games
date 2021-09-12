@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Formatters\Formatter;
 use App\Formatters\GameFormatter;
+use App\Traits\HasFields;
 use Illuminate\Support\Carbon;
 use MarcReichel\IGDBLaravel\Models\Game as IgdbGame;
 use Throwable;
@@ -15,6 +16,7 @@ class Game extends IgdbGame
 // -------------------------------------------------------------
 
     /**
+     * @deprecated
      * Get released games with online co-op
      *
      * @param array|null $fields
@@ -23,8 +25,6 @@ class Game extends IgdbGame
      *
      * @return mixed
      *
-     * @throws \JsonException
-     * @throws \ReflectionException
      */
     public static function online(
         ?array $fields=null,
@@ -45,6 +45,7 @@ class Game extends IgdbGame
     }
 
     /**
+     * @deprecated
      * Get released games with offline co-op
      *
      * @param array|null $fields
@@ -75,6 +76,7 @@ class Game extends IgdbGame
     }
 
     /**
+     * @deprecated
      * Get released games with couch co-op
      *
      * @param array|null $fields
@@ -104,6 +106,7 @@ class Game extends IgdbGame
     }
 
     /**
+     * @deprecated
      * Get games that have the most ratings of all time
      *
      * @param array|null $fields
@@ -141,6 +144,7 @@ class Game extends IgdbGame
     }
 
     /**
+     * @deprecated
      * Get games released in the last 3 months
      *
      * @param array|null $fields
@@ -172,6 +176,7 @@ class Game extends IgdbGame
     }
 
     /**
+     * @deprecated
      * Search for game
      *
      * @param array|null $fields
@@ -230,7 +235,11 @@ class Game extends IgdbGame
         'version_parent',
         'websites',
      */
-
+    /**
+     * @deprecated
+     *            
+     * @return mixed
+     */
     public function similarGames()
     {
         $query = self::querySetup(self::$fields, self::$with)

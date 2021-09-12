@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Traits;
 
 use Throwable;
 
@@ -45,7 +45,7 @@ trait SetsUpQuery
         ?int $limit=15,
         array $order=['first_release_date', 'desc'],
         ?array $sort=null,
-        $listing=true,
+        bool $listing=true,
         ?array $fieldsArg=null,
         ?array $withArg=null
     )

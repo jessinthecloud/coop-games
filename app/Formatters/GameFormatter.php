@@ -3,7 +3,9 @@
 namespace App\Formatters;
 
 use App\Enums\MultiplayerMode;
+use App\Traits\FormatsToHtml;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use MarcReichel\IGDBLaravel\Models\Game;
 
@@ -11,7 +13,7 @@ class GameFormatter implements Formatter
 {
     use FormatsToHtml;
     
-    public function format($item)
+    public function format($item) : array
     {
         return collect($item)->merge([
            'cover_url' => $this->cover($item),
@@ -35,7 +37,7 @@ class GameFormatter implements Formatter
 
     }
 
-    public function formatGames($games)
+    public function formatGames($games) : array
     {
         // return a Collection of $games
         // run the Closure function on each item of the games collection
@@ -51,7 +53,7 @@ class GameFormatter implements Formatter
         return !empty($cover) ? Str::replaceFirst('thumb', 'cover_big', $cover) : 'https://via.placeholder.com/264x352';
     }
 
-    public function date($game, $date, string $format='M d, Y')
+    public function date($game, $date, string $format='M d, Y') : ?string
     {
         // date:
         // accepts $date string
@@ -65,26 +67,26 @@ class GameFormatter implements Formatter
         // TODO: implement dates()
     }
 
-    public function rating($game,$score=null)
+    public function rating($game,$score=null): ?int
     {
         $rating = $score ?? $game->rating;
         return !empty($rating) ? round($rating) : '';
     }
 
-    public function criticRating($game,$score=null)
+    public function criticRating($game,$score=null): ?int
     {
         $rating = $score ?? $game->aggregated_rating;
         return !empty($rating) ? round($rating) : '';
     }
 
-    public function platforms($game,$platforms=null)
+    public function platforms($game,$platforms=null) : string
     {
         $platforms = $platforms ?? $game->platforms;
 
         return $this->platformsHtml($game);
     }
 
-    public function numPlayers($game,$mode='onlinecoop', $limiter='max')
+    public function numPlayers($game,$mode='onlinecoop', $limiter='max') : Collection
     {
         // num players and multiplayer_mode are relative to platform
         return collect($game->multiplayer_modes)->map(function($mode, $key){
@@ -93,7 +95,7 @@ class GameFormatter implements Formatter
         });
     }
 
-    public function coopTypes($game)
+    public function coopTypes($game) : Collection
     {
         /*'online_multi_num' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->pluck('onlinemax')->unique()->flatten()[0] : [],
         'offline_multi_num' => !empty($game['multiplayer_modes']) ? collect($game['multiplayer_modes'])->pluck('offlinemax')->unique()->flatten()[0] : [],
@@ -180,7 +182,7 @@ class GameFormatter implements Formatter
         }); // end map
     }
 
-    public function genres($game)
+    public function genres($game) : string
     {
         return $this->genresHtml($game);
 
@@ -193,7 +195,7 @@ class GameFormatter implements Formatter
         })->implode(', ') : false;*/
     }
 
-    public function companies($game)
+    public function companies($game) : array
     {
         $devs = !empty($game->involved_companies) ? collect($game->involved_companies)
             ->filter(function ($company) {
@@ -208,6 +210,11 @@ class GameFormatter implements Formatter
         return $this->companiesHtml($game, $devs, $pubs);
     }
 
+    /**
+     * @param $game
+     *
+     * @return array|\Illuminate\Support\Collection
+     */
     public function similarGames($game)
     {
         return !empty($game['similar_games'])
@@ -229,6 +236,11 @@ class GameFormatter implements Formatter
             : [];
     }
 
+    /**
+     * @param $game
+     *
+     * @return array|\Illuminate\Support\Collection
+     */
     public function screenshots($game)
     {
         return !empty($game['screenshots']) ? (collect($game['screenshots'])->map(
@@ -242,16 +254,29 @@ class GameFormatter implements Formatter
         ) : [];
     }
 
-    public function trailer($game)
+    /**
+     * @param $game
+     *
+     * @return string
+     */
+    public function trailer($game) : string
     {
         return !empty($game['videos'][0]['video_id']) ? 'https://youtube.com/embed/'.$game['videos'][0]['video_id'] : '';
     }
 
+    /**
+     * @param $game
+     */
     public function stores($game)
     {
         // TODO: Implement stores() method
     }
 
+    /**
+     * @param $game
+     *
+     * @return mixed|string
+     */
     public function officialWebsite($game)
     {
         return !empty($game['websites']) ? (collect($game['websites'])->filter(function($website, $key){
@@ -259,6 +284,9 @@ class GameFormatter implements Formatter
         }))->pluck('url')->first() : '';
     }
 
+    /**
+     * @param $game
+     */
     public function websites($game)
     {
         // TODO: Implement websites() method

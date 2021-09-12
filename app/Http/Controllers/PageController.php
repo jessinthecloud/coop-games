@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Builders\BuilderInterface;
 use App\Formatters\Formatter;
-use App\Models\BuilderInterface;
 use App\Models\Game;
 use Illuminate\Http\Request;
 
@@ -11,15 +11,14 @@ class PageController extends Controller
 {
     public Formatter $formatter;
     /**
-     * @var \App\Models\GameBuilder
+     * @var \App\Builders\BuilderInterface
      */
     protected BuilderInterface $builder;
 
     public function __construct(BuilderInterface $builder, Formatter $formatter)
     {
-//    ddd('pagecontroller builder: ', $builder);
-        $this->formatter = $formatter;
         $this->builder = $builder;
+        $this->formatter = $formatter;
     }
     
     /**

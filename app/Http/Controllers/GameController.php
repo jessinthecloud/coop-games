@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Builders\GameBuilder;
 use App\Formatters\Formatter;
-use App\Formatters\FormatsToHtml;
+use App\Traits\FormatsToHtml;
 use App\Models\Game;
-use App\Models\GameBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;

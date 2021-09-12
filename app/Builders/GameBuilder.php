@@ -1,8 +1,11 @@
 <?php
 
 
-namespace App\Models;
+namespace App\Builders;
 
+use App\Models\Game;
+use App\Traits\HasFields;
+use App\Traits\SetsUpQuery;
 use MarcReichel\IGDBLaravel\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
@@ -17,20 +20,19 @@ class GameBuilder extends Builder implements BuilderInterface
     {
         parent::__construct($model);
     }
-    
+
     /**
      * Get games with a high following that are
      * upcoming in the next 6 months
      *
-     * @param array|null $fields
-     * @param array|null $with
-     * @param int|null   $limit
+     * @param int|null $limit
      *
-     * @return mixed|string
+     * @return Builder
      *
-     * @throws \Exception
+     * @throws \JsonException
+     * @throws \ReflectionException
      */
-    public function mostAnticipated(?int $limit=5)
+    public function mostAnticipated(?int $limit=5): Builder
     {
         $this->where('first_release_date', '>', now())
             ->orWhereNull('first_release_date')
@@ -47,18 +49,17 @@ class GameBuilder extends Builder implements BuilderInterface
     /**
      * Get games upcoming in the next 6 months
      *
-     * @param array|null $fields
-     * @param array|null $with
-     * @param int|null   $limit
+     * @param int|null $limit
      *
-     * @return mixed|string
+     * @return Builder
      *
-     * @throws \Exception
+     * @throws \JsonException
+     * @throws \ReflectionException
      */
     public function comingSoon(
         ?int $limit=15/*,
         ?int $cache=null*/
-    )
+    ) : Builder
     {
         $after = Carbon::now()->addMonths(6)->timestamp;
 
@@ -73,18 +74,16 @@ class GameBuilder extends Builder implements BuilderInterface
      * Games released within the previous 3 months or next 1 months
      * that have the most total ratings
      *
-     * @param array|null $fields
-     * @param array|null $with
      * @param int|null   $limit
      *
-     * @return mixed
+     * @return Builder
      *
      * @throws \Exception
      */
     public function trending(
         ?int $limit=6/*,
         ?int $cache=null*/
-    )
+    ) : Builder
     {
         // order by first release date desc
         // sort by total rating count
@@ -120,7 +119,7 @@ class GameBuilder extends Builder implements BuilderInterface
      *
      * @param int|null $limit
      *
-     * @return mixed|string
+     * @return Builder
      *
      * @throws \JsonException
      * @throws \ReflectionException
@@ -128,7 +127,7 @@ class GameBuilder extends Builder implements BuilderInterface
     public function listing(
         ?int $limit=30/*,
         ?int $cache=null*/
-    )
+    ) : Builder
     {
         return $this->executeQuery($this, $limit, ['name', 'asc']);
     }
@@ -167,6 +166,7 @@ class GameBuilder extends Builder implements BuilderInterface
     
     // ##################################
 
+    // TODO: add these queries:
     // online -- boolean
     // offline -- boolean
     // campaign -- boolean
@@ -177,55 +177,4 @@ class GameBuilder extends Builder implements BuilderInterface
     // release year -- value (date)
     // max players -- value (int)
     
-   
-    // ###############################
-    // deprecated methods?     
-
-    protected function multiplayerMode($type)
-    {
-        return $this->games->filter(function ($item, $index) use ($type){
-            return collect($item->multiplayer_modes)->contains($type, true);
-        });
-    }
-
-    protected function maxPlayerNumber(int $number, $mode='onlinecoop')
-    {
-        return $this->games->filter(function($game, $key) use ($number, $mode){
-            return (collect($game->multiplayer_modes)->pluck($mode.'max')->first() <= $number);
-        });
-    }
-
-    protected function minPlayerNumber(int $number, $mode='onlinecoop')
-    {
-        return $this->games->filter(function($game, $key) use ($number, $mode){
-            return (collect($game->multiplayer_modes)->pluck($mode.'max')->first() >= $number);
-        });
-    }
-
-    // --------------------------
-
-    public function couch()
-    {
-        return $this->multiplayerMode('splitscreen');
-    }
-
-    public function offlineMax(int $number)
-    {
-        return $this->maxPlayerNumber($number, 'offline');
-    }
-
-    public function onlineMax(int $number)
-    {
-        return $this->maxPlayerNumber($number);
-    }
-
-    public function offlineMin(int $number)
-    {
-        return $this->minPlayerNumber($number, 'offline');
-    }
-
-    public function onlineMin(int $number)
-    {
-        return $this->minPlayerNumber($number);
-    }
 }
