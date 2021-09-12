@@ -27,12 +27,10 @@ class GameBuilder extends Builder implements BuilderInterface
      *
      * @param int|null $limit
      *
-     * @return Builder
-     *
      * @throws \JsonException
      * @throws \ReflectionException
      */
-    public function mostAnticipated(?int $limit=5): Builder
+    public function mostAnticipated(?int $limit=5)
     {
         $this->where('first_release_date', '>', now())
             ->orWhereNull('first_release_date')
@@ -51,15 +49,13 @@ class GameBuilder extends Builder implements BuilderInterface
      *
      * @param int|null $limit
      *
-     * @return Builder
-     *
      * @throws \JsonException
      * @throws \ReflectionException
      */
     public function comingSoon(
         ?int $limit=15/*,
         ?int $cache=null*/
-    ) : Builder
+    )
     {
         $after = Carbon::now()->addMonths(6)->timestamp;
 
@@ -76,14 +72,12 @@ class GameBuilder extends Builder implements BuilderInterface
      *
      * @param int|null   $limit
      *
-     * @return Builder
-     *
      * @throws \Exception
      */
     public function trending(
         ?int $limit=6/*,
         ?int $cache=null*/
-    ) : Builder
+    )
     {
         // order by first release date desc
         // sort by total rating count
@@ -119,15 +113,13 @@ class GameBuilder extends Builder implements BuilderInterface
      *
      * @param int|null $limit
      *
-     * @return Builder
-     *
      * @throws \JsonException
      * @throws \ReflectionException
      */
     public function listing(
         ?int $limit=30/*,
         ?int $cache=null*/
-    ) : Builder
+    )
     {
         return $this->executeQuery($this, $limit, ['name', 'asc']);
     }

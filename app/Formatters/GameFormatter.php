@@ -67,13 +67,25 @@ class GameFormatter implements Formatter
         // TODO: implement dates()
     }
 
-    public function rating($game,$score=null): ?int
+    /**
+     * @param      $game
+     * @param null $score
+     *
+     * @return int|string
+     */
+    public function rating($game,$score=null)
     {
         $rating = $score ?? $game->rating;
         return !empty($rating) ? round($rating) : '';
     }
 
-    public function criticRating($game,$score=null): ?int
+    /**
+     * @param      $game
+     * @param null $score
+     *
+     * @return int|string
+     */
+    public function criticRating($game,$score=null)
     {
         $rating = $score ?? $game->aggregated_rating;
         return !empty($rating) ? round($rating) : '';
