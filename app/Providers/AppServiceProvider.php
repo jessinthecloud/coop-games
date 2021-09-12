@@ -91,16 +91,39 @@ class AppServiceProvider extends ServiceProvider
             }
         );
 
-        $this->app->when(GameController::class)
-            ->needs(Formatter::class)
-            ->give( GameFormatter::class);
-        
+
         // give the builder a game model for easier querying 
         $this->app->when(GameBuilder::class)
             ->needs('$model')
             ->give(function($app){
-                return new Game; 
+                return new Game(
+                    [],
+                    new GameFormatter,
+                    new GameBuilder
+                );
+                /*return $app->makeWith(Game::class, [
+                    [], 
+                    $app->make( GameFormatter::class),
+                    $app->make( GameBuilder::class),
+                ]);*/
             });
+
+        /*$this->app->when(GameBuilder::class)
+            ->needs('$model')
+            ->give(Game::class);*/
+
+        $this->app->bindMethod([GameBuilder::class, 'get'],
+            function ($model, $app) {
+                return $model->get(
+                    $app->make( GameFormatter::class),
+                    $app->make( GameBuilder::class),
+                );
+            }
+        );
+        
+        $this->app->when(GameController::class)
+            ->needs(Formatter::class)
+            ->give( GameFormatter::class);
 
         $this->app->when(PageController::class)
             ->needs(Formatter::class)
@@ -108,12 +131,29 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->when(PageController::class)
             ->needs(BuilderInterface::class)
-            ->give( GameBuilder::class);
-        
-        // might be obsolete
+            // ???? shouldnt need this since gamebuilder already knows how to resolve
+            ->give(function($app){
+                $app->makeWith( GameBuilder::class, [ 
+                    new Game(
+                        [],
+                        new GameFormatter,
+                        new GameBuilder
+                    )]
+                );
+            });
+
+
         $this->app->when(Game::class)
             ->needs(BuilderInterface::class)
-            ->give( GameBuilder::class);
+            ->give(function($app){
+                return new GameBuilder;
+            });
+            
+        $this->app->when(Game::class)
+            ->needs(Formatter::class)
+            ->give(function($app){
+                return new GameFormatter;
+            });
     }
 
     /**

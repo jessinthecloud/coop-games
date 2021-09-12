@@ -4,30 +4,56 @@
 namespace App\Models;
 
 use App\Formatters\Formatter;
-use App\Formatters\FormatsToHtml;
 use Illuminate\Support\Carbon;
 use MarcReichel\IGDBLaravel\Models\Game as IgdbGame;
 use Throwable;
 
 class Game extends IgdbGame
 {
-    use QuerySetup, HasFields;
+    /**
+     * @deprecated
+     */
+    use QuerySetup;
+    
+    use HasFields;
 
     /**
-     * @var \App\Formatters\FormatsToHtml 
+     * @var \App\Formatters\Formatter|null
      */
     public ?Formatter $formatter;
 
-    public function __construct(array $properties = [], Formatter $formatter=null, BuilderInterface $builder=null)
+    public function __construct(
+        array $properties = [], 
+        Formatter $formatter=null, 
+        BuilderInterface $builder=null
+    )
     {
         parent::__construct($properties);
+
+        $this->builder = $builder;
+        $this->formatter = $formatter;
         
-        // only allow null and set because of static method calls
+    dump('formatter: ', $formatter, 'builder: ', $builder);
+
+        /*// only allow null and set because of static method calls
         // TODO: find a way to inject to constructor even when using __callStatic()
-        $this->formatter = $formatter ?? null;
+        $this->formatter = $formatter ?? null;*/
         if(isset($this->formatter) && !$this->formatter->hasGame() ){
             $this->formatter->setGame($this);
         }
+    }
+
+    /**
+     * Inject builder
+     *
+     * @param \App\Builders\Builder $builder
+     */
+    public function setBuilder(Builder $builder)
+    {
+        $this->builder = $builder;
+//        $this->builder->setGame($this);
+
+        return $this;
     }
 
     /**
@@ -44,6 +70,8 @@ class Game extends IgdbGame
     }
 
     /**
+     * @deprecated
+     *            
      * Setup fields and filters for every game query
      *
      * @param array|null $fieldsArg
@@ -172,57 +200,6 @@ class Game extends IgdbGame
     }
 
     /**
-     * Games released within the previous 3 months or next 1 months
-     * that have the most total ratings
-     *
-     * @param array|null $fields
-     * @param array|null $with
-     * @param int|null   $limit
-     *
-     * @return mixed
-     *
-     * @throws \Exception
-     */
-    public static function trending(
-        ?array $fields=null,
-        ?array $with=null,
-        ?int $limit=6/*,
-        ?int $cache=null*/
-    )
-    {
-        // order by first release date desc
-        // sort by total rating count
-
-        $after = Carbon::now()->subYears()->timestamp;
-        $before= Carbon::now()->addMonths(3)->timestamp;
-
-        $query = self::querySetup($fields, $with);
-
-        $query = $query
-            ->whereBetween('first_release_date', $after, $before)
-            ->whereNotNull('first_release_date')
-            ->where('total_rating_count', '>=', 5)
-            ->where(function ($query) {
-                $query->where('follows', '>=', 1)
-                    ->orWhere('total_rating_count', '>=', 5)/*
-                    ->orWhere('hypes', '>=', 5)*/
-                ;
-            })
-            ->where(function ($query) {
-                $query->whereNotNull('follows')
-                    ->orWhereNotNull('total_rating_count')/*
-                    ->orWhereNotNull('hypes')*/
-                ;
-            })
-            ;
-//dump($query);
-        return self::queryExecute($query, $limit, ['total_rating_count', 'desc'], [
-            ['total_rating_count', 'desc'],
-            ['first_release_date', 'desc']
-        ]);
-    }
-
-    /**
      * Get games that have the most ratings of all time
      *
      * @param array|null $fields
@@ -288,66 +265,6 @@ class Game extends IgdbGame
         ;
 
         return self::queryExecute($query, $limit, ['first_release_date', 'desc']);
-    }
-
-    /**
-     * Get games with a high following that are
-     * upcoming in the next 6 months
-     *
-     * @param array|null $fields
-     * @param array|null $with
-     * @param int|null   $limit
-     *
-     * @return mixed|string
-     *
-     * @throws \Exception
-     */
-    public static function mostAnticipated(
-        ?array $fields=null,
-        ?array $with=null,
-        ?int $limit=15/*,
-        ?int $cache=null*/
-    )
-    {
-        $query = self::querySetup($fields, $with)
-            ->where('first_release_date', '>', now())
-            ->orWhereNull('first_release_date')
-             ->where(function ($query) {
-                $query->where('follows', '>=', 3)
-                    ->orWhere('hypes', '>=', 3);
-             })
-        ;
-        return self::queryExecute($query, $limit, ['hypes', 'desc'], [
-            ['follows', 'desc'],
-        ]);
-    }
-
-    /**
-     * Get games upcoming in the next 6 months
-     *
-     * @param array|null $fields
-     * @param array|null $with
-     * @param int|null   $limit
-     *
-     * @return mixed|string
-     *
-     * @throws \Exception
-     */
-    public static function comingSoon(
-        ?array $fields=null,
-        ?array $with=null,
-        ?int $limit=15/*,
-        ?int $cache=null*/
-    )
-    {
-        $after = Carbon::now()->addMonths(6)->timestamp;
-
-        $query = self::querySetup($fields, $with)
-            ->whereBetween('first_release_date', now(), $after)
-            ->whereNotNull('first_release_date')
-        ;
-//        dump($query);
-        return self::queryExecute($query, $limit, ['first_release_date', 'asc']);
     }
 
     /**

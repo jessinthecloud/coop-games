@@ -27,20 +27,23 @@ class PageController extends Controller
      */
     public function index()
     {
-        $trending_games = Game::trending(null, null, 6);
+        $trending_games = $this->builder->trending();
+    
+    ddd('trending ', $trending_games);
+
         $trending_games = $trending_games->map(function($game, $key){
-            $game->setFormatter($this->formatter);
+//            $game->setFormatter($this->formatter);
             return $game->formatter->format();
         });
 
         $mostAnticipated = $this->builder->mostAnticipated();
-
         $mostAnticipated = $mostAnticipated->map(function($game, $key){
             $game->setFormatter($this->formatter);
             return $game->formatter->format();
         });
 
-        $comingSoon = Game::comingSoon(null, null, 5);
+        $comingSoon = $this->builder->comingSoon();
+        
         $comingSoon = $comingSoon->map(function($game, $key){
             $game->setFormatter($this->formatter);
             return $game->formatter->format();
