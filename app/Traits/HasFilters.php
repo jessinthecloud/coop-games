@@ -60,6 +60,12 @@ trait HasFilters
         return $this->whereIn('platform', $platforms);
     }
 
+    // TODO: platform exclusive (only to on platform family?
+    public function platformExclusive($platform)
+    {
+        return $this->where('platform', $platform);
+    }
+
     // release year -- value (int/string)
     public function releaseYear($year)
     {
