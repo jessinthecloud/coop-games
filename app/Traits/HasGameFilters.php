@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait HasFilters
+trait HasGameFilters
 {
     public function online()
     {
@@ -55,9 +55,9 @@ trait HasFilters
     }
 
     // platform -- Platform
-    public function platforms($platforms)
+    public function platforms(array $platforms)
     {
-        return $this->whereIn('platform', $platforms);
+        return $this->whereIn('platforms', $platforms);
     }
 
     // TODO: platform exclusive (only to on platform family?
@@ -111,46 +111,68 @@ trait HasFilters
         return $this->where('multiplayer_modes.offlinecoopmax', '>=', $num);
     }
 
-    // TODO: add these secondary query filters:
-    // genre - Genre
-    // company - Company
-    // age rating - AgeRating
-    // release years (all)
-    // franchise - Franchise
-    // player perspective - PlayerPerspective
-
-    public function sortByCriticRating($direction='asc')
+    /**
+     * @param array $genres - array of Genre IDs
+     *
+     * @return \App\Builders\GameBuilder
+     */
+    public function genres(array $genres)
     {
-        return $this->orderBy('aggregated_rating', $direction);
+        return $this->whereIn('genres', $genres);
     }
 
-    public function sortByUserRating($direction='asc')
+    /**
+     * @param array $companies - array of Involved Company IDs
+     *
+     * @return \App\Builders\GameBuilder
+     */
+    public function companies(array $involved_companies)
     {
-        return $this->orderBy('rating', $direction);
+        return $this->whereIn('involved_companies', $involved_companies);
     }
 
-    public function sortByTotalRating($direction='asc')
+    /**
+     * @param array $age_ratings - array of AgeRatings
+     */
+    public function ageRating(array $age_ratings)
     {
-        return $this->orderBy('total_rating', $direction);
+        return $this->whereIn('age_ratings', $age_ratings);
+    }
+    
+    /**
+     * Where year is any of hte release years
+     * 
+     * @param int|string $year
+     *
+     * @return \App\Builders\GameBuilder
+     * @throws \JsonException
+     * @throws \ReflectionException
+     */
+    public function releaseYears($year)
+    {
+        return $this->whereYear('release_dates.y', $year);
     }
 
-    public function sortByFirstRelease($direction='asc')
+    /**
+     * @param string $franchise
+     *
+     * @return \App\Builders\GameBuilder
+     */
+    public function franchise(string $franchise)
     {
-        return $this->orderBy('first_release_date', $direction);
+        return $this->where('franchise.name', 'like',  $franchise);
     }
 
-    public function sortByName($direction='asc')
+    /**
+     * @param array $player_perspectives - array of AgeRatings
+     */
+    public function playerPerspective(array $player_perspectives)
     {
-        return $this->orderBy('name', $direction);
+        return $this->whereIn('player_perspectives', $player_perspectives);
     }
 
-    public function sortByPopularity($direction='asc')
+    public function popular()
     {
-        return $this->orderBy('total_rating_count', $direction);
-    }
-
-    public function sortByAgeRating($direction='asc')
-    {
-        return $this->orderBy('age_ratings.rating', $direction);
+        return $this->where('total_rating_count', '>', 5);
     }
 }

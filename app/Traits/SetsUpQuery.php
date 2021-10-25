@@ -6,6 +6,12 @@ use Throwable;
 
 trait SetsUpQuery
 {
+    /**
+     * @param array|null $fieldsArg
+     * @param bool       $listing
+     *
+     * @return array|string[]
+     */
     protected function setupFields(
         ?array $fieldsArg=null,
         $listing=true/*,
@@ -14,7 +20,7 @@ trait SetsUpQuery
     {
         return ($fieldsArg === null && $listing === false) 
             ? array_merge($this->fields, $this->detail_fields) 
-                : ($fieldsArg ?? $this->fields);
+            : ($fieldsArg ?? $this->fields);
     }
 
     protected function setupWith(
@@ -30,6 +36,7 @@ trait SetsUpQuery
    
     /**
      * Ensure fields and filters for every query
+     * (bascially global scope)
      *
      * @param array|null $fields
      * @param array|null $fieldsArg

@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Formatters\Formatter;
+use App\Traits\SetsUpQuery;
 use MarcReichel\IGDBLaravel\Models\MultiplayerMode;
 
 class CoopMode extends MultiplayerMode
 {
-    use QuerySetup;
+    use SetsUpQuery;
 
     protected static $fields = [
         '*',

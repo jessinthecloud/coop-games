@@ -2,10 +2,9 @@
 
 namespace App\Traits;
 
-use Throwable;
-
-trait HasFields
+trait HasGameFields
 {
+    // fields to always select
     protected $fields = [
         'name',
         'slug',
@@ -16,7 +15,7 @@ trait HasFields
         'version_title',
         'storyline',
     ];
-
+    // additional fields to select on the game details page
     protected $detail_fields = [
         'summary',
         'rating',
@@ -28,6 +27,7 @@ trait HasFields
         'status',
     ];
 
+    // relations to always get
     protected $with = [
         'cover' => ['url', 'image_id'],
         'platforms' => ['id', 'name', 'abbreviation', 'slug'],
@@ -36,6 +36,7 @@ trait HasFields
         'collection',
     ];
 
+    // additional relations to get on the game details page
     protected $detail_with = [
         'age_ratings',
         'involved_companies',

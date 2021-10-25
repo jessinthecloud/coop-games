@@ -4,8 +4,9 @@
 namespace App\Builders;
 
 use App\Models\Game;
-use App\Traits\HasFields;
-use App\Traits\HasFilters;
+use App\Traits\HasGameFields;
+use App\Traits\HasGameFilters;
+use App\Traits\HasGameSorts;
 use App\Traits\SetsUpQuery;
 use MarcReichel\IGDBLaravel\Builder;
 use Illuminate\Pagination\Paginator;
@@ -15,7 +16,7 @@ use MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException;
 
 class GameBuilder extends Builder implements BuilderInterface
 {
-    use HasFields, SetsUpQuery, HasFilters;
+    use HasGameFields, SetsUpQuery, HasGameFilters, HasGameSorts;
     
     public function __construct(Game $model, Collection $query=null) 
     {
@@ -144,6 +145,7 @@ class GameBuilder extends Builder implements BuilderInterface
     )
     {
         $this->where('slug', 'like', $slug)
+        // must get similar games only where they have coop
             /*->where(function($query){
                 $query->where('similar_games.multiplayer_modes.onlinecoop', '=', true)
                     ->orWhere('similar_games.multiplayer_modes.offlinecoop', '=', true)
