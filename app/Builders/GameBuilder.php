@@ -8,6 +8,7 @@ use App\Traits\HasGameFields;
 use App\Traits\HasGameFilters;
 use App\Traits\HasGameSorts;
 use App\Traits\SetsUpQuery;
+use Illuminate\Pagination\LengthAwarePaginator;
 use MarcReichel\IGDBLaravel\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
@@ -24,15 +25,75 @@ class GameBuilder extends Builder implements BuilderInterface
     }
 
     /**
+     * @param int $perPage
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @throws \MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException
+     */
+    public function longPaginate(int $perPage=30): LengthAwarePaginator
+    {
+        $page = optional(request())->get('page', 1);
+
+        $data = $this->forPage($page, 500)->get();
+
+        return new LengthAwarePaginator($data->skip(($page - 1) * $perPage)->take($perPage), $data->count(), $perPage, $page, [
+            'path' => LengthAwarePaginator::resolveCurrentPath(),
+            'pageName' => 'page',
+        ]);
+    }
+
+    /**
+     * @param int $perPage
+     *
+     * @return \Illuminate\Pagination\Paginator
+     * @throws \MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException
+     */
+    public function paginate(int $perPage=30): Paginator
+    {
+        $page = optional(request())->get('page', 1);
+
+        // in order to paginate, you must have more results to count
+        $data = $this->forPage($page, $perPage)->get();
+dump($data->last(), count($data->skip(($page - 1) * $perPage)->all()));
+        return new Paginator($data->skip(($page - 1) * $perPage)->all(), $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => 'page',
+        ]);
+    }
+
+    /**
+     * Set the limit and offset for a given page.
+     *
+     * @param int $page
+     * @param int $perPage
+     *
+     * @return self
+     */
+    public function forPage(int $page, int $perPage = 10): self
+    {
+    dump('page: '.$page, 'per page: '.$perPage,'scrolled: '.(($page-1) * $perPage + $perPage));
+        // in order to paginate, you must have more results to count
+        // so we only need to send the offset when the page count
+        // has surpassed the 500th item
+        if(($page-1) * $perPage + $perPage >= 500){
+dump('NEW', 'offset: '.(($page - 1) * $perPage));        
+            $this->skip((($page-1) * $perPage + $perPage) - 500);
+        }
+        return $this->take(500);
+    }
+
+    /**
      * Get games with a high following that are
      * upcoming in the next 6 months
      *
+     * @param int|null $perPage
      * @param int|null $limit
      *
+     * @return \MarcReichel\IGDBLaravel\Builder
      * @throws \JsonException
      * @throws \ReflectionException
      */
-    public function mostAnticipated(?int $limit=5)
+    public function mostAnticipated(?int $perPage=30, ?int $limit=5)
     {
         $this->where('first_release_date', '>', now())
             ->orWhereNull('first_release_date')
@@ -41,7 +102,7 @@ class GameBuilder extends Builder implements BuilderInterface
                     ->orWhere('hypes', '>=', 3);
             })
         ;
-        return $this->executeQuery($this, $limit, ['hypes', 'desc'], [
+        return $this->executeQuery($this, $perPage, $limit, ['hypes', 'desc'], [
             ['follows', 'desc'],
         ]);
     }
@@ -49,12 +110,15 @@ class GameBuilder extends Builder implements BuilderInterface
     /**
      * Get games upcoming in the next 6 months
      *
+     * @param int|null $perPage
      * @param int|null $limit
      *
+     * @return \MarcReichel\IGDBLaravel\Builder
      * @throws \JsonException
      * @throws \ReflectionException
      */
     public function comingSoon(
+        ?int $perPage=30,
         ?int $limit=15/*,
         ?int $cache=null*/
     )
@@ -65,18 +129,22 @@ class GameBuilder extends Builder implements BuilderInterface
             ->whereNotNull('first_release_date')
         ;
 //        dump($query);
-        return $this->executeQuery($this, $limit, ['first_release_date', 'asc']);
+        return $this->executeQuery($this, $perPage, $limit, ['first_release_date', 'asc']);
     }
 
     /**
      * Games released within the previous 3 months or next 1 months
      * that have the most total ratings
      *
-     * @param int|null   $limit
+     * @param int|null $perPage
+     * @param int|null $limit
      *
-     * @throws \Exception
+     * @return \MarcReichel\IGDBLaravel\Builder
+     * @throws \JsonException
+     * @throws \ReflectionException
      */
     public function trending(
+        ?int $perPage=30,
         ?int $limit=6/*,
         ?int $cache=null*/
     )
@@ -104,7 +172,7 @@ class GameBuilder extends Builder implements BuilderInterface
             })
         ;
 
-        return $this->executeQuery($this, $limit, ['total_rating_count', 'desc'], [
+        return $this->executeQuery($this, $perPage, $limit, ['total_rating_count', 'desc'], [
             ['total_rating_count', 'desc'],
             ['first_release_date', 'desc']
         ]);
@@ -113,33 +181,37 @@ class GameBuilder extends Builder implements BuilderInterface
     /**
      * Get games released in the last 3 months
      *
+     * @param int|null $perPage
      * @param int|null $limit
      *
+     * @return \MarcReichel\IGDBLaravel\Builder
      * @throws \JsonException
      * @throws \ReflectionException
      */
     public function listing(
-        ?int $limit=30/*,
+        ?int $perPage=30,
+        ?int $limit=null/*,
         ?int $cache=null*/
     )
     {
-        return $this->executeQuery($this, $limit, ['name', 'asc']);
+        return $this->executeQuery($this, $perPage, $limit, ['first_release_date', 'desc'], ['name', 'asc']);
     }
 
     /**
      * Get specific game by slug (for detail page)
      *
-     * @param array|null $fields
-     * @param array|null $with
-     * @param int|null   $limit
+     * @param          $slug
+     * @param int|null $perPage
+     * @param int|null $limit
      *
-     * @return mixed
+     * @return \MarcReichel\IGDBLaravel\Builder
      *
      * @throws \JsonException
      * @throws \ReflectionException
      */
     public function bySlug(
         $slug,
+        ?int $perPage=30,
         ?int $limit=1/*,
         ?int $cache=null*/
     )
@@ -156,7 +228,7 @@ class GameBuilder extends Builder implements BuilderInterface
 
 //    dump($query, $slug);
 
-        return $this->executeQuery($this, $limit, ['first_release_date', 'desc'], null, false);
+        return $this->executeQuery($this, $perPage, $limit, ['first_release_date', 'desc'], null, false);
     } // bySlug()
     
 }

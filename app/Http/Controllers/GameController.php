@@ -33,13 +33,18 @@ class GameController extends Controller
         $page = $page ?? 1;
         
 //        $games = $this->builder->select('name, slug, first_release_date')->get(); 
-        $games = $this->builder->listing();
-        $games = $games->map(function($game, $key){
+        
+        $games_pager = $this->builder->listing();
+//dump($games_pager, $games_pager->hasPages(), $games_pager->hasMorePages());        
+        $games = $games_pager->items();
+        
+        $games = collect($games)->map(function($game, $key){
             return $this->formatter->format($game);
         });
 
         return view('games.index', compact(
-            'games'
+            'games',
+            'games_pager'
         ));
     }
     

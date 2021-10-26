@@ -49,7 +49,8 @@ trait SetsUpQuery
      */
     protected function executeQuery(
         $query,
-        ?int $limit=15,
+        ?int $perPage=null,
+        ?int $limit=null,
         array $order=['first_release_date', 'desc'],
         ?array $sort=null,
         bool $listing=true,
@@ -62,7 +63,7 @@ trait SetsUpQuery
         
         try {
         
-            return $query
+            $query = $query
                 ->select(
                     $fields
                 )
@@ -76,17 +77,20 @@ trait SetsUpQuery
                     }
                 )
                 ->whereNotNull('slug')
-                /**
+                /*
                  * can only have one sort field for IGDB API
                  * can have any number of order fields (but not sort)
                  *
                  * Must keep in mind what your main sort field is because the limit will
                  * mess with proper ordering
                  */
-                ->orderBy(...$order)
-                ->limit($limit)
-                ->get()
-                ->sortBy($sort);
+                ->orderBy(...$order);
+
+//                dump($query);
+
+            // in order to paginate, you must have more results to count
+            return isset($limit) ? $query->limit($limit)->sortBy($sort) : $query->limit(500)->paginate($perPage);
+        
         } catch (Throwable $e) {
             ddd($e, $query);
         }
