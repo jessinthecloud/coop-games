@@ -147,7 +147,7 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 }
 
 .game-card {
-  background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
+  background-image: linear-gradient(0.42turn, transparent 80%, var(--primary-purple));
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -201,7 +201,7 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
   transition-property: all;
 }
 .game-card .boxart a:hover:before, .game-card .boxart a:focus:before {
-  opacity: 0.8;
+  opacity: 0.95;
 }
 .game-card .boxart img {
   border-top-left-radius: 0.5rem;

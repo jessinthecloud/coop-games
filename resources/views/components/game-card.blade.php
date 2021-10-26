@@ -35,8 +35,6 @@
                         'count' => $count,
                     ])
                 @endpush
-                {{-- for now until alpine--}}
-{{--                <span class="absolute font-bold top-4 left-5 text-gray-300">{{ $game['rating'] }}</span>--}}
             </div>
         @endif
     </div>
@@ -49,8 +47,7 @@
             hover:text-gray-200
             focus:text-gray-200
         ">
-            {{ $game['name'] }} --
-            {{ $game['id'] }} --
+            {{ $game['name'] }}
         </a>
         @if(!empty($game['platforms']))
             <div class="text-gray-400 mt-1">
@@ -58,7 +55,7 @@
             </div>
         @endif
         @if(!empty($game['first_release_date']))
-            <div class="text-gray-400 mt-1"> {{ $game['first_release_date'] }} </div>
+            <div class="text-gray-400 mt-1 italic"> {{ $game['first_release_date'] }} </div>
         @endif
 
         {{--@if(!empty($game['num_players']))

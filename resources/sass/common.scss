@@ -187,8 +187,8 @@ body > nav {
 
 .game-card {
     background-image : linear-gradient(
-        to bottom right,
-        transparent 50%,
+        0.42turn,
+        transparent 80%,
         //var(--primary-lime),
         var(--primary-purple),
     );
@@ -238,7 +238,7 @@ body > nav {
                 content                    : '';
                 left                       : 0;
                 //max-height: 99%;
-                opacity                    : .4;
+                opacity                    : 0.4;
                 overflow                   : hidden;
                 position                   : absolute;
                 right                      : 0;
@@ -251,7 +251,7 @@ body > nav {
             &:hover,
             &:focus {
                 &:before {
-                    opacity : .8;
+                    opacity : .95;
                 }
             } // hover/focus
         } // a
