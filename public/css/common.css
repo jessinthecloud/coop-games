@@ -97,30 +97,30 @@ a:focus {
   padding: 0 5vw;
 }
 
-nav {
+body > nav {
   background-color: var(--darker-gray);
   border-bottom: 1px solid var(--darkest-gray);
   font-weight: bold;
 }
-nav .menu-item {
+body > nav .menu-item {
   letter-spacing: 0.1rem;
   min-width: 8rem;
   padding: 1rem 0;
   text-transform: uppercase;
 }
-nav .menu-item a {
+body > nav .menu-item a {
   text-decoration: none;
 }
-nav .menu-item a:hover, nav .menu-item a:focus {
+body > nav .menu-item a:hover, body > nav .menu-item a:focus {
   text-decoration: underline;
 }
-nav .search-dropdown {
+body > nav .search-dropdown {
   background-color: var(--dark-gray);
 }
-nav .search-dropdown a {
+body > nav .search-dropdown a {
   text-decoration: none;
 }
-nav .search-dropdown a:hover, nav .search-dropdown a:focus {
+body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
   background-color: var(--gray-04);
   color: var(--gray-04-text);
 }

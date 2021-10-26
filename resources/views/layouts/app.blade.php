@@ -5,7 +5,7 @@
     <div
         class="container min-h-screen flex flex-column justify-center items-start mx-auto"
     >
-        <div id="content-wrapper">
+        <div id="content-wrapper" class="w-full">
             @yield('content')
         </div>
         <!-- #content-wrapper -->

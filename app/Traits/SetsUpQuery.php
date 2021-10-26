@@ -89,7 +89,7 @@ trait SetsUpQuery
 //                dump($query);
 
             // in order to paginate, you must have more results to count
-            return isset($limit) ? $query->limit($limit)->sortBy($sort) : $query->limit(500)->paginate($perPage);
+            return isset($limit) ? $query->limit($limit)->get()->sortBy($sort) : $query->limit(500)->paginate($perPage);
         
         } catch (Throwable $e) {
             ddd($e, $query);
