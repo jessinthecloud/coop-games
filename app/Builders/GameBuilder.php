@@ -18,7 +18,9 @@ use MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException;
 class GameBuilder extends Builder implements BuilderInterface
 {
     use HasGameFields, SetsUpQuery, HasGameFilters, HasGameSorts;
-    
+
+    private int $skipped=1;
+
     public function __construct(Game $model, Collection $query=null) 
     {
         parent::__construct($model);
@@ -54,8 +56,8 @@ class GameBuilder extends Builder implements BuilderInterface
 
         // in order to paginate, you must have more results to count
         $data = $this->forPage($page, $perPage)->get();
-dump($data->last(), count($data->skip(($page - 1) * $perPage)->all()));
-        return new Paginator($data->skip(($page - 1) * $perPage)->all(), $perPage, $page, [
+
+        return new Paginator($data->skip($perPage)->all(), $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
             'pageName' => 'page',
         ]);
@@ -69,17 +71,11 @@ dump($data->last(), count($data->skip(($page - 1) * $perPage)->all()));
      *
      * @return self
      */
-    public function forPage(int $page, int $perPage = 10): self
+    public function forPage(int $page, int $perPage = 15): self
     {
-    dump('page: '.$page, 'per page: '.$perPage,'scrolled: '.(($page-1) * $perPage + $perPage));
         // in order to paginate, you must have more results to count
-        // so we only need to send the offset when the page count
-        // has surpassed the 500th item
-        if(($page-1) * $perPage + $perPage >= 500){
-dump('NEW', 'offset: '.(($page - 1) * $perPage));        
-            $this->skip((($page-1) * $perPage + $perPage) - 500);
-        }
-        return $this->take(500);
+        // shift the offset once per page, but don't limit results        
+        return $this->skip(($page-1) * $perPage)->take(500);
     }
 
     /**
