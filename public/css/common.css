@@ -94,7 +94,7 @@ a:focus {
 
 .container {
   max-width: 82rem;
-  padding: 0 5vw;
+  padding: 0 2vw;
 }
 
 body > nav {
@@ -148,7 +148,6 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 
 .game-card {
   background-image: linear-gradient(to bottom right, transparent 50%, var(--primary-purple));
-  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -182,6 +181,7 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
   border-top-right-radius: 0.5rem;
   overflow: hidden;
   padding: 0;
+  position: relative;
   z-index: 1;
 }
 .game-card .boxart a:before {
@@ -210,6 +210,7 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 }
 .game-card .rating-wrapper {
   box-shadow: 1px 1px 1px 1px var(--darkest-gray);
+  z-index: 2;
 }
 .game-card .game-details {
   display: flex;
@@ -220,7 +221,7 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 }
 .game-card .game-title {
   display: inline-block;
-  font-size: 1.15em;
+  font-size: 1.05em;
   font-weight: 600;
   margin-bottom: 1rem;
   max-width: 90%;
@@ -230,9 +231,9 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 
 #trending-wrapper .game-card {
   flex-grow: 0;
-  width: calc(33% - 2rem);
+  width: calc(20% - 2rem);
 }
-#trending-wrapper .game-card:nth-of-type(3n) {
+#trending-wrapper .game-card:nth-of-type(5n) {
   margin-right: 0;
 }
 
@@ -307,14 +308,12 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 
 #trending-wrapper {
   width: 100%;
-  max-width: 70%;
 }
 
 #main-aside {
   display: flex;
   flex-direction: column;
   margin-left: 3rem;
-  max-width: calc(30% - 3rem);
   padding: 1.5rem;
 }
 #main-aside h3 {

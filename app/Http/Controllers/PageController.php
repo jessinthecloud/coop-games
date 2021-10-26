@@ -29,7 +29,7 @@ class PageController extends Controller
     {
         $trending_games = $this->builder->trending();
     
-//    dump('trending ', $trending_games);
+// dump('trending ', $trending_games);
 
         $trending_games = $trending_games->map(function($game, $key){
 //            $game->setFormatter($this->formatter);

@@ -141,7 +141,7 @@ class GameBuilder extends Builder implements BuilderInterface
      */
     public function trending(
         ?int $perPage=30,
-        ?int $limit=6/*,
+        ?int $limit=10/*,
         ?int $cache=null*/
     )
     {

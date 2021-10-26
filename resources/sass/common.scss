@@ -124,7 +124,7 @@ a {
 
 .container {
     max-width: 82rem;
-    padding: 0 5vw;
+    padding: 0 2vw;
 }
 
 body > nav {
@@ -192,7 +192,7 @@ body > nav {
         //var(--primary-lime),
         var(--primary-purple),
     );
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
+    //box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -224,6 +224,7 @@ body > nav {
             border-top-right-radius: .5rem;
             overflow : hidden;
             padding  : 0;
+            position: relative;
             z-index  : 1;
 
             &:before {
@@ -265,6 +266,7 @@ body > nav {
     .rating-wrapper {
         //border: 3px solid var(--accent-purple); // TEMP RATING RING
         box-shadow: 1px 1px 1px 1px var(--darkest-gray);
+        z-index: 2;
     }
 
     .game-details {
@@ -277,7 +279,7 @@ body > nav {
 
     .game-title {
         display     : inline-block;
-        font-size: 1.15em;
+        font-size: 1.05em;
         font-weight : 600;
         margin-bottom: 1rem;
         max-width   : 90%;
@@ -289,9 +291,9 @@ body > nav {
 #trending-wrapper {
     .game-card {
         flex-grow: 0;
-        width : calc(33% - 2rem);
+        width : calc(20% - 2rem);
 
-        &:nth-of-type(3n) {
+        &:nth-of-type(5n) {
             margin-right : 0;
         }
     }
@@ -390,14 +392,13 @@ body > nav {
 // -- HOME
 #trending-wrapper {
     width: 100%;
-    max-width: 70%;
 }
 
 #main-aside {
     display: flex;
     flex-direction: column;
     margin-left: 3rem;
-    max-width: calc(30% - 3rem);
+    //max-width: calc(30% - 3rem);
     padding: 1.5rem;
 
     h3 {
