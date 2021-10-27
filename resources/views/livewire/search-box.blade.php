@@ -1,4 +1,4 @@
-<div class="relative" x-data="{ isVisible: true}" @click.away="isVisible=false">
+<div class="search-box relative" x-data="{ isVisible: true}" @click.away="isVisible=false">
     {{-- wire model will update the value of the property on the class
     search is public property on the class
     debounce - prevent requests within certain time 
@@ -6,7 +6,7 @@
     <input wire:model.debounce.200ms="search"
            type="text"
            placeholder="Search Co-op Games"
-           class="text-sm rounded-full px-3 pl-8 py-1 w-64"
+           class="text-md rounded-full px-6 pl-8 py-2"
            {{-- 
            on keydown event anywhere, check to see if it was /
            if so, focus the element "search" that was returned from any x-ref 

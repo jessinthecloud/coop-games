@@ -1,7 +1,6 @@
-<div class="game-card-small flex flex-nowrap">
+<div class="game-card-small flex">
     <a href="{{ route('games.show', $game['slug']) }}"
-       class="boxart
-       w-1/3"
+       class="boxart mr-2"
     >
         <img src="{{ $game['cover_url'] }}"
              alt="{{ $game['name'] }} Cover Art"
@@ -9,7 +8,7 @@
                 hover:opacity-75 "
         >
     </a>
-    <div class="flex flex-col w-2/3 pl-2">
+    <div class="flex flex-col pl-2">
         <a href="{{ route('games.show', $game['slug']) }}"
            class="hover:text-purple-300"
         >

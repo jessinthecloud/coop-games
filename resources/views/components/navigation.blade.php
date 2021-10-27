@@ -1,5 +1,5 @@
-<nav class="w-full p-0 mb-8">
-    <div class="container flex flex-wrap items-center justify-between h-full mx-auto">
+<nav class="w-full mb-8">
+    <div class="container flex flex-wrap items-center h-full mx-auto">
         <ul class="flex flex-wrap
             md:max-w-3/4
         ">

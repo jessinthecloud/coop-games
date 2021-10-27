@@ -101,11 +101,21 @@ body > nav {
   background-color: var(--darker-gray);
   border-bottom: 1px solid var(--darkest-gray);
   font-weight: bold;
+  padding: 0 1rem 1.5rem;
+}
+body > nav .container {
+  justify-content: center;
+  padding: 0;
+}
+body > nav ul {
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 body > nav .menu-item {
   letter-spacing: 0.1rem;
   min-width: 8rem;
-  padding: 1rem 0;
+  padding: 0.75rem 0;
+  text-align: center;
   text-transform: uppercase;
 }
 body > nav .menu-item a {
@@ -113,6 +123,13 @@ body > nav .menu-item a {
 }
 body > nav .menu-item a:hover, body > nav .menu-item a:focus {
   text-decoration: underline;
+}
+body > nav .search-box {
+  max-width: 90%;
+  width: 100%;
+}
+body > nav .search-box input {
+  width: 100%;
 }
 body > nav .search-dropdown {
   background-color: var(--dark-gray);
@@ -123,6 +140,26 @@ body > nav .search-dropdown a {
 body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
   background-color: var(--gray-04);
   color: var(--gray-04-text);
+}
+@media (min-width: 1024px) {
+  body > nav {
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+  }
+  body > nav .container {
+    justify-content: space-between;
+    padding: 0 2vw;
+  }
+  body > nav ul {
+    margin-bottom: 0;
+  }
+  body > nav .menu-item {
+    padding: 1rem 0;
+    text-align: left;
+  }
+  body > nav .search-box {
+    width: 24rem;
+  }
 }
 
 .title {
@@ -231,10 +268,26 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 
 #trending-wrapper .game-card {
   flex-grow: 0;
-  width: calc(20% - 2rem);
-}
-#trending-wrapper .game-card:nth-of-type(5n) {
   margin-right: 0;
+  width: 100%;
+  max-width: 85%;
+}
+#trending-wrapper .game-card:nth-of-type(5n) ~ .game-card {
+  display: none;
+}
+#trending-wrapper section.justify-between {
+  justify-content: center;
+}
+@media (min-width: 1024px) {
+  #trending-wrapper .game-card {
+    display: flex;
+    margin-right: 2rem;
+    max-width: 100%;
+    width: calc(20% - 2rem);
+  }
+  #trending-wrapper .game-card:nth-of-type(5n) {
+    margin-right: 0;
+  }
 }
 
 .similar-games-wrapper {
@@ -273,11 +326,12 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
   );*/
   border-radius: 0.5rem;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
   padding: 0.5rem 0;
   position: relative;
+  width: 100%;
   z-index: 0;
   /*&:before {
       background: var(--darker-gray);
@@ -302,28 +356,59 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 .game-card-small .boxart img {
   border-radius: 0.25rem;
 }
-.game-card-small:first-of-type {
-  margin-top: 0;
-}
 
 #trending-wrapper {
   width: 100%;
 }
 
-#main-aside {
+.main-aside {
+  background-image: linear-gradient(0.83turn, transparent 80%, var(--primary-purple));
   display: flex;
-  flex-direction: column;
-  margin-left: 3rem;
-  padding: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 2rem;
+  max-width: 85%;
+  padding: 0 0 0 2rem;
+  position: relative;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-property: all;
+  width: 100%;
+  z-index: 0;
 }
-#main-aside h3 {
-  font-size: 1.2em;
+.main-aside:before {
+  background: var(--darker-gray);
+  border-radius: inherit;
+  content: "";
+  margin: 1px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+.main-aside h3 {
+  font-size: 1.3em;
   margin-bottom: 0.5rem;
   margin-top: 2rem;
   text-transform: uppercase;
 }
-#main-aside h3:first-of-type {
-  margin-top: 0;
+@media (min-width: 1024px) {
+  .main-aside {
+    background-image: linear-gradient(0.83turn, transparent 60%, var(--primary-purple));
+    margin-top: 0;
+    max-width: calc(50% - 2.5rem);
+  }
+  .main-aside + .main-aside {
+    margin-left: 5rem;
+  }
+  .main-aside .game-card-small {
+    width: calc(45% - 0.75rem);
+  }
+  .main-aside .game-card-small:nth-of-type(2n) {
+    margin-left: 1.5rem;
+  }
 }
 
 #details-wrapper {

@@ -89,7 +89,7 @@ class GameBuilder extends Builder implements BuilderInterface
      * @throws \JsonException
      * @throws \ReflectionException
      */
-    public function mostAnticipated(?int $perPage=30, ?int $limit=5)
+    public function mostAnticipated(?int $perPage=30, ?int $limit=15)
     {
         $this->where('first_release_date', '>', now())
             ->orWhereNull('first_release_date')

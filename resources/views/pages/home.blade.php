@@ -19,9 +19,9 @@
         </div>
         <!-- trending-wrapper -->
 
-        <aside id="main-aside" class="min-h-screen flex-grow round-border">
+        <aside class="main-aside min-h-screen w-1/2 flex-grow flex flex-wrap round-border">
             @if(isset($mostAnticipated))
-                <h3 class="subtitle">
+                <h3 class="subtitle w-full">
                     Most Anticipated
                 </h3>
                 @foreach($mostAnticipated as $game)
@@ -29,9 +29,11 @@
                     <x-game-card-small :game="$game" />
                 @endforeach
             @endif
+        </aside>
 
+        <aside class="main-aside min-h-screen w-1/2 flex-grow flex flex-wrap round-border">
             @if(isset($comingSoon))
-                <h3 class="subtitle">
+                <h3 class="subtitle w-full">
                     Coming Soon
                 </h3>
                 @foreach($comingSoon as $game)

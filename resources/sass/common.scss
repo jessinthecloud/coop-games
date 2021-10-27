@@ -131,11 +131,23 @@ body > nav {
     background-color: var(--darker-gray);
     border-bottom: 1px solid var(--darkest-gray);
     font-weight: bold;
+    padding: 0 1rem 1.5rem;
+    
+    .container {
+        justify-content: center;
+        padding: 0;
+    } 
+    
+    ul {
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
 
     .menu-item {
         letter-spacing: .1rem;
         min-width: 8rem;
-        padding: 1rem 0;
+        padding: .75rem 0;
+        text-align: center;
         text-transform: uppercase;
 
         a {
@@ -145,12 +157,20 @@ body > nav {
             &:focus {
                 text-decoration: underline;
             }
-        }
+        } // a
     } // .menu-item
     
+    .search-box {
+        max-width: 90%;
+        width: 100%;
+        
+        input {
+            width: 100%;
+        }
+    }
     .search-dropdown {
         background-color: var(--dark-gray);
-        
+                        
         a {
             text-decoration: none;
             
@@ -161,6 +181,30 @@ body > nav {
             }
         }
     } //.search-dropdown
+
+    // large width
+    @media(min-width: 1024px) {
+        justify-content: space-between;
+        padding: .5rem 1rem;
+        
+        .container {
+            justify-content: space-between;
+            padding: 0 2vw;
+        }
+        
+        ul {
+            margin-bottom: 0;
+        }
+        
+        .menu-item {
+            padding: 1rem 0;
+            text-align: left;
+        }
+        
+        .search-box {
+            width: 24rem;
+        }
+    }
 } // nav
 
 .title {
@@ -291,11 +335,31 @@ body > nav {
 #trending-wrapper {
     .game-card {
         flex-grow: 0;
-        width : calc(20% - 2rem);
+        margin-right: 0;
+        width: 100%;
+        max-width: 85%;
 
-        &:nth-of-type(5n) {
-            margin-right : 0;
+        &:nth-of-type(5n) ~ .game-card {
+            display: none;
         }
+    } // .game-card
+    
+    section.justify-between {
+        justify-content: center;
+    }
+
+    // large width
+    @media(min-width: 1024px) {
+        .game-card {
+            display: flex;
+            margin-right  : 2rem;
+            max-width: 100%;
+            width : calc(20% - 2rem);
+
+            &:nth-of-type(5n) {
+                margin-right : 0;
+            }
+        } //.game-card
     }
 } // #trending-wrapper
 
@@ -347,11 +411,12 @@ body > nav {
     // box-shadow: [horizontal offset] [vertical offset] [blur radius] [optional spread radius] [color];
     // box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.4);
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: .5rem;
     margin-top: .5rem;
     padding: .5rem 0;
     position:relative;
+    width: 100%;
     z-index: 0;
 
     /*&:before {
@@ -380,10 +445,6 @@ body > nav {
             border-radius: .25rem;
         }
     }
-
-    &:first-of-type {
-        margin-top: 0;
-    }
 } // .game-card
 
 
@@ -394,24 +455,69 @@ body > nav {
     width: 100%;
 }
 
-#main-aside {
+.main-aside {
+    background-image : linear-gradient(
+            0.83turn,
+            transparent 80%,
+            //var(--primary-lime),
+            var(--primary-purple),
+    );
     display: flex;
-    flex-direction: column;
-    margin-left: 3rem;
-    //max-width: calc(30% - 3rem);
-    padding: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 2rem;
+    max-width: 85%;
+    padding: 0 0 0 2rem;
+    position:relative;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    transition-property: all;
+    width:100%;
+    z-index: 0;
+
+    &:before {
+        background: var(--darker-gray);
+        border-radius: inherit;
+        content: '';
+        margin: 1px;
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: -1;
+    } // :before
 
     h3 {
-        font-size: 1.2em;
+        font-size: 1.3em;
         margin-bottom: .5rem;
         margin-top: 2rem;
         text-transform: uppercase;
-
-        &:first-of-type{
-            margin-top: 0;
+    }
+    
+    // large width
+    @media(min-width: 1024px){
+        background-image : linear-gradient(
+            0.83turn,
+            transparent 60%,
+            //var(--primary-lime),
+            var(--primary-purple),
+        );
+        margin-top: 0;
+        max-width: calc(50% - 2.5rem);
+        
+        & + .main-aside {
+            margin-left: 5rem;
+        }
+        
+        .game-card-small{
+            
+            width: calc(45% - 0.75rem); 
+            
+            &:nth-of-type(2n){
+                margin-left: 1.5rem;
+            }
         }
     }
-} // #main-aside
+} // .main-aside
+
 
 // -- END HOME
 
