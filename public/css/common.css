@@ -184,7 +184,7 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
 }
 
 .game-card {
-  background-image: linear-gradient(0.42turn, transparent 80%, var(--primary-purple));
+  background-image: linear-gradient(0.42turn, transparent 85%, var(--primary-purple));
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -287,6 +287,9 @@ body > nav .search-dropdown a:hover, body > nav .search-dropdown a:focus {
   }
   #trending-wrapper .game-card:nth-of-type(5n) {
     margin-right: 0;
+  }
+  #trending-wrapper .game-card:nth-of-type(5n) ~ .game-card {
+    display: flex;
   }
 }
 

@@ -232,7 +232,7 @@ body > nav {
 .game-card {
     background-image : linear-gradient(
         0.42turn,
-        transparent 80%,
+        transparent 85%,
         //var(--primary-lime),
         var(--primary-purple),
     );
@@ -358,6 +358,10 @@ body > nav {
 
             &:nth-of-type(5n) {
                 margin-right : 0;
+                
+                & ~ .game-card {
+                    display: flex;
+                }
             }
         } //.game-card
     }
