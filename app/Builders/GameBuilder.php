@@ -153,17 +153,14 @@ class GameBuilder extends Builder implements BuilderInterface
 
         $this->whereBetween('first_release_date', $after, $before)
             ->whereNotNull('first_release_date')
-            ->where('total_rating_count', '>=', 5)
             ->where(function ($query) {
-                $query->where('follows', '>=', 1)
-                    ->orWhere('total_rating_count', '>=', 5)/*
-                    ->orWhere('hypes', '>=', 5)*/
+                $query->where('follows', '>=', 3)
+                    ->orWhere('total_rating_count', '>=', 5)
                 ;
             })
             ->where(function ($query) {
                 $query->whereNotNull('follows')
-                    ->orWhereNotNull('total_rating_count')/*
-                    ->orWhereNotNull('hypes')*/
+                    ->orWhereNotNull('total_rating_count')
                 ;
             })
         ;

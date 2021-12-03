@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-json": "*",
+        "beyondcode/laravel-self-diagnosis": "dev-master",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -13,10 +15,10 @@
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.5",
-        "marcreichel/igdb-laravel": "^3.1",
-        "ext-json": "*"
+        "marcreichel/igdb-laravel": "^3.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
