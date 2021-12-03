@@ -30,7 +30,7 @@
                 @if(!empty($game['first_release_date']))
                     <div class="first-release
                         flex flex-wrap items-center mt-4">
-                        <span class="font-semibold">First Released</span>: {{ $game['first_release_date'] }}
+                        <span class="font-semibold">First Release</span>: {{ $game['first_release_date'] }}
                     </div>
                 @endif
                 <div class="cover
@@ -39,12 +39,19 @@
                 ">
                     <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
                 </div>
-
+                
+                <!-- Ratings -->
                 <div class="flex flex-wrap justify-between items-center mt-8
-
+                    @if(empty($game['rating']) && empty($game['aggregated_rating']))
+                        hidden
+                    @endif
                 ">
                     <!-- member score -->
-                    <div class="flex items-center flex-grow">
+                    <div class="flex items-center flex-grow
+                        @if(empty($game['rating']))
+                            hidden
+                        @endif
+                    ">
                         <div id="member-rating" class="rating
                             w-16 h-16 bg-gray-800 rounded-full relative
                         ">
@@ -65,9 +72,13 @@
                         </div>
                         <div class="rating-label">Member<br>Score</div>
                     </div><!-- end member score -->
+                    
                     <!-- critic score -->
                     <div class="flex items-center ml-12 flex-grow
                         md:ml-6
+                        @if(empty($game['aggregated_rating']))
+                            hidden
+                        @endif
                     ">
                         <div id="critic-rating" class="rating
                             w-16 h-16 bg-gray-800 rounded-full relative
