@@ -11,30 +11,36 @@
     ">
 
         <div id="details-wrapper" class="game-details
-            pb-12 flex flex-wrap
+            pb-12 flex flex-wrap justify-center
+            md:justify-start
             lg:flex-nowrap
         ">
             <div class="cover
                 flex-none hidden
-                md:mr-6
-                lg:block
+                lg:mr-6 lg:block
             ">
                 <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
             </div>
 
-            <div id="details" class="flex flex-col md:block">
+            <div id="details" class="flex flex-col 
+                md:block md:text-center md:justify-center
+            ">
                 <!-- title -->
-                <h2 id="title" class="font-semibold text-4xl leading-tight">
+                <h2 id="title" class="font-semibold text-4xl leading-tight text-center
+                    md:text-left
+                ">
                     {{ $game['name'] }}
                 </h2>
                 @if(!empty($game['first_release_date']))
                     <div class="first-release
-                        flex flex-wrap items-center mt-4">
+                        flex flex-wrap items-center mt-4 text-center justify-center
+                        md:text-left md:justify-start
+                    ">
                         <span class="font-semibold">First Release</span>: {{ $game['first_release_date'] }}
                     </div>
                 @endif
                 <div class="cover
-                    mt-4 mr-0 float-left
+                    mt-4 mx-auto text-center justify-center
                     lg:hidden
                 ">
                     <img src="{{ $game['cover_url'] }}" alt="{{ $game['name'] }} Cover Art">
@@ -138,8 +144,8 @@
                 </div>
                 <!-- end scores-container -->
 
-                <p class="mt-8
-                    md:mt-12
+                <p class="my-8 px-4
+                    md:mt-12 md:px-2
                 ">
                     {{ $game['summary'] }}
                 </p>
@@ -163,7 +169,7 @@
                 @endif
 
                 @if(!empty($game['trailer']))
-                    <div id="trailer-wrapper" class="mt-8 md:mt-12" x-data="{ isTrailerModalVisible: false }">
+                    <div id="trailer-wrapper" class="m-4 md:mx-0 md:mt-12" x-data="{ isTrailerModalVisible: false }">
                     {{-- <a href="{{ $game['trailer'] }}" class="inline-flex bg-purple-500 text-white font-semibold px-4 py-4 hover:bg-purple600 rounded transition ease-in-out duration-150" target="_blank" rel="nofollow noopener">
                         <svg class="w-6 fill-current mr-2" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                         Play Trailer
@@ -171,7 +177,8 @@
                     <!-- play video button -->
                         <button
                                 @click="isTrailerModalVisible = true"
-                                class="flex bg-purple-500 text-white font-semibold px-4 py-4 hover:bg-purple-600 rounded transition ease-in-out duration-150"
+                                class="flex bg-purple-500 text-white font-semibold px-4 py-4 rounded transition ease-in-out duration-150
+                                hover:bg-purple-600"
                         >
                             <svg class="w-6 fill-current" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>
                             <span class="ml-2">Play Trailer</span>
@@ -219,7 +226,9 @@
             {{-- set another var called image so that we can keep track of which image
                     is opened and needs closing for each event --}}
             <div id="screenshots"
-                class="images-container border-t border-gray-800 pt-8 mb-12"
+                class="images-container border-t border-gray-800 pt-8 mb-12 px-4
+                    md:px-0
+                "
                 x-data="{ isImageModalVisible: false, image: '' }"
             >
                 <h2 class="subtitle">Images</h2>
