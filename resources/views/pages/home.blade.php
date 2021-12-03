@@ -6,7 +6,7 @@
 
 @section('content')
     <div class="flex flex-wrap justify-center items-start mx-auto">
-        <div id="trending-wrapper">
+        <div id="trending-wrapper" class="mb-12">
             <h1 class="subtitle text-2xl font-semibold uppercase w-full text-gray-200">
                 Trending
             </h1>

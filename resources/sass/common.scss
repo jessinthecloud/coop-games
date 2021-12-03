@@ -123,7 +123,7 @@ a {
 // -- Elements ---------------------------------------------------------
 
 .container {
-    max-width: 82rem;
+    max-width: 85rem;
     padding: 0 2vw;
 }
 
@@ -352,9 +352,9 @@ body > nav {
     @media(min-width: 1024px) {
         .game-card {
             display: flex;
-            margin-right  : 2rem;
+            margin-right  : 2.5rem;
             max-width: 100%;
-            width : calc(20% - 2rem);
+            width : calc(20% - 2.5rem);
 
             &:nth-of-type(5n) {
                 margin-right : 0;

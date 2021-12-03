@@ -23,7 +23,7 @@
             </div>
 
             <div id="details" class="flex flex-col 
-                md:block md:text-center md:justify-center
+                md:block
             ">
                 <!-- title -->
                 <h2 id="title" class="font-semibold text-4xl leading-tight text-center
@@ -145,7 +145,7 @@
                 <!-- end scores-container -->
 
                 <p class="my-8 px-4
-                    md:mt-12 md:px-2
+                    md:mt-12 md:px-0
                 ">
                     {{ $game['summary'] }}
                 </p>
