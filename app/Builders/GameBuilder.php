@@ -187,7 +187,7 @@ class GameBuilder extends Builder implements BuilderInterface
         ?int $cache=null*/
     )
     {
-        return $this->executeQuery($this, $perPage, $limit, ['first_release_date', 'desc'], ['name', 'asc']);
+        return $this->executeQuery($this, $perPage, $limit, ['name', 'asc'], ['first_release_date', 'desc']);
     }
 
     /**

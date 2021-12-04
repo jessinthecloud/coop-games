@@ -1,4 +1,4 @@
-<div class="game-card-small flex flex-nowrap">
+<div class="game-card-small flex flex-nowrap mb-4">
     <a href="{{ route('games.show', $game['slug']) }}"
        class="boxart
        w-1/3"
@@ -10,7 +10,7 @@
         >
     </a>
     
-    <div class="flex flex-col w-2/3 pl-2">
+    <div class="flex flex-col w-2/3 pl-4">
         <a href="{{ route('games.show', $game['slug']) }}"
            class="hover:text-purple-300"
         >
@@ -24,7 +24,7 @@
         @endif
         
         @if(!empty($game['platforms']))
-            <div class="text-gray-400 mt-1">
+            <div class="text-gray-400 mt-3">
                 {!! $game['platforms'] !!}
             </div>
         @endif

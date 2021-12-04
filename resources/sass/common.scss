@@ -347,6 +347,47 @@ body > nav {
     section.justify-between {
         justify-content: center;
     }
+    
+    // small width
+    @media(min-width: 600px) and
+    (max-width: 867px) {
+        .game-card {
+            display: flex;
+            margin-right  : 2.5rem;
+            max-width: 100%;
+            width : calc(50% - 2.5rem);
+
+            &:nth-of-type(2n) {
+                margin-right : 0;
+                
+                & ~ .game-card {
+                    display: flex;
+                }
+            }
+        } //.game-card
+    }
+    
+    // medium width
+    @media(min-width: 868px) {
+        .game-card {
+            display: flex;
+            margin-right  : 2.5rem;
+            max-width: 100%;
+            width : calc(33% - 2.5rem);
+
+            &:nth-of-type(3n) {
+                margin-right : 0;
+                
+                & ~ .game-card {
+                    display: flex;
+                }
+            }
+            
+            &:nth-of-type(9) ~ .game-card {
+                display: none;
+            }
+        } //.game-card
+    }
 
     // large width
     @media(min-width: 1024px) {
@@ -688,7 +729,7 @@ body > nav {
 
 #games-listing-wrapper {
     .game-card-small {
-        margin:0;
+        margin:0 0 1.5rem 0;
         padding:0;
     }
 } // #games-listing-wrapper

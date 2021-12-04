@@ -42,12 +42,12 @@ trait FormatsToHtml
             }*/
 
             return (!empty($platform['abbreviation'])
-                ? '<a 
+                ? /*'<a 
                     href="'.route('platforms.show', ['slug' => $platform['slug']]).'" 
                     class="text-gray-400 underline transition ease-in-out duration-150 
-                        hover:text-gray-300 hover:no-underline">'.
-                    (!empty($platform['abbreviation']) ? $platform['abbreviation'] : $platform['name']).
-                '</a>' : '');
+                        hover:text-gray-300 hover:no-underline">'.*/
+                    (!empty($platform['abbreviation']) ? $platform['abbreviation'] : $platform['name'])
+                /*.'</a>'*/ : '');
         })->implode(', ') : '';
     }
 
