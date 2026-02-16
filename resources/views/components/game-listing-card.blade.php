@@ -25,7 +25,7 @@
         
         @if(!empty($game['platforms']))
             <div class="text-gray-400 mt-3">
-                {!! $game['platforms'] !!}
+                <x-platform-list :platforms="$game['platforms']" />
             </div>
         @endif
     </div>

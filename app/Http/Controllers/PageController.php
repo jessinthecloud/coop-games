@@ -31,22 +31,13 @@ class PageController extends Controller
     
 // dump('trending ', $trending_games);
 
-        $trending_games = $trending_games->map(function($game, $key){
-//            $game->setFormatter($this->formatter);
-//dump($this->formatter->format($game));
-            return $this->formatter->format($game);
-        });
+        $trending_games = $this->formatter->formatAll($trending_games);
 
         $mostAnticipated = $this->builder->mostAnticipated();
-        $mostAnticipated = $mostAnticipated->map(function($game, $key){
-            return $this->formatter->format($game);
-        });
+        $mostAnticipated = $this->formatter->formatAll($mostAnticipated);
 
         $comingSoon = $this->builder->comingSoon();
-        
-        $comingSoon = $comingSoon->map(function($game, $key){
-            return $this->formatter->format($game);
-        });
+        $comingSoon = $this->formatter->formatAll($comingSoon);
 
         /*$online_games = Game::online(null, null, 5);
         $online_games = $online_games->map(function($game, $key){

@@ -51,7 +51,7 @@
         </a>
         @if(!empty($game['platforms']))
             <div class="text-gray-400 mt-1">
-                {!! $game['platforms'] !!}
+                <x-platform-list :platforms="$game['platforms']" />
             </div>
         @endif
         @if(!empty($game['first_release_date']))

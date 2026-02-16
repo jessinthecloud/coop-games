@@ -4,14 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Builders\GameBuilder;
 use App\Formatters\Formatter;
-use App\Traits\FormatsToHtml;
-use App\Models\Game;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
-use MarcReichel\IGDBLaravel\Exceptions\InvalidParamsException;
-use MarcReichel\IGDBLaravel\Exceptions\MissingEndpointException;
-use MarcReichel\IGDBLaravel\Models\Platform;
 
 class GameController extends Controller
 {
@@ -38,9 +31,7 @@ class GameController extends Controller
 //dump($games_pager, $games_pager->hasPages(), $games_pager->hasMorePages());        
         $games = $games_pager->items();
         
-        $games = collect($games)->map(function($game, $key){
-            return $this->formatter->format($game);
-        });
+        $games = $this->formatter->formatAll($games);
 
         return view('games.index', compact(
             'games',

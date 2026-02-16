@@ -65,35 +65,35 @@
         mt-4 text-gray-400 inline-block w-full
     ">
         <!-- platforms -->
-        @if($game['platforms'])
+        @if(!empty($game['platforms']))
         <div id="platforms" class="details-card-section">
             <h4>Platforms</h4>
-            <span>{!! $game['platforms'] !!}</span>
+            <span><x-platform-list :platforms="$game['platforms']" /></span>
         </div>
         @endif
 
         <!-- genres -->
-        @if($game['genres'])
+        @if(!empty($game['genres']))
         <div id="genres" class="details-card-section">
             <h4>Genres</h4>
-            <span>{!! $game['genres'] !!}</span>
+            <span><x-genre-list :genres="$game['genres']" /></span>
         </div>
         @endif
 
         @if(!empty($game['companies']))
         <!-- companies -->
         <div id="companies-wrapper" class="details-card-section">
-            @if($game['companies']['devs'])
+            @if(!empty($game['companies']['devs']))
             <div id="developers" class="companies">
                 <h4>Developers</h4>
-                <span>{!! $game['companies']['devs'] !!}</span>
+                <span><x-company-list :companies="$game['companies']['devs']" /></span>
             </div>
             @endif
 
-            @if($game['companies']['pubs'])
+            @if(!empty($game['companies']['pubs']))
             <div id="publishers" class="companies">
                 <h4>Publishers</h4>
-                <span>{!! $game['companies']['pubs'] !!}</span>
+                <span><x-company-list :companies="$game['companies']['pubs']" /></span>
             </div>
             @endif
         </div>
