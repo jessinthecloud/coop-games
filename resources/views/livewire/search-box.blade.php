@@ -1,15 +1,15 @@
 <div class="search-box relative" x-data="{ isVisible: true}" @click.away="isVisible=false">
     {{-- wire model will update the value of the property on the class
     search is public property on the class
-    debounce - prevent requests within certain time 
+    debounce - prevent requests within certain time
         (to prevent too many as you type) --}}
-    <input wire:model.debounce.200ms="search"
+    <input wire:model.live.debounce.200ms="search"
            type="text"
            placeholder="Search Co-op Games"
            class="text-md rounded-full px-6 pl-8 py-2"
-           {{-- 
+           {{--
            on keydown event anywhere, check to see if it was /
-           if so, focus the element "search" that was returned from any x-ref 
+           if so, focus the element "search" that was returned from any x-ref
            DOES NOT WORK IN FIREFOX
            --}}
            x-ref="search"
@@ -19,10 +19,10 @@
     		$refs.search.focus();
     	}
     "
-           {{-- 
+           {{--
            below are event listeners that set the var from x-data when fired
-           
-           @focus - bring the dropdown back (x-show on the list below) 
+
+           @focus - bring the dropdown back (x-show on the list below)
            @keydown.escape.window - if escape is pressed anywhere, bring dd back
            @keydown - if any key is pressed inside the input, bring dd back
            @keydown.shift.tab - if shift and tab are pressed (move focus backwards) then hide the dd

@@ -1,4 +1,11 @@
-/* ./resources/css/app.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@source "../views/**/*.blade.php";
+@source "../../resources/js/**/*.js";
+
+@theme {
+    --max-width-1/4: 25%;
+    --max-width-1/2: 50%;
+    --max-width-3/4: 75%;
+    --max-width-xxs: 18rem;
+}

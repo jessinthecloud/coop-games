@@ -9,7 +9,7 @@ use App\Formatters\Formatter;
 use App\Formatters\GameFormatter;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PageController;
-use App\Http\Livewire\SearchBox;
+use App\Livewire\SearchBox;
 use App\Models\Game;
 use Illuminate\Support\ServiceProvider;
 
@@ -67,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
         });*/
 
 //        $this->app->bind(Formatter::class, GameFormatter::class);
-        
+
         /*$this->app->bindMethod([Game::class, 'setFormatter'],
             function ($model, $app) {
                 return $model->setFormatter(
@@ -79,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
 
         // to set a specific implementation for an interface depending
         // on the class that calls it
-        
+
         $this->app->bindMethod([SearchBox::class, 'mount'],
             function ($model, $app) {
                 return $model->mount(
@@ -100,7 +100,7 @@ dump('GameBuilder NEEDS $model');
                     new GameBuilder
                 );
             });*/
-        
+
         $this->app->when(GameController::class)
             ->needs(Formatter::class)
             ->give( GameFormatter::class);

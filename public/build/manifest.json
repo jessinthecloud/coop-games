@@ -1,0 +1,26 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-Ceh_LcLi.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-B9lRrDWB.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/sass/common.scss": {
+    "file": "assets/common-DCvZ4QZ3.css",
+    "src": "resources/sass/common.scss",
+    "isEntry": true,
+    "name": "common",
+    "names": [
+      "common.css"
+    ]
+  }
+}
