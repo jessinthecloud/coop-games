@@ -18,8 +18,8 @@ trait SetsUpQuery
         ?int $cache=null*/
     )
     {
-        return ($fieldsArg === null && $listing === false) 
-            ? array_merge($this->fields, $this->detail_fields) 
+        return ($fieldsArg === null && $listing === false)
+            ? array_merge($this->fields, $this->detail_fields)
             : ($fieldsArg ?? $this->fields);
     }
 
@@ -29,11 +29,11 @@ trait SetsUpQuery
         ?int $cache=null*/
     )
     {
-        return ($withArg === null && $listing === false) 
-            ? array_merge($this->with, $this->detail_with) 
+        return ($withArg === null && $listing === false)
+            ? array_merge($this->with, $this->detail_with)
                 : ($withArg ?? $this->with);
     }
-   
+
     /**
      * Ensure fields and filters for every query
      * (bascially global scope)
@@ -60,9 +60,9 @@ trait SetsUpQuery
     {
         $fields = $this->setupFields($fieldsArg, $listing);
         $with = $this->setupWith($withArg, $listing);
-        
+
         try {
-        
+
             $query = $query
                 ->select(
                     $fields
@@ -90,9 +90,9 @@ trait SetsUpQuery
 
             // in order to paginate, you must have more results to count
             return isset($limit) ? $query->limit($limit)->get()->sortBy($sort) : $query->limit(500)->paginate($perPage);
-        
+
         } catch (Throwable $e) {
-            ddd($e, $query);
+            dd($e, $query);
         }
     }
 }
